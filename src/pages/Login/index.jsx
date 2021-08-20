@@ -1,34 +1,64 @@
-import { useHistory } from 'react-router-dom';
+import { GoogleLogin } from "react-google-login";
+import { useState } from "react";
+import api from "../../services/api";
+
+import { Input } from "../../components/Input";
 
 export function Login() {
-    const history = useHistory()
-    return (
-        <>
-            <section className="login">
-                <div className="login__container">
-                    <div className="login__content">
-                        <div className="login__header">
-                            <h1 className="login__header-title">
-                                Petch
-                            </h1>
-                        </div>
-                        <form className="login__forms">
-                            <label htmlFor="user">
-                                <input type="text" name="input" placeholder="Usuário" className="login__forms-input" />
-                            </label>
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-                            <label htmlFor="password">
-                                <input type="password" name="input" placeholder="Senha" className="login__forms-input" />
-                            </label>
+  async function login() {
+    try {
+      const response = await api.post("/auth/login", { email, password });
+      console.log(response);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
 
-                            <a href="#" className="login__forms-link">Esqueceu seu acesso?</a>
+  return (
+    <>
+      <section className="login">
+        <div className="login__container">
+          <div className="login__content">
+            <div className="login__header">
+              <h1 className="login__header-title">Petch</h1>
+            </div>
+            <form className="login__forms">
+              <Input
+                type="text"
+                placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
 
-                            <button type="button" className="login__forms-btn" onClick={() => history.push("/dashboard")}>Entrar</button>
-                        </form>
-                    </div>
-                </div>
-            </section>
+              <Input
+                password
+                placeholder="Senha"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
 
-        </>
-    )
+              <a href="#" className="login__forms-link">
+                Esqueceu seu acesso?
+              </a>
+
+              <button
+                type="button"
+                className="login__forms-btn"
+                onClick={login}
+              >
+                Entrar
+              </button>
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLOUD_SECURITY_ID}
+                onSuccess={(e) => console.log(e)}
+              />
+            </form>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }

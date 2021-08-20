@@ -1,0 +1,32 @@
+.breadcrumb {
+  padding: 16px;
+  background: $white;
+  color: $black;
+  font-size: 1rem;
+  &__list {
+    display: flex;
+    margin-bottom: 0;
+    padding-left: 0;
+    li {
+      list-style: none;
+      a {
+        margin: 0 8px 0 0;
+        font-size: 1rem;
+        color: $black;
+        text-decoration: none;
+        font-weight: 400;
+      }
+      span {
+        &.active {
+          color: $black;
+          font-weight: 600;
+          margin: 0 8px;
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+  &__icon {
+    color: $black;
+  }
+}

@@ -1,78 +1,222 @@
 .header {
-    background: $white;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    width: 100%;
-    padding: 10px;
+  background: $white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 40px;
+  &__container {
+    display: flex;
+    justify-content: space-around;
+    position: relative;
+    gap: 0 16px;
 
-    &__container {
-        display: flex;
-        justify-content: space-between;
+    @media only screen and (min-width: 992px) {
+      justify-content: space-between;
+    }
+  }
+
+  &__info {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+    @media only screen and (min-width: 992px) {
+      gap: 30px;
     }
 
-    &__info {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-
-        @media (min-width: 992px) {
-            gap: 30px;
+    &-exit {
+      .btn {
+        display: inline-block;
+        font-weight: 400;
+        line-height: 1.5;
+        color: $black;
+        width: 100px;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        background-color: $blue;
+        border: 1px solid $blue;
+        padding: 4px 20px;
+        font-size: 1rem;
+        border-radius: 100px;
+        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
+          border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        display: none;
+        @media only screen and (min-width: 992px) {
+          display: block;
         }
-
-        &-exit {
-            .btn {
-                display: inline-block;
-                font-weight: 400;
-                line-height: 1.5;
-                color: $black;
-                width: 100px;
-                text-align: center;
-                text-decoration: none;
-                vertical-align: middle;
-                cursor: pointer;
-                -webkit-user-select: none;
-                -moz-user-select: none;
-                user-select: none;
-                background-color: $blue;
-                border: 1px solid $blue;
-                padding: 4px 20px;
-                font-size: 1rem;
-                border-radius: 100px;
-                transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
-                    box-shadow 0.15s ease-in-out;
-            }
-        }
+      }
     }
-    &__logo {
-        border: 2px solid $blue;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 16px;
-        margin-bottom: 0;
-        width: 150px;
+  }
+  &__logo {
+    border: 2px solid $blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px;
+    margin-bottom: 0;
+    width: 100px;
 
-        &-title {
-            color: $blue;
-            font-size: 1.8rem;
-            font-weight: normal;
-            text-transform: uppercase;
-        }
+    @media only screen and (min-width: 992px) {
+      width: 150px;
     }
 
-    &__user {
-        display: flex;
-        gap: 8px;
-        align-items: center;
+    &-title {
+      color: $blue;
+      font-size: 1rem;
+      font-weight: normal;
+      text-transform: uppercase;
+      margin-bottom: 0;
 
-        &-title {
-            color: $black;
-            font-size: 1.2rem;
-        }
-        &-image {
-            &-icon {
-                font-size: 30px;
-                color: $blue;
-            }
-        }
+      @media only screen and (min-width: 992px) {
+        font-size: 1.8rem;
+      }
     }
+  }
+
+  &__user {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    &-title {
+      color: $black;
+      font-size: 1rem;
+      margin-bottom: 0;
+      @media only screen and (min-width: 992px) {
+        font-size: 1.2rem;
+      }
+    }
+    &-image {
+      &-icon {
+        font-size: 30px;
+        color: $blue;
+      }
+    }
+  }
+}
+
+.nav {
+  height: 100vh;
+  background: $white;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  width: 15%;
+  margin-top: 10px;
+  padding: 10px;
+
+  &__list {
+    list-style: none;
+    padding-left: 0;
+
+    li {
+      background: $blue;
+      color: $black;
+      font-family: "Roboto", sans-serif;
+      margin-bottom: 4px;
+      font-weight: 700;
+      padding: 16px;
+    }
+  }
+
+  &.desktop {
+    display: none;
+
+    @media only screen and (min-width: 992px) {
+      display: block;
+      position: fixed;
+      top: 80px;
+      z-index: -1;
+    }
+  }
+}
+
+.nav-mobile {
+  position: absolute;
+  display: block;
+  top: 0;
+}
+
+@media only screen and (min-width: 992px) {
+  .nav-mobile {
+    display: none;
+  }
+}
+.nav-mobile input {
+  display: none;
+}
+.nav-mobile .menu-hamb {
+  width: 10%;
+  height: 75px;
+  right: 0;
+  display: flex;
+  position: fixed;
+  transition: 0.5s ease-in-out;
+}
+.nav-mobile input:checked ~ label .menu-hamb {
+  background: $blue;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+}
+.nav-mobile .hamburguer {
+  display: block;
+  width: 30px;
+  height: 4px;
+  border-radius: 4px;
+  background: $black;
+  right: 10px;
+  top: 30px;
+  position: absolute;
+  transition: 0.5s ease-in-out;
+}
+.nav-mobile .hamburguer:after,
+.nav-mobile .hamburguer:before {
+  width: 100%;
+  height: 100%;
+  content: "";
+  background: $black;
+  position: absolute;
+  transition: 0.5s ease-in-out;
+}
+.nav-mobile .hamburguer:before {
+  top: -10px;
+}
+.nav-mobile .hamburguer:after {
+  bottom: -10px;
+}
+.nav-mobile input:checked ~ label .hamburguer {
+  transform: rotate(45deg);
+}
+.nav-mobile input:checked ~ label .hamburguer:before {
+  transform: rotate(90deg);
+  top: 0;
+}
+.nav-mobile input:checked ~ label .hamburguer:after {
+  transform: rotate(90deg);
+  bottom: 0;
+}
+.nav-mobile input:checked ~ .nav-list {
+  opacity: 1;
+}
+.nav-mobile .nav-list {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(0%, 10%);
+  list-style: none;
+  font-size: 1rem;
+  opacity: 0;
+  transition: 0.25s 0.1s ease-in-out;
+  z-index: 1;
+}
+.nav-mobile .nav-list li {
+  color: $black;
+  font-family: "Roboto", sans-serif;
+  margin-bottom: 4px;
+  padding: 10px;
+  font-size: 1rem;
+  font-weight: 700;
 }
