@@ -1,5 +1,5 @@
 import { FaUserCircle } from "react-icons/fa";
-
+import { Button } from "../../components/Button";
 export function Header() {
   return (
     <>
@@ -19,9 +19,9 @@ export function Header() {
               <p className="header__user-title">Olá, Luara.</p>
             </div>
             <div className="header__info-exit">
-              <button type="button" className="btn">
+              <Button color="primary" className="btn">
                 Sair
-              </button>
+              </Button>
             </div>
           </div>
         </div>

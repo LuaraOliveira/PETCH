@@ -1,9 +1,11 @@
 import { GoogleLogin } from "react-google-login";
 import { useState } from "react";
 import api from "../../services/api";
+import { isLogin } from "../../services/auth";
 
+import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
-
+import { useHistory } from "react-router-dom";
 export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -11,6 +13,28 @@ export function Login() {
   async function login() {
     try {
       const response = await api.post("/auth/login", { email, password });
+      isLogin(response.data.token);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
+  const history = useHistory();
+
+  function handleClick() {
+    history.push("/dashboard");
+  }
+
+  async function AccessLogin(param) {
+    const { name, email, googleId, imageUrl: avatar } = param.profileObj;
+
+    try {
+      const response = await api.post("/auth/login/google", {
+        name,
+        email,
+        googleId,
+        avatar,
+      });
       console.log(response);
     } catch (error) {
       console.log(error.response);
@@ -43,17 +67,17 @@ export function Login() {
               <a href="#" className="login__forms-link">
                 Esqueceu seu acesso?
               </a>
-
-              <button
-                type="button"
-                className="login__forms-btn"
+              <Button
+                color="primary"
                 onClick={login}
+                // onClick={handleClick}
               >
                 Entrar
-              </button>
+              </Button>
+
               <GoogleLogin
                 clientId={process.env.REACT_APP_GOOGLE_CLOUD_SECURITY_ID}
-                onSuccess={(e) => console.log(e)}
+                onSuccess={AccessLogin}
               />
             </form>
           </div>

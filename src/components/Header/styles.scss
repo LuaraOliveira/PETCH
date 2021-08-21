@@ -22,34 +22,6 @@
     @media only screen and (min-width: 992px) {
       gap: 30px;
     }
-
-    &-exit {
-      .btn {
-        display: inline-block;
-        font-weight: 400;
-        line-height: 1.5;
-        color: $black;
-        width: 100px;
-        text-align: center;
-        text-decoration: none;
-        vertical-align: middle;
-        cursor: pointer;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-        background-color: $blue;
-        border: 1px solid $blue;
-        padding: 4px 20px;
-        font-size: 1rem;
-        border-radius: 100px;
-        transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out,
-          border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        display: none;
-        @media only screen and (min-width: 992px) {
-          display: block;
-        }
-      }
-    }
   }
   &__logo {
     border: 2px solid $blue;

@@ -2,19 +2,17 @@ import { BsEyeSlash } from "react-icons/bs";
 import { useState } from "react";
 import { BsEye } from "react-icons/bs";
 
-export function Input(props) {
+export function Input({ password, ...rest }) {
   const [type, setType] = useState("password");
 
   function ChangeIcons(value) {
     setType(value);
   }
 
-  return props.password ? (
+  return password === true ? (
     <div className="form-group">
-      <input {...props} type={type} className="form-group__input " />
-      {/* <label htmlFor={props.id} className="form-group__label">
-        {props.label}
-      </label> */}
+      <input {...rest} type={type} className="form-group__input " />
+
       {type === "password" ? (
         <BsEye onClick={() => ChangeIcons("text")} />
       ) : (
@@ -23,10 +21,7 @@ export function Input(props) {
     </div>
   ) : (
     <div className="form-group">
-      <input {...props} className="form-group__input" />
-      {/* <label htmlFor={props.id} className="form-group__label">
-        {props.label}
-      </label> */}
+      <input {...rest} className="form-group__input" />
     </div>
   );
 }

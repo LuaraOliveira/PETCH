@@ -5,6 +5,7 @@ import iconStar from "../../assets/icons/icon_star.svg";
 import iconSad from "../../assets/icons/icon_sad.svg";
 import iconDog from "../../assets/icons/icon_dog.svg";
 import iconHouse from "../../assets/icons/icon_home.svg";
+import { Button } from "../../components/Button";
 export function Dashboard() {
   return (
     <>
@@ -16,9 +17,9 @@ export function Dashboard() {
                 <GoAlert />
               </div>
               Há 12 propostas de adoção que ainda não foram analisadas.
-              <button type="button" class="btn">
+              <Button color="primary" className="btn">
                 Ver mais informações
-              </button>
+              </Button>
             </div>
 
             <div className="dashboard__container">
@@ -41,9 +42,9 @@ export function Dashboard() {
                   <span className="dashboard__card-body-info">1.093</span>
                 </div>
                 <div className="dashboard__card-footer">
-                  <button type="button" class="btn">
+                  <Button color="primary" className="btn">
                     Ver relatório completo
-                  </button>
+                  </Button>
                 </div>
               </div>
 
@@ -94,9 +95,9 @@ export function Dashboard() {
                   </div>
                 </div>
                 <div className="dashboard__card-footer">
-                  <button type="button" class="btn">
+                  <Button color="primary" className="btn">
                     Ver relatório completo
-                  </button>
+                  </Button>
                 </div>
               </div>
 
@@ -117,9 +118,9 @@ export function Dashboard() {
                   </div>
                 </div>
                 <div className="dashboard__card-footer">
-                  <button type="button" class="btn">
+                  <Button color="primary" className="btn">
                     Ver pets cadastrados
-                  </button>
+                  </Button>
                 </div>
               </div>
 
@@ -149,9 +150,9 @@ export function Dashboard() {
                   </div>
                 </div>
                 <div className="dashboard__card-footer">
-                  <button type="button" class="btn">
+                  <Button color="primary" className="btn">
                     Ver relatório completo
-                  </button>
+                  </Button>
                 </div>
               </div>
 
@@ -181,9 +182,9 @@ export function Dashboard() {
                   </div>
                 </div>
                 <div className="dashboard__card-footer">
-                  <button type="button" class="btn">
+                  <Button color="primary" className="btn">
                     Ver relatório completo
-                  </button>
+                  </Button>
                 </div>
               </div>
             </div>
