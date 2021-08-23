@@ -2,11 +2,21 @@ import { Breadcrumb } from "../../components/Breadcrumb";
 import { Input } from "../../components/Input";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../components/Button";
+import { useState, useEffect } from "react";
+import api from "../../services/api";
+
 export function Administrador() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Administrador" },
   ];
+
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    api.get("/users").then((response) => setUsers(response.data));
+  }, []);
+
   return (
     <>
       <section className="container" id="administrador">
@@ -37,17 +47,41 @@ export function Administrador() {
                 Lista de Administradores
               </p>
               <div className="administrador__body">
-                <div className="administrador__body-content">
-                  <div className="administrador__body-container">
+                {users &&
+                  users.map((user) => (
+                    <div className="administrador__body-container">
+                      <div className="administrador__body-image">
+                        {user.avatar ? (
+                          <img src={user.avatar} alt={user.name} />
+                        ) : (
+                          <BiUserCircle />
+                        )}
+                      </div>
+                      <div className="administrador__body-info">
+                        <ul className="administrador__body-list">
+                          <li className="item">Nome: {user.name}</li>
+                          <li className="item">Email: {user.email}</li>
+                          <li className="item">Status: Ativo</li>
+                        </ul>
+                        <div className="administrador__body-buttons">
+                          <Button color="primary" className="btn">
+                            Alterar dados
+                          </Button>
+                          <Button color="primary" className="btn">
+                            Desabilitar Conta
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                {/* <div className="administrador__body-container">
                     <div className="administrador__body-image">
-                      <BiUserCircle />
+                      <img src={user.avatar} alt="avatar" />
                     </div>
                     <div className="administrador__body-info">
                       <ul className="administrador__body-list">
-                        <li className="item">Nome: Luara Silva</li>
-                        <li className="item">
-                          Email: luara.oliveira4@outlook.com
-                        </li>
+                        <li className="item">Nome: {user.name}</li>
+                        <li className="item">Email: {user.email}</li>
                         <li className="item">Status: Ativo</li>
                       </ul>
                       <div className="administrador__body-buttons">
@@ -59,17 +93,15 @@ export function Administrador() {
                         </Button>
                       </div>
                     </div>
-                  </div>
-                  <div className="administrador__body-container">
+                  </div> */}
+                {/* <div className="administrador__body-container">
                     <div className="administrador__body-image">
-                      <BiUserCircle />
+                      <img src={user.avatar} alt="avatar" />
                     </div>
                     <div className="administrador__body-info">
                       <ul className="administrador__body-list">
-                        <li className="item">Nome: Luara Silva</li>
-                        <li className="item">
-                          Email: luara.oliveira4@outlook.com
-                        </li>
+                        <li className="item">Nome: {user.name}</li>
+                        <li className="item">Email: {user.email}</li>
                         <li className="item">Status: Ativo</li>
                       </ul>
                       <div className="administrador__body-buttons">
@@ -81,166 +113,7 @@ export function Administrador() {
                         </Button>
                       </div>
                     </div>
-                  </div>
-                  <div className="administrador__body-container">
-                    <div className="administrador__body-image">
-                      <BiUserCircle />
-                    </div>
-                    <div className="administrador__body-info">
-                      <ul className="administrador__body-list">
-                        <li className="item">Nome: Luara Silva</li>
-                        <li className="item">
-                          Email: luara.oliveira4@outlook.com
-                        </li>
-                        <li className="item">Status: Ativo</li>
-                      </ul>
-                      <div className="administrador__body-buttons">
-                        <Button color="primary" className="btn">
-                          Alterar dados
-                        </Button>
-                        <Button color="primary" className="btn">
-                          Desabilitar Conta
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="administrador__body-content">
-                  <div className="administrador__body-container">
-                    <div className="administrador__body-image">
-                      <BiUserCircle />
-                    </div>
-                    <div className="administrador__body-info">
-                      <ul className="administrador__body-list">
-                        <li className="item">Nome: Luara Silva</li>
-                        <li className="item">
-                          Email: luara.oliveira4@outlook.com
-                        </li>
-                        <li className="item">Status: Ativo</li>
-                      </ul>
-                      <div className="administrador__body-buttons">
-                        <Button color="primary" className="btn">
-                          Alterar dados
-                        </Button>
-                        <Button color="primary" className="btn">
-                          Desabilitar Conta
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="administrador__body-container">
-                    <div className="administrador__body-image">
-                      <BiUserCircle />
-                    </div>
-                    <div className="administrador__body-info">
-                      <ul className="administrador__body-list">
-                        <li className="item">Nome: Luara Silva</li>
-                        <li className="item">
-                          Email: luara.oliveira4@outlook.com
-                        </li>
-                        <li className="item">Status: Ativo</li>
-                      </ul>
-                      <div className="administrador__body-buttons">
-                        <Button color="primary" className="btn">
-                          Alterar dados
-                        </Button>
-                        <Button color="primary" className="btn">
-                          Desabilitar Conta
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="administrador__body-container">
-                    <div className="administrador__body-image">
-                      <BiUserCircle />
-                    </div>
-                    <div className="administrador__body-info">
-                      <ul className="administrador__body-list">
-                        <li className="item">Nome: Luara Silva</li>
-                        <li className="item">
-                          Email: luara.oliveira4@outlook.com
-                        </li>
-                        <li className="item">Status: Ativo</li>
-                      </ul>
-                      <div className="administrador__body-buttons">
-                        <Button color="primary" className="btn">
-                          Alterar dados
-                        </Button>
-                        <Button color="primary" className="btn">
-                          Desabilitar Conta
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="administrador__body-content">
-                  <div className="administrador__body-container">
-                    <div className="administrador__body-image">
-                      <BiUserCircle />
-                    </div>
-                    <div className="administrador__body-info">
-                      <ul className="administrador__body-list">
-                        <li className="item">Nome: Luara Silva</li>
-                        <li className="item">
-                          Email: luara.oliveira4@outlook.com
-                        </li>
-                        <li className="item">Status: Ativo</li>
-                      </ul>
-                      <div className="administrador__body-buttons">
-                        <Button color="primary" className="btn">
-                          Alterar dados
-                        </Button>
-                        <Button color="primary" className="btn">
-                          Desabilitar Conta
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="administrador__body-container">
-                    <div className="administrador__body-image">
-                      <BiUserCircle />
-                    </div>
-                    <div className="administrador__body-info">
-                      <ul className="administrador__body-list">
-                        <li className="item">Nome: Luara Silva</li>
-                        <li className="item">
-                          Email: luara.oliveira4@outlook.com
-                        </li>
-                        <li className="item">Status: Ativo</li>
-                      </ul>
-                      <div className="administrador__body-buttons">
-                        <Button color="primary" className="btn">
-                          Alterar dados
-                        </Button>
-                        <Button color="primary" className="btn">
-                          Desabilitar Conta
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="administrador__body-container">
-                    <div className="administrador__body-image">
-                      <BiUserCircle />
-                    </div>
-                    <div className="administrador__body-info">
-                      <ul className="administrador__body-list">
-                        <li className="item">Nome: Luara Silva</li>
-                        <li className="item">
-                          Email: luara.oliveira4@outlook.com
-                        </li>
-                        <li className="item">Status: Ativo</li>
-                      </ul>
-                      <div className="administrador__body-buttons">
-                        <Button color="primary" className="btn">
-                          Alterar dados
-                        </Button>
-                        <Button color="primary" className="btn">
-                          Desabilitar Conta
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  </div> */}
               </div>
             </div>
           </div>

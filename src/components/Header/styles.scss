@@ -8,7 +8,7 @@
     display: flex;
     justify-content: space-around;
     position: relative;
-    gap: 0 16px;
+    gap: 6px;
 
     @media only screen and (min-width: 992px) {
       justify-content: space-between;
@@ -17,7 +17,7 @@
 
   &__info {
     display: flex;
-    gap: 50px;
+    gap: 8px;
     align-items: center;
     @media only screen and (min-width: 992px) {
       gap: 30px;
@@ -30,7 +30,7 @@
     align-items: center;
     padding: 8px;
     margin-bottom: 0;
-    width: 100px;
+    width: 70px;
 
     @media only screen and (min-width: 992px) {
       width: 150px;
@@ -105,90 +105,70 @@
   }
 }
 
-.nav-mobile {
-  position: absolute;
-  display: block;
-  top: 0;
-}
+.menu {
+  &__hamburguer {
+    width: 40px;
+    height: 100%;
+    display: flex;
+    grid-gap: 2px;
+    justify-content: center;
+    gap: 2px;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
 
-@media only screen and (min-width: 992px) {
-  .nav-mobile {
-    display: none;
+    @media only screen and (min-width: 992px) {
+      width: 100px;
+    }
+
+    span {
+      width: 30px;
+      display: flex;
+      height: 3px;
+      background: $blue;
+      align-items: center;
+      justify-content: center;
+    }
   }
-}
-.nav-mobile input {
-  display: none;
-}
-.nav-mobile .menu-hamb {
-  width: 10%;
-  height: 75px;
-  right: 0;
-  display: flex;
-  position: fixed;
-  transition: 0.5s ease-in-out;
-}
-.nav-mobile input:checked ~ label .menu-hamb {
-  background: $blue;
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-}
-.nav-mobile .hamburguer {
-  display: block;
-  width: 30px;
-  height: 4px;
-  border-radius: 4px;
-  background: $black;
-  right: 10px;
-  top: 30px;
-  position: absolute;
-  transition: 0.5s ease-in-out;
-}
-.nav-mobile .hamburguer:after,
-.nav-mobile .hamburguer:before {
-  width: 100%;
-  height: 100%;
-  content: "";
-  background: $black;
-  position: absolute;
-  transition: 0.5s ease-in-out;
-}
-.nav-mobile .hamburguer:before {
-  top: -10px;
-}
-.nav-mobile .hamburguer:after {
-  bottom: -10px;
-}
-.nav-mobile input:checked ~ label .hamburguer {
-  transform: rotate(45deg);
-}
-.nav-mobile input:checked ~ label .hamburguer:before {
-  transform: rotate(90deg);
-  top: 0;
-}
-.nav-mobile input:checked ~ label .hamburguer:after {
-  transform: rotate(90deg);
-  bottom: 0;
-}
-.nav-mobile input:checked ~ .nav-list {
-  opacity: 1;
-}
-.nav-mobile .nav-list {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(0%, 10%);
-  list-style: none;
-  font-size: 1rem;
-  opacity: 0;
-  transition: 0.25s 0.1s ease-in-out;
-  z-index: 1;
-}
-.nav-mobile .nav-list li {
-  color: $black;
-  font-family: "Roboto", sans-serif;
-  margin-bottom: 4px;
-  padding: 10px;
-  font-size: 1rem;
-  font-weight: 700;
+  &__background {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    left: -120%;
+    top: 0;
+    z-index: 1;
+    transition: left 0.3s;
+    &.active {
+      left: 0;
+    }
+  }
+  &__list {
+    top: 0;
+    min-height: 100vh;
+    width: 200px;
+    position: absolute;
+    background: $blue;
+    left: -18%;
+    transition: left 0.2s;
+    &.active {
+      left: 0;
+    }
+
+    &-itens {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 16px;
+    }
+
+    &-close {
+      cursor: pointer;
+      color: $white;
+      font-size: 30px;
+      display: flex;
+      padding: 16px;
+      justify-content: flex-end;
+    }
+  }
 }

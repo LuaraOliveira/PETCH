@@ -10,7 +10,8 @@ export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  async function login() {
+  async function login(e) {
+    e.preventDefault();
     try {
       const response = await api.post("/auth/login", { email, password });
       isLogin(response.data.token);

@@ -15,6 +15,10 @@
     }
 
     &__body {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+
       &-container {
         display: flex;
         justify-content: center;
@@ -25,9 +29,11 @@
         border-bottom: 0.5px solid $gray4;
         padding: 16px 0;
         @media only screen and (min-width: 992px) {
-          gap: 32px;
+          gap: 15px;
           border-bottom: none;
           padding: 0px 0;
+          flex-wrap: wrap;
+          width: calc(33% - 15px);
         }
       }
 
@@ -68,6 +74,10 @@
         justify-content: center;
         @media only screen and (min-width: 992px) {
           justify-content: flex-start;
+        }
+
+        img {
+          height: 96px;
         }
       }
     }
