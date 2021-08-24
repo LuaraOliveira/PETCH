@@ -1,0 +1,109 @@
+#administrador {
+  .administrador {
+    &__create {
+      padding: 16px;
+      background: $white;
+      margin-bottom: 1rem;
+
+      &-title {
+        margin: 0 0 8px 0;
+        font-size: 1.2rem;
+        color: $black;
+        text-decoration: none;
+        font-weight: 400;
+      }
+    }
+
+    &__body {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+
+      &-container {
+        display: flex;
+        justify-content: center;
+        gap: 16px;
+        width: 100%;
+        flex-wrap: wrap;
+        flex-direction: column;
+        border-bottom: 0.5px solid $gray4;
+        padding: 16px 0;
+        @media only screen and (min-width: 992px) {
+          gap: 15px;
+          border-bottom: none;
+          padding: 0px 0;
+          flex-wrap: wrap;
+          width: calc(33% - 15px);
+        }
+      }
+
+      &-content {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        padding: 16px 0;
+
+        @media only screen and (min-width: 992px) {
+          flex-direction: row;
+          gap: 16px;
+          border-bottom: 0.5px solid $gray4;
+        }
+      }
+      &-list {
+        list-style: none;
+        padding-left: 0;
+        margin-bottom: 16px;
+
+        .item {
+          color: $black;
+          font-size: 1rem;
+          font-weight: 400;
+        }
+      }
+
+      &-buttons {
+        display: flex;
+        gap: 12px;
+      }
+
+      &-image {
+        font-size: 30px;
+        color: $black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        @media only screen and (min-width: 992px) {
+          justify-content: flex-start;
+        }
+
+        img {
+          height: 96px;
+        }
+      }
+    }
+
+    &__forms {
+      &-content {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        @media only screen and (min-width: 992px) {
+          flex-direction: row;
+        }
+        .form-group {
+          position: relative;
+          width: 100%;
+        }
+      }
+
+      &-title {
+        margin: 0 0 8px 0;
+        font-size: 1.2rem;
+        color: $black;
+        text-decoration: none;
+        font-weight: 400;
+      }
+    }
+  }
+}

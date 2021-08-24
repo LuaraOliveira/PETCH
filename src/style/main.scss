@@ -1,0 +1,12 @@
+@import "./global";
+
+//components
+@import "../components/Header/styles";
+@import "../components/Footer/styles";
+@import "../components/Breadcrumb/styles";
+@import "../components/Input/styles";
+@import "../components/Button/styles";
+//Pages
+@import "../pages/Login/styles";
+@import "../pages/Dashboard/styles";
+@import "../pages/Administrador/styles";
