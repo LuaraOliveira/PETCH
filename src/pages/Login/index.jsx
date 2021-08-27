@@ -9,21 +9,17 @@ import { useHistory } from "react-router-dom";
 export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const history = useHistory();
 
   async function login(e) {
     e.preventDefault();
     try {
       const response = await api.post("/auth/login", { email, password });
       isLogin(response.data.token);
+      history.push("/dashboard");
     } catch (error) {
       console.log(error.response);
     }
-  }
-
-  const history = useHistory();
-
-  function handleClick() {
-    history.push("/dashboard");
   }
 
   async function AccessLogin(param) {
@@ -68,11 +64,7 @@ export function Login() {
               <a href="#" className="login__forms-link">
                 Esqueceu seu acesso?
               </a>
-              <Button
-                color="primary"
-                onClick={login}
-                // onClick={handleClick}
-              >
+              <Button color="primary" onClick={login}>
                 Entrar
               </Button>
 

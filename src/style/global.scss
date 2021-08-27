@@ -47,3 +47,11 @@ button {
   background-color: unset;
   border: none;
 }
+
+textarea {
+  width: 100%;
+  color: $gray2;
+  border-radius: 5px;
+  border: 1px solid $gray2;
+  padding: 0 14px 0 12px;
+}

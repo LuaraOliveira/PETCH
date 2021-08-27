@@ -25,12 +25,12 @@ export function Header() {
                 <div className="menu__list-itens">
                   <Link to="/Administrador">Administradores</Link>
                   <Link to="/CompanyPartner">Empresas Parceiras</Link>
-                  <Link to="/#">Espécieis</Link>
-                  <Link to="/#">Pets</Link>
-                  <Link to="/#">Adotantes</Link>
-                  <Link to="/#">Brindes</Link>
-                  <Link to="/#">ONGs</Link>
-                  <Link to="/#">Relatórios</Link>
+                  <Link to="/Gifts">Brindes</Link>
+                  <Link to="#">Espécieis</Link>
+                  <Link to="#">Pets</Link>
+                  <Link to="#">Adotantes</Link>
+                  <Link to="#">ONGs</Link>
+                  <Link to="#">Relatórios</Link>
                 </div>
               </div>
             </div>

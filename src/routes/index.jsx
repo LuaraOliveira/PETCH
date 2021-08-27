@@ -3,6 +3,7 @@ import { Login } from "../pages/Login";
 import { Dashboard } from "../pages/Dashboard";
 import { Administrador } from "../pages/Administrador";
 import { CompanyPartner } from "../pages/CompanyPartner";
+import { Gifts } from "../pages/Gifts";
 import { Route } from "./Route";
 
 export function Routes() {
@@ -38,6 +39,14 @@ export function Routes() {
           hasFooter={true}
           hasHeader={true}
           component={CompanyPartner}
+        />
+
+        <Route
+          path="/gifts"
+          exact
+          hasFooter={true}
+          hasHeader={true}
+          component={Gifts}
         />
       </Switch>
     </>
