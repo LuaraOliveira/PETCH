@@ -23,8 +23,8 @@ export function Header() {
                   <AiFillCloseCircle onClick={() => setMenu(false)} />
                 </div>
                 <div className="menu__list-itens">
-                  <Link to="/#">Administradores</Link>
-                  <Link to="/#">Empresas Parceiras</Link>
+                  <Link to="/Administrador">Administradores</Link>
+                  <Link to="/CompanyPartner">Empresas Parceiras</Link>
                   <Link to="/#">Espécieis</Link>
                   <Link to="/#">Pets</Link>
                   <Link to="/#">Adotantes</Link>

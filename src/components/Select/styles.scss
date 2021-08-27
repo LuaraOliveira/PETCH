@@ -1,0 +1,28 @@
+.container-component {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-direction: column;
+  flex-direction: column;
+  position: relative;
+  align-self: flex-end;
+  width: 100%;
+
+  &__label {
+    font-size: 10px;
+    font-weight: 600;
+    color: $gray2;
+    margin-bottom: 8px;
+  }
+
+  &__select {
+    border-radius: 5px;
+    border: 1px solid $gray2;
+    height: 40px;
+    padding: 0 14px 0 12px;
+    outline: none;
+    color: $gray2;
+    background-size: 13px auto;
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+  }
+}

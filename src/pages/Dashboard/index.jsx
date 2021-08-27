@@ -112,9 +112,9 @@ export function Dashboard() {
                 </div>
                 <div className="dashboard__card-body">
                   <div className="dashboard__card-graphs">
-                    <div class="loader"></div>
+                    <div className="loader"></div>
 
-                    <div class="loader"></div>
+                    <div className="loader"></div>
                   </div>
                 </div>
                 <div className="dashboard__card-footer">

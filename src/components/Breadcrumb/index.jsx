@@ -6,7 +6,7 @@ export function Breadcrumb({ list }) {
           list.map((item, i) => (
             <>
               {i !== 0 && <span className="breadcrumb__icon">{"/"}</span>}
-              <li>
+              <li key={item.link}>
                 {list.lastIndexOf(item) === list.length - 1 ? (
                   <span className="active">{item.link}</span>
                 ) : (
