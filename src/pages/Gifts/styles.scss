@@ -1,8 +1,4 @@
 #administrador {
-  height: 100%;
-  @media only screen and (min-width: 992px) {
-    height: 100vh;
-  }
   .administrador {
     &__create {
       padding: 16px;
