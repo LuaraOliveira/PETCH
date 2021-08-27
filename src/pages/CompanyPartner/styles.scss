@@ -90,10 +90,17 @@
 
         @media only screen and (min-width: 992px) {
           flex-direction: row;
+          justify-content: flex-end;
         }
         .form-group {
           position: relative;
           width: 100%;
+        }
+
+        .c-button {
+          @media only screen and (min-width: 992px) {
+            max-width: 200px;
+          }
         }
       }
 

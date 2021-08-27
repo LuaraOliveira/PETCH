@@ -60,7 +60,7 @@ export function CompanyPartner() {
               <form className="administrador__forms">
                 <p className="administrador__forms-title">Criar nova empresa</p>
                 <div className="administrador__forms-content">
-                  <Button onClick={openModal}>Open Modal</Button>
+                  <Button onClick={openModal}>Criar novo cadastro</Button>
                   <Modal
                     isOpen={modalIsOpen}
                     onRequestClose={closeModal}
