@@ -26,8 +26,8 @@ export function Header() {
                   <Link to="/Administrador">Administradores</Link>
                   <Link to="/CompanyPartner">Empresas Parceiras</Link>
                   <Link to="/Gifts">Brindes</Link>
-                  <Link to="#">Espécieis</Link>
-                  <Link to="#">Pets</Link>
+                  <Link to="/Species">Espécies</Link>
+                  <Link to="/Pets">Pets</Link>
                   <Link to="#">Adotantes</Link>
                   <Link to="#">ONGs</Link>
                   <Link to="#">Relatórios</Link>

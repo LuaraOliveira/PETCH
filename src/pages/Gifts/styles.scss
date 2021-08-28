@@ -1,5 +1,5 @@
-#administrador {
-  .administrador {
+#gifts {
+  .gifts {
     &__create {
       padding: 16px;
       background: $white;
@@ -169,6 +169,13 @@
       display: flex;
       flex-direction: column;
       width: 100%;
+    }
+
+    .label {
+      font-size: 1rem;
+      color: $black;
+      margin-top: 8px;
+      margin-bottom: 0px;
     }
   }
 

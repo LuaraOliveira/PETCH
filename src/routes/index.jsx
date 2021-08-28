@@ -3,7 +3,9 @@ import { Login } from "../pages/Login";
 import { Dashboard } from "../pages/Dashboard";
 import { Administrador } from "../pages/Administrador";
 import { CompanyPartner } from "../pages/CompanyPartner";
-import { Gifts } from "../pages/Gifts";
+import Gifts from "../pages/Gifts";
+import { Species } from "../pages/Species";
+import { Pets } from "../pages/Pets";
 import { Route } from "./Route";
 
 export function Routes() {
@@ -47,6 +49,22 @@ export function Routes() {
           hasFooter={true}
           hasHeader={true}
           component={Gifts}
+        />
+
+        <Route
+          path="/species"
+          exact
+          hasFooter={true}
+          hasHeader={true}
+          component={Species}
+        />
+
+        <Route
+          path="/pets"
+          exact
+          hasFooter={true}
+          hasHeader={true}
+          component={Pets}
         />
       </Switch>
     </>

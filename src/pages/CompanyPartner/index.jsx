@@ -14,6 +14,7 @@ export function CompanyPartner() {
   ];
 
   const [partners, setPartners] = useState([]);
+  const [partner, setPartner] = useState(undefined);
 
   useEffect(() => {
     api.get("/partners").then((response) => setPartners(response.data));
@@ -47,20 +48,32 @@ export function CompanyPartner() {
   function closeModal(event) {
     event.preventDefault();
     setIsOpen(false);
+    setPartner(undefined);
+  }
+
+  async function infoPartner(id) {
+    try {
+      const response = await api.get(`/partners/${id}`);
+      setPartner(response.data);
+      setIsOpen(true);
+      console.log(response);
+    } catch (error) {
+      console.log(error.response);
+    }
   }
   return (
     <>
-      <section className="container" id="administrador">
+      <section className="container" id="company">
         <div className="row">
           <div className="col-md-12">
             <Breadcrumb list={breadCrumb} />
           </div>
           <div className="col-md-12">
-            <div className="administrador__create">
-              <form className="administrador__forms">
-                <p className="administrador__forms-title">Criar nova empresa</p>
-                <div className="administrador__forms-content">
-                  <Button onClick={openModal}>Criar novo cadastro</Button>
+            <div className="company__create">
+              <form className="company__forms">
+                <p className="company__forms-title">Criar nova empresa</p>
+                <div className="company__forms-content">
+                  <Button onClick={openModal}>Adicionar empresa</Button>
                   <Modal
                     isOpen={modalIsOpen}
                     onRequestClose={closeModal}
@@ -75,19 +88,34 @@ export function CompanyPartner() {
                       </div>
                       <div className="modal__header">
                         <h2 className="modal__header-title">
-                          Adicionar Empresa Parceira
+                          {partner === undefined
+                            ? "Adicionar Empresa Parceira"
+                            : "Dados da Empresa Parceira"}
                         </h2>
                       </div>
                       <form className="forms">
                         <div className="modal__body">
                           <div className="modal__description">
                             <div className="modal__description-input">
-                              <Input type="text" placeholder="Nome fantasia" />
-                              <Input type="text" placeholder="Razão Social" />
-                              <Input type="text" placeholder="CNPJ" />
+                              <Input
+                                type="text"
+                                placeholder="Nome fantasia"
+                                defaultValue={partner?.fantasyName}
+                              />
+                              <Input
+                                type="text"
+                                placeholder="Razão Social"
+                                defaultValue={partner?.companyName}
+                              />
+                              <Input
+                                type="text"
+                                placeholder="CNPJ"
+                                defaultValue={partner?.cnpj}
+                              />
                               <Input
                                 type="text"
                                 placeholder="Inscrição Estadual"
+                                defaultValue={partner?.stateRegistration}
                               />
                             </div>
 
@@ -102,7 +130,11 @@ export function CompanyPartner() {
                           </div>
 
                           <div className="modal__cep">
-                            <Input type="text" placeholder="CEP" />
+                            <Input
+                              type="text"
+                              placeholder="CEP"
+                              defaultValue={partner?.cep}
+                            />
                             <Button color="ligth">Consultar</Button>
                           </div>
 
@@ -110,32 +142,78 @@ export function CompanyPartner() {
                             <Input
                               type="text"
                               placeholder="Endereço"
+                              defaultValue={partner?.address}
                               disabled
                             />
-                            <Input type="text" placeholder="Número" disabled />
                             <Input
                               type="text"
                               placeholder="Complemento"
+                              defaultValue={partner?.complement}
                               disabled
                             />
                           </div>
 
                           <div className="modal__address">
-                            <Input type="text" placeholder="Bairro" disabled />
-                            <Input type="text" placeholder="Cidade" disabled />
-                            <Input type="text" placeholder="Estado" disabled />
+                            <Input
+                              type="text"
+                              placeholder="Bairro"
+                              defaultValue={partner?.district}
+                              disabled
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Cidade"
+                              defaultValue={partner?.city}
+                              disabled
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Estado"
+                              defaultValue={partner?.uf}
+                              disabled
+                            />
                           </div>
 
                           <div className="modal__responsible">
-                            <Input type="text" placeholder="Responsável" />
-                            <Input type="text" placeholder="Celular" />
-                            <Input type="text" placeholder="Telefone" />
-                            <Input type="text" placeholder="E-mail" />
+                            <Input
+                              type="text"
+                              placeholder="Responsável"
+                              defaultValue={partner?.responsible}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Celular"
+                              defaultValue={partner?.phone1}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Telefone"
+                              defaultValue={partner?.phone2}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Telefone 2"
+                              defaultValue={partner?.phone3}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="E-mail"
+                              defaultValue={partner?.email}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Site"
+                              defaultValue={partner?.website}
+                            />
                           </div>
 
                           <div className="modal__buttons">
                             <Button color="ligth">Cancelar</Button>
-                            <Button color="primary">Criar Cadastro</Button>
+                            <Button color="primary">
+                              {partner === undefined
+                                ? "Cadastrar Parceiro"
+                                : "Editar Parceiro"}
+                            </Button>
                           </div>
                         </div>
                       </form>
@@ -146,20 +224,17 @@ export function CompanyPartner() {
             </div>
           </div>
           <div className="col-md-12">
-            <div className="administrador__create">
-              <p className="administrador__create-title">Lista de Empresas</p>
-              <div className="administrador__body">
+            <div className="company__create">
+              <p className="company__create-title">Lista de Empresas</p>
+              <div className="company__body">
                 {partners &&
                   partners.map((partner) => (
-                    <div
-                      key={partner.id}
-                      className="administrador__body-container"
-                    >
-                      <div className="administrador__body-image">
+                    <div key={partner.id} className="company__body-container">
+                      <div className="company__body-image">
                         <BiUserCircle />
                       </div>
-                      <div className="administrador__body-info">
-                        <ul className="administrador__body-list">
+                      <div className="company__body-info">
+                        <ul className="company__body-list">
                           <li className="item">Nome: {partner.fantasyName}</li>
                           <li className="item">CNPJ: {partner.cnpj}</li>
                           <li className="item">Email: {partner.email}</li>
@@ -169,9 +244,12 @@ export function CompanyPartner() {
                           </li>
                           <li className="item">Status: Ativo</li>
                         </ul>
-                        <div className="administrador__body-buttons">
-                          <Button color="primary" className="btn">
-                            Mais info
+                        <div className="company__body-buttons">
+                          <Button
+                            color="primary"
+                            onClick={() => infoPartner(partner.id)}
+                          >
+                            Informações
                           </Button>
                           <Button color="primary" className="btn">
                             Desabilitar

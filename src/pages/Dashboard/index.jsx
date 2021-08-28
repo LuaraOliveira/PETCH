@@ -18,7 +18,7 @@ export function Dashboard() {
               </div>
               Há 12 propostas de adoção que ainda não foram analisadas.
               <Button color="primary" className="btn">
-                Ver mais informações
+                Ver Informaçõesrmações
               </Button>
             </div>
 

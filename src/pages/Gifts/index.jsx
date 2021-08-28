@@ -8,13 +8,15 @@ import Modal from "react-modal";
 import { Input } from "../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
-export function Gifts() {
+// import Permission from "../../utils/Permission";
+function Gifts() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Brindes" },
   ];
 
   const [gifts, setGifts] = useState([]);
+  const [gift, setGift] = useState(undefined);
 
   useEffect(() => {
     api.get("/gifts").then((response) => setGifts(response.data));
@@ -48,20 +50,32 @@ export function Gifts() {
   function closeModal(event) {
     event.preventDefault();
     setIsOpen(false);
+    setGift(undefined);
+  }
+
+  async function infoGift(id) {
+    try {
+      const response = await api.get(`/gifts/${id}`);
+      setGift(response.data);
+      setIsOpen(true);
+      console.log(response);
+    } catch (error) {
+      console.log(error.response);
+    }
   }
   return (
     <>
-      <section className="container" id="administrador">
+      <section className="container" id="gifts">
         <div className="row">
           <div className="col-md-12">
             <Breadcrumb list={breadCrumb} />
           </div>
           <div className="col-md-12">
-            <div className="administrador__create">
-              <form className="administrador__forms">
-                <p className="administrador__forms-title">Criar novo brinde</p>
-                <div className="administrador__forms-content">
-                  <Button onClick={openModal}>Criar novo brinde</Button>
+            <div className="gifts__create">
+              <form className="gifts__forms">
+                <p className="gifts__forms-title">Criar novo brinde</p>
+                <div className="gifts__forms-content">
+                  <Button onClick={openModal}>Adicionar brinde</Button>
                   <Modal
                     isOpen={modalIsOpen}
                     onRequestClose={closeModal}
@@ -76,19 +90,30 @@ export function Gifts() {
                       </div>
                       <div className="modal__header">
                         <h2 className="modal__header-title">
-                          Adicionar Novo Brinde
+                          {gift === undefined
+                            ? " Adicionar Novo Brinde"
+                            : "Dados do Brinde"}
                         </h2>
                       </div>
                       <form className="forms">
                         <div className="modal__body">
                           <div className="modal__description">
                             <div className="modal__description-input">
-                              <Input type="text" placeholder="Nome do Brinde" />
-                              <Select name="Empresa da Campanha">
-                                <option value="">Empresa da Campanha</option>
-                                <option value="">Petz</option>
-                                <option value="">Cobasi</option>
-                              </Select>
+                              <Input
+                                type="text"
+                                placeholder="Nome do Brinde"
+                                defaultValue={gift?.name}
+                              />
+                              <label className="label" for="coverage">
+                                Descrição
+                              </label>
+
+                              <textarea
+                                id="coverage"
+                                rows="3"
+                                cols="20"
+                                defaultValue={gift?.description}
+                              />
                             </div>
 
                             <div className="modal__image">
@@ -102,9 +127,21 @@ export function Gifts() {
                           </div>
 
                           <div className="modal__address">
-                            <Input type="text" placeholder="Cor" />
-                            <Input type="text" placeholder="Tamanho" />
-                            <Input type="text" placeholder="Peso" />
+                            <Input
+                              type="text"
+                              placeholder="Cor"
+                              defaultValue={gift?.color}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Tamanho"
+                              defaultValue={gift?.size}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Peso"
+                              defaultValue={gift?.weight}
+                            />
                           </div>
 
                           <div className="modal__textarea">
@@ -115,17 +152,13 @@ export function Gifts() {
                             <textarea id="coverage" rows="3" cols="20" />
                           </div>
 
-                          <div className="modal__textarea">
-                            <label className="label" for="coverage">
-                              Descrição
-                            </label>
-
-                            <textarea id="coverage" rows="3" cols="20" />
-                          </div>
-
                           <div className="modal__buttons">
                             <Button color="ligth">Cancelar</Button>
-                            <Button color="primary">Criar Brinde</Button>
+                            <Button color="primary">
+                              {gift === undefined
+                                ? "Cadastrar Brinde"
+                                : "Editar Brinde"}
+                            </Button>
                           </div>
                         </div>
                       </form>
@@ -136,38 +169,38 @@ export function Gifts() {
             </div>
           </div>
           <div className="col-md-12">
-            <div className="administrador__create">
-              <p className="administrador__create-title">
-                Lista de brindes criados
-              </p>
-              <div className="administrador__body">
+            <div className="gifts__create">
+              <p className="gifts__create-title">Lista de brindes criados</p>
+              <div className="gifts__body">
                 {gifts &&
                   gifts.map((gift) => (
-                    <div
-                      key={gift.id}
-                      className="administrador__body-container"
-                    >
-                      <div className="administrador__body-image">
+                    <div key={gift.id} className="gifts__body-container">
+                      <div className="gifts__body-image">
                         <BiUserCircle />
                       </div>
-                      <div className="administrador__body-info">
-                        <ul className="administrador__body-list">
+                      <div className="gifts__body-info">
+                        <ul className="gifts__body-list">
                           <li className="item">Nome: {gift.name}</li>
                           <li className="item">
                             Descrição: {gift.description}
                           </li>
-                          <li className="item">
-                            Oferecido por: {gift.partner.fantasyName}
-                          </li>
-                          <li className="item">Abrangência: SP,RG,MG</li>
-                          <li className="item">Status: Ativo</li>
+                          <li className="item">Tamanho: {gift.size}</li>
+                          <li className="item">Cor: {gift.color}</li>
+                          <li className="item">Peso: {gift.weight}</li>
+                          <li className="item">Gosto: {gift.taste}</li>
+                          {/* <li className="item">
+                            Meio de Comunicação: {gift.media}
+                          </li> */}
                         </ul>
-                        <div className="administrador__body-buttons">
-                          <Button color="primary" className="btn">
-                            Mais info
+                        <div className="gifts__body-buttons">
+                          <Button
+                            color="primary"
+                            onClick={() => infoGift(gift.id)}
+                          >
+                            Informações
                           </Button>
                           <Button color="primary" className="btn">
-                            Desativar Brinde
+                            Desativar
                           </Button>
                         </div>
                       </div>
@@ -181,3 +214,7 @@ export function Gifts() {
     </>
   );
 }
+
+// export default Permission(["admin"])(Gifts); isso aqui serve para eu diferenciar o admin / adotante.
+
+export default Gifts;

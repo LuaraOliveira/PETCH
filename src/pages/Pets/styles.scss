@@ -1,5 +1,5 @@
-#company {
-  .company {
+#pets {
+  .pets {
     &__create {
       padding: 16px;
       background: $white;
@@ -127,7 +127,6 @@
       height: 100%;
     }
   }
-
   &__container {
     &-close {
       position: absolute;
@@ -154,10 +153,93 @@
       flex-wrap: nowrap;
     }
 
+    &-ong {
+      display: flex;
+      gap: 16px;
+
+      .form-group {
+        width: 100%;
+      }
+    }
+
+    &-castration {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+
+      &-radio {
+        display: flex;
+        align-items: center;
+        gap: 42px;
+      }
+    }
+
+    &-weigth {
+      display: flex;
+      gap: 16px;
+    }
+
+    &-age {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+
+      .form-group {
+        width: 100%;
+      }
+    }
+
     &-input {
       display: flex;
       flex-direction: column;
       width: 100%;
+    }
+
+    &.center {
+      justify-content: center;
+    }
+  }
+
+  &__pets {
+    border: 1px solid $gray4;
+    padding: 16px;
+
+    &-container {
+      display: flex;
+      width: 100%;
+      gap: 16px;
+      flex-wrap: wrap;
+      @media only screen and (min-width: 992px) {
+        flex-wrap: nowrap;
+      }
+      .form-group {
+        width: 100%;
+      }
+      .c-button {
+        @media only screen and (min-width: 992px) {
+          max-width: 76px;
+        }
+      }
+    }
+
+    &-title {
+      margin-bottom: 0;
+      color: $black;
+      margin-top: 32px;
+      margin-bottom: 8px;
+    }
+
+    &-description {
+      display: flex;
+      width: 100%;
+      gap: 16px;
+      flex-wrap: wrap;
+      @media only screen and (min-width: 992px) {
+        flex-wrap: nowrap;
+      }
+      .form-group {
+        width: 100%;
+      }
     }
   }
 
@@ -167,23 +249,10 @@
     }
   }
 
-  &__genre {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-    width: 100%;
-    padding-bottom: 32px;
-    .form-group {
-      width: 100%;
-    }
-    @media only screen and (min-width: 992px) {
-      flex-wrap: nowrap;
-    }
-  }
-
   &__cep {
     width: 100%;
     display: flex;
+    grid-gap: 16px;
     gap: 16px;
     flex-wrap: wrap;
 
