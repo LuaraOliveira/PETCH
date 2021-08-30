@@ -28,8 +28,8 @@ export function Pets() {
       right: "auto",
       bottom: "auto",
       width: "100%",
-      maxHeight: "800px",
-      maxWidth: "800px",
+      maxHeight: "900px",
+      maxWidth: "900px",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
     },
@@ -86,33 +86,17 @@ export function Pets() {
                             <div className="modal__description-input">
                               <Input type="text" placeholder="Nome do animal" />
                               <div className="modal__description-ong">
-                                <Input
-                                  type="text"
-                                  placeholder="Código da ONG"
-                                />
-                                <Button color="ligth">Consultar</Button>
+                                <Input type="text" placeholder="Raça" />
+                                <Input type="text" placeholder="Sexo" />
                               </div>
-                              <Input type="text" placeholder="Espécie" />
-                              <Input type="text" placeholder="Sexo" />
+                              <Select name="status">
+                                <option value="">ONG</option>
+                                <option value="">Kapa</option>
+                                <option value="">Anjos de focinho</option>
+                              </Select>
                               <div className="modal__description-age">
-                                <Input type="number" placeholder="Idade" />
-                                <Radio
-                                  id="radio-button-1"
-                                  name="radio-button-name6"
-                                  checked
-                                >
-                                  meses
-                                </Radio>
-                                <Radio
-                                  id="radio-button-2"
-                                  name="radio-button-name6"
-                                  checked
-                                >
-                                  anos
-                                </Radio>
-                              </div>
-                              <div className="modal__description-castration">
-                                <p className="modal_description-castration-title">
+                                <Input type="text" placeholder="Idade" />
+                                <p className="modal__description-castration-title">
                                   Castrado?
                                 </p>
                                 <div className="modal__description-castration-radio">
@@ -131,9 +115,8 @@ export function Pets() {
                                   </Radio>
                                 </div>
                               </div>
-
                               <div className="modal__description-weigth">
-                                <Input type="number" placeholder="Peso(kg)" />
+                                <Input type="text" placeholder="Peso(kg)" />
                                 <Select name="status">
                                   <option value="">Ativo</option>
                                   <option value="">Indisponível</option>
@@ -147,10 +130,45 @@ export function Pets() {
                                 name="myfile"
                               />
                               <GrImage color="red" size="120px" />
+
+                              <ul className="modal__image-list">
+                                <li>
+                                  <div className="modal__image-container">
+                                    {" "}
+                                    <GrImage color="red" size="90px" />
+                                    <Button color="secondary">Remover</Button>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div className="modal__image-container">
+                                    {" "}
+                                    <GrImage color="red" size="90px" />
+                                    <Button color="secondary">Remover</Button>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div className="modal__image-container">
+                                    {" "}
+                                    <GrImage color="red" size="90px" />
+                                    <Button color="secondary">Remover</Button>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div className="modal__image-container">
+                                    {" "}
+                                    <GrImage color="red" size="90px" />
+                                    <Button color="secondary">Remover</Button>
+                                  </div>
+                                </li>
+                              </ul>
                             </div>
                           </div>
 
-                          <Input type="text" placeholder="Nome da Espécie" />
+                          <Select name="status">
+                            <option value="">Espécie</option>
+                            <option value="">Canina</option>
+                            <option value="">Canina</option>
+                          </Select>
 
                           <p className="modal__pets-title">
                             Dados de vacinação

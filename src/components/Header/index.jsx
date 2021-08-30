@@ -28,7 +28,7 @@ export function Header() {
                   <Link to="/Gifts">Brindes</Link>
                   <Link to="/Species">Espécies</Link>
                   <Link to="/Pets">Pets</Link>
-                  <Link to="#">Adotantes</Link>
+                  <Link to="/Adopters">Adotantes</Link>
                   <Link to="#">ONGs</Link>
                   <Link to="#">Relatórios</Link>
                 </div>

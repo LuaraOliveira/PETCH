@@ -6,6 +6,7 @@ import { CompanyPartner } from "../pages/CompanyPartner";
 import Gifts from "../pages/Gifts";
 import { Species } from "../pages/Species";
 import { Pets } from "../pages/Pets";
+import Adopters from "../pages/Adopters";
 import { Route } from "./Route";
 
 export function Routes() {
@@ -65,6 +66,14 @@ export function Routes() {
           hasFooter={true}
           hasHeader={true}
           component={Pets}
+        />
+
+        <Route
+          path="/adopters"
+          exact
+          hasFooter={true}
+          hasHeader={true}
+          component={Adopters}
         />
       </Switch>
     </>
