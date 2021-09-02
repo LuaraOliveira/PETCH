@@ -9,10 +9,10 @@ import { Input } from "../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 
-function Adopters() {
+function Ongs() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
-    { href: "#", link: "Adotantes" },
+    { href: "#", link: "ONGs" },
   ];
 
   const customStyles = {
@@ -47,22 +47,22 @@ function Adopters() {
 
   return (
     <>
-      <section className="container" id="adopters">
+      <section className="container" id="ongs">
         <div className="row">
           <div className="col-md-12">
             <Breadcrumb list={breadCrumb} />
           </div>
 
           <div className="col-md-12">
-            <div className="adopters__create">
-              <p className="adopters__create-title">Lista de adotantes</p>
-              <div className="adopters__body">
-                <div className="adopters__body-container">
-                  <div className="adopters__body-image">
+            <div className="ongs__create">
+              <p className="ongs__create-title">Lista de ONGs</p>
+              <div className="ongs__body">
+                <div className="ongs__body-container">
+                  <div className="ongs__body-image">
                     <BiUserCircle />
                   </div>
-                  <div className="adopters__body-info">
-                    <ul className="adopters__body-list">
+                  <div className="ongs__body-info">
+                    <ul className="ongs__body-list">
                       <li className="item">Nome: Luara Oliveira</li>
                       <li className="item">CPF: 419.XXX-XXX-16</li>
                       <li className="item">
@@ -70,7 +70,7 @@ function Adopters() {
                       </li>
                       <li className="item">Status: Ativo</li>
                     </ul>
-                    <div className="adopters__body-buttons">
+                    <div className="ongs__body-buttons">
                       <Button onClick={openModal}>Informações</Button>
                       <Modal
                         isOpen={modalIsOpen}
@@ -128,12 +128,12 @@ function Adopters() {
                     </div>
                   </div>
                 </div>
-                <div className="adopters__body-container">
-                  <div className="adopters__body-image">
+                <div className="ongs__body-container">
+                  <div className="ongs__body-image">
                     <BiUserCircle />
                   </div>
-                  <div className="adopters__body-info">
-                    <ul className="adopters__body-list">
+                  <div className="ongs__body-info">
+                    <ul className="ongs__body-list">
                       <li className="item">Nome: Luara Oliveira</li>
                       <li className="item">CPF: 419.XXX-XXX-16</li>
                       <li className="item">
@@ -141,7 +141,7 @@ function Adopters() {
                       </li>
                       <li className="item">Status: Ativo</li>
                     </ul>
-                    <div className="adopters__body-buttons">
+                    <div className="ongs__body-buttons">
                       <Button onClick={openModal}>Informações</Button>
                       <Button color="primary" className="btn">
                         Desativar
@@ -149,12 +149,12 @@ function Adopters() {
                     </div>
                   </div>
                 </div>
-                <div className="adopters__body-container">
-                  <div className="adopters__body-image">
+                <div className="ongs__body-container">
+                  <div className="ongs__body-image">
                     <BiUserCircle />
                   </div>
-                  <div className="adopters__body-info">
-                    <ul className="adopters__body-list">
+                  <div className="ongs__body-info">
+                    <ul className="ongs__body-list">
                       <li className="item">Nome: Luara Oliveira</li>
                       <li className="item">CPF: 419.XXX-XXX-16</li>
                       <li className="item">
@@ -162,7 +162,7 @@ function Adopters() {
                       </li>
                       <li className="item">Status: Ativo</li>
                     </ul>
-                    <div className="adopters__body-buttons">
+                    <div className="ongs__body-buttons">
                       <Button onClick={openModal}>Informações</Button>
                       <Button color="primary" className="btn">
                         Desativar
@@ -179,4 +179,4 @@ function Adopters() {
   );
 }
 
-export default Adopters;
+export default Ongs;

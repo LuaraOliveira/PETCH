@@ -7,6 +7,7 @@ import Gifts from "../pages/Gifts";
 import { Species } from "../pages/Species";
 import { Pets } from "../pages/Pets";
 import Adopters from "../pages/Adopters";
+import Ongs from "../pages/Ongs";
 import { Route } from "./Route";
 
 export function Routes() {
@@ -74,6 +75,14 @@ export function Routes() {
           hasFooter={true}
           hasHeader={true}
           component={Adopters}
+        />
+
+        <Route
+          path="/ongs"
+          exact
+          hasFooter={true}
+          hasHeader={true}
+          component={Ongs}
         />
       </Switch>
     </>

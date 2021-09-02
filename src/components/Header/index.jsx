@@ -29,8 +29,8 @@ export function Header() {
                   <Link to="/Species">Espécies</Link>
                   <Link to="/Pets">Pets</Link>
                   <Link to="/Adopters">Adotantes</Link>
-                  <Link to="#">ONGs</Link>
-                  <Link to="#">Relatórios</Link>
+                  <Link to="/Ongs">ONGs</Link>
+                  <Link to="/dashboard">Relatórios</Link>
                 </div>
               </div>
             </div>
