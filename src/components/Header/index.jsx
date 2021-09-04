@@ -3,7 +3,7 @@ import { Button } from "../../components/Button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
-
+import logo from "../../assets/logo/logo.svg";
 export function Header() {
   const [menu, setMenu] = useState(false);
 
@@ -37,7 +37,7 @@ export function Header() {
           </nav>
           <div className="header__content">
             <div className="header__logo">
-              <h1 className="header__logo-title">PETCH</h1>
+              <img src={logo} alt="Petch" />
             </div>
           </div>
           <div className="header__info">

@@ -2,7 +2,7 @@ import { GoogleLogin } from "react-google-login";
 import { useState } from "react";
 import api from "../../services/api";
 import { isLogin } from "../../services/auth";
-
+import logo from "../../assets/logo/logo.svg";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { useHistory } from "react-router-dom";
@@ -44,7 +44,7 @@ export function Login() {
         <div className="login__container">
           <div className="login__content">
             <div className="login__header">
-              <h1 className="login__header-title">Petch</h1>
+              <img src={logo} alt="Petch" />
             </div>
             <form className="login__forms">
               <Input
