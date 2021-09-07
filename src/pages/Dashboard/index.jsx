@@ -18,7 +18,7 @@ function Dashboard() {
               </div>
               Há 12 propostas de adoção que ainda não foram analisadas.
               <Button color="primary" className="btn">
-                Ver Informaçõesrmações
+                Ver Informações
               </Button>
             </div>
 
