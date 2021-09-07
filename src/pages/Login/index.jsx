@@ -6,7 +6,7 @@ import logo from "../../assets/logo/logo.svg";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { useHistory } from "react-router-dom";
-export function Login() {
+function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
@@ -79,3 +79,4 @@ export function Login() {
     </>
   );
 }
+export default Login;

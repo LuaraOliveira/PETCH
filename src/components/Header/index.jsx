@@ -1,12 +1,17 @@
 import { FaUserCircle } from "react-icons/fa";
 import { Button } from "../../components/Button";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import logo from "../../assets/logo/logo.svg";
 export function Header() {
   const [menu, setMenu] = useState(false);
+  const history = useHistory();
 
+  function changePage(name) {
+    history.push(name);
+    setMenu(false);
+  }
   return (
     <>
       <header className="header">
@@ -23,14 +28,18 @@ export function Header() {
                   <AiFillCloseCircle onClick={() => setMenu(false)} />
                 </div>
                 <div className="menu__list-itens">
-                  <Link to="/Administrador">Administradores</Link>
-                  <Link to="/CompanyPartner">Empresas Parceiras</Link>
-                  <Link to="/Gifts">Brindes</Link>
-                  <Link to="/Species">Espécies</Link>
-                  <Link to="/Pets">Pets</Link>
-                  <Link to="/Adopters">Adotantes</Link>
-                  <Link to="/Ongs">ONGs</Link>
-                  <Link to="/dashboard">Relatórios</Link>
+                  <p onClick={() => changePage("/Administrador")}>
+                    Administradores
+                  </p>
+                  <p onClick={() => changePage("/CompanyPartner")}>
+                    Empresas Parceiras
+                  </p>
+                  <p onClick={() => changePage("/Gifts")}>Brindes</p>
+                  <p onClick={() => changePage("/Species")}>Espécies</p>
+                  <p onClick={() => changePage("/Pets")}>Pets</p>
+                  <p onClick={() => changePage("/Adopters")}>Adotantes</p>
+                  <p onClick={() => changePage("/Ongs")}>ONGs</p>
+                  <p onClick={() => changePage("/Dashboard")}>Relatórios</p>
                 </div>
               </div>
             </div>

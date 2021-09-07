@@ -1,14 +1,14 @@
 import { Switch } from "react-router-dom";
-import { Login } from "../pages/Login";
-import { Dashboard } from "../pages/Dashboard";
-import { Administrador } from "../pages/Administrador";
-import { CompanyPartner } from "../pages/CompanyPartner";
+import { Route } from "./Route";
+import Login from "../pages/Login";
+import Dashboard from "../pages/Dashboard";
+import Administrador from "../pages/Administrador";
+import CompanyPartner from "../pages/CompanyPartner";
 import Gifts from "../pages/Gifts";
-import { Species } from "../pages/Species";
-import { Pets } from "../pages/Pets";
+import Species from "../pages/Species";
+import Pets from "../pages/Pets";
 import Adopters from "../pages/Adopters";
 import Ongs from "../pages/Ongs";
-import { Route } from "./Route";
 
 export function Routes() {
   return (

@@ -156,6 +156,14 @@
     }
 
     &-itens {
+      p {
+        margin-bottom: 0;
+        cursor: pointer;
+
+        &:hover {
+          color: $primary;
+        }
+      }
       display: flex;
       flex-direction: column;
       gap: 8px;

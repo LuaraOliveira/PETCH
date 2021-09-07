@@ -1,13 +1,13 @@
 import { Breadcrumb } from "../../components/Breadcrumb";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../components/Button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import api from "../../services/api";
 import Modal from "react-modal";
 import { Input } from "../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
-export function CompanyPartner() {
+function CompanyPartner() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Empresas Parceiras" },
@@ -15,9 +15,32 @@ export function CompanyPartner() {
 
   const [partners, setPartners] = useState([]);
   const [partner, setPartner] = useState(undefined);
-
+  const [image, setImage] = useState(null);
+  const preview = useMemo(() => {
+    return image ? URL.createObjectURL(image) : null;
+  }, [image]);
+  const [register, setRegister] = useState({
+    fantasyName: "",
+    companyName: "",
+    cnpj: "",
+    stateRegistration: "",
+    cep: "",
+    address: "",
+    complement: "",
+    district: "",
+    city: "",
+    uf: "",
+    responsible: "",
+    phone1: "",
+    phone2: "",
+    phone3: "",
+    email: "",
+    website: "",
+  });
   useEffect(() => {
-    api.get("/partners").then((response) => setPartners(response.data));
+    api
+      .get("/partners?inactives=true")
+      .then((response) => setPartners(response.data));
   }, []);
 
   const customStyles = {
@@ -37,29 +60,75 @@ export function CompanyPartner() {
       backgroundColor: "rgba(0, 0, 0, 0.84)",
     },
   };
+  const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
+  const [modalIsOpenData, setIsOpenData] = useState(false);
 
-  const [modalIsOpen, setIsOpen] = useState(false);
-
-  function openModal(event) {
+  function openModalRegister(event) {
     event.preventDefault();
-    setIsOpen(true);
+    setIsOpenRegister(true);
   }
 
-  function closeModal(event) {
+  function closeModalRegister(event) {
     event.preventDefault();
-    setIsOpen(false);
+    setIsOpenRegister(false);
     setPartner(undefined);
   }
 
+  function openModalData(event) {
+    event.preventDefault();
+    setIsOpenData(true);
+  }
+
+  function closeModalData(event) {
+    event.preventDefault();
+    setIsOpenData(false);
+    setPartner(undefined);
+    setImage(null);
+  }
   async function infoPartner(id) {
     try {
       const response = await api.get(`/partners/${id}`);
       setPartner(response.data);
-      setIsOpen(true);
+      setIsOpenData(true);
       console.log(response);
     } catch (error) {
       console.log(error.response);
     }
+  }
+
+  async function registerPartner(event) {
+    event.preventDefault();
+    try {
+      const instanceForm = new FormData();
+      instanceForm.append("fantasyName", register.fantasyName);
+      instanceForm.append("companyName", register.companyName);
+      instanceForm.append("cnpj", register.cnpj);
+      instanceForm.append("stateRegistration", register.stateRegistration);
+      instanceForm.append("cep", register.cep);
+      instanceForm.append("address", register.address);
+      instanceForm.append("complement", register.complement);
+      instanceForm.append("district", register.district);
+      instanceForm.append("city", register.city);
+      instanceForm.append("uf", register.uf);
+      instanceForm.append("responsible", register.responsible);
+      instanceForm.append("phone1", register.phone1);
+      instanceForm.append("phone2", register.phone2);
+      instanceForm.append("phone3", register.phone3);
+      instanceForm.append("email", register.email);
+      instanceForm.append("website", register.website);
+      instanceForm.append("media", image);
+      const response = await api.post("/partners", instanceForm);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
+  function change(event) {
+    setRegister({
+      ...register,
+      [event.target.name]: event.target.value,
+    });
   }
   return (
     <>
@@ -70,62 +139,75 @@ export function CompanyPartner() {
           </div>
           <div className="col-md-12">
             <div className="company__create">
-              <form className="company__forms">
+              <div className="company__forms">
                 <p className="company__forms-title">Criar nova empresa</p>
                 <div className="company__forms-content">
-                  <Button onClick={openModal}>Adicionar empresa</Button>
+                  <Button onClick={openModalRegister}>Adicionar empresa</Button>
                   <Modal
-                    isOpen={modalIsOpen}
-                    onRequestClose={closeModal}
+                    isOpen={modalIsOpenRegister}
+                    onRequestClose={closeModalRegister}
                     style={customStyles}
                     contentLabel="Example Modal"
+                    ariaHideApp={false}
                   >
                     <div className="modal__container">
                       <div className="modal__container-close">
-                        <button onClick={closeModal}>
+                        <button onClick={closeModalRegister}>
                           <GrClose />
                         </button>
                       </div>
                       <div className="modal__header">
                         <h2 className="modal__header-title">
-                          {partner === undefined
-                            ? "Adicionar Empresa Parceira"
-                            : "Dados da Empresa Parceira"}
+                          Adicionar Empresa Parceira
                         </h2>
                       </div>
-                      <form className="forms">
+                      <form onSubmit={registerPartner} className="forms">
                         <div className="modal__body">
                           <div className="modal__description">
                             <div className="modal__description-input">
                               <Input
                                 type="text"
                                 placeholder="Nome fantasia"
-                                defaultValue={partner?.fantasyName}
+                                value={register.fantasyName}
+                                onChange={change}
                               />
                               <Input
                                 type="text"
                                 placeholder="Razão Social"
-                                defaultValue={partner?.companyName}
+                                value={register.companyName}
+                                onChange={change}
                               />
                               <Input
                                 type="text"
                                 placeholder="CNPJ"
-                                defaultValue={partner?.cnpj}
+                                value={register.cnpj}
+                                onChange={change}
                               />
                               <Input
                                 type="text"
                                 placeholder="Inscrição Estadual"
-                                defaultValue={partner?.stateRegistration}
+                                value={register.stateRegistration}
+                                onChange={change}
                               />
                             </div>
 
                             <div className="modal__image">
-                              <input
-                                type="file"
-                                className="modal__image-file"
-                                name="myfile"
-                              />
-                              <GrImage color="red" size="120px" />
+                              <label
+                                className={preview ? "active" : ""}
+                                style={{
+                                  backgroundImage: `url(${preview})`,
+                                }}
+                              >
+                                <input
+                                  type="file"
+                                  className="modal__image-file"
+                                  name="myfile"
+                                  onChange={(event) =>
+                                    setImage(event.target.files[0])
+                                  }
+                                />
+                                <GrImage color="red" size="120px" />
+                              </label>
                             </div>
                           </div>
 
@@ -133,22 +215,25 @@ export function CompanyPartner() {
                             <Input
                               type="text"
                               placeholder="CEP"
-                              defaultValue={partner?.cep}
+                              value={register.cep}
+                              onChange={change}
                             />
-                            <Button color="ligth">Consultar</Button>
+                            <Button color="light">Consultar</Button>
                           </div>
 
                           <div className="modal__address">
                             <Input
                               type="text"
                               placeholder="Endereço"
-                              defaultValue={partner?.address}
+                              value={register.address}
+                              onChange={change}
                               disabled
                             />
                             <Input
                               type="text"
                               placeholder="Complemento"
-                              defaultValue={partner?.complement}
+                              value={register.complement}
+                              onChange={change}
                               disabled
                             />
                           </div>
@@ -157,19 +242,22 @@ export function CompanyPartner() {
                             <Input
                               type="text"
                               placeholder="Bairro"
-                              defaultValue={partner?.district}
+                              value={register.district}
+                              onChange={change}
                               disabled
                             />
                             <Input
                               type="text"
                               placeholder="Cidade"
-                              defaultValue={partner?.city}
+                              value={register.city}
+                              onChange={change}
                               disabled
                             />
                             <Input
                               type="text"
                               placeholder="Estado"
-                              defaultValue={partner?.uf}
+                              value={register.uf}
+                              onChange={change}
                               disabled
                             />
                           </div>
@@ -178,49 +266,51 @@ export function CompanyPartner() {
                             <Input
                               type="text"
                               placeholder="Responsável"
-                              defaultValue={partner?.responsible}
+                              value={register.responsible}
+                              onChange={change}
                             />
                             <Input
                               type="text"
                               placeholder="Celular"
-                              defaultValue={partner?.phone1}
+                              value={register.phone1}
+                              onChange={change}
                             />
                             <Input
                               type="text"
                               placeholder="Telefone"
-                              defaultValue={partner?.phone2}
+                              value={register.phone2}
+                              onChange={change}
                             />
                             <Input
                               type="text"
                               placeholder="Telefone 2"
-                              defaultValue={partner?.phone3}
+                              value={register.phone3}
+                              onChange={change}
                             />
                             <Input
                               type="text"
                               placeholder="E-mail"
-                              defaultValue={partner?.email}
+                              value={register.email}
+                              onChange={change}
                             />
                             <Input
                               type="text"
                               placeholder="Site"
-                              defaultValue={partner?.website}
+                              value={register.website}
+                              onChange={change}
                             />
                           </div>
 
                           <div className="modal__buttons">
-                            <Button color="ligth">Cancelar</Button>
-                            <Button color="primary">
-                              {partner === undefined
-                                ? "Cadastrar Parceiro"
-                                : "Editar Parceiro"}
-                            </Button>
+                            <Button color="light">Cancelar</Button>
+                            <Button color="primary">Cadastrar Parceiro</Button>
                           </div>
                         </div>
                       </form>
                     </div>
                   </Modal>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
           <div className="col-md-12">
@@ -242,22 +332,159 @@ export function CompanyPartner() {
                           <li className="item">
                             Responsável: {partner.responsible}
                           </li>
-                          <li className="item">Status: Ativo</li>
+                          <li className="item">
+                            Status: {partner.deletedAt ? "inativo" : "ativo"}
+                          </li>
                         </ul>
                         <div className="company__body-buttons">
-                          <Button
-                            color="primary"
-                            onClick={() => infoPartner(partner.id)}
-                          >
+                          <Button onClick={() => infoPartner(partner.id)}>
                             Informações
                           </Button>
-                          <Button color="primary" className="btn">
-                            Desabilitar
+                          <Button
+                            color={partner.deletedAt ? "success" : "disabled"}
+                            className="btn"
+                          >
+                            {partner.deletedAt ? "Habilitar" : "Desabilitar"}
                           </Button>
                         </div>
                       </div>
                     </div>
                   ))}
+                <Modal
+                  isOpen={modalIsOpenData}
+                  onRequestClose={closeModalData}
+                  style={customStyles}
+                  contentLabel="Example Modal"
+                  ariaHideApp={false}
+                >
+                  <div className="modal__container">
+                    <div className="modal__container-close">
+                      <button onClick={closeModalData}>
+                        <GrClose />
+                      </button>
+                    </div>
+                    <div className="modal__header">
+                      <h2 className="modal__header-title">
+                        Dados da Empresa Parceira
+                      </h2>
+                    </div>
+                    <form className="forms">
+                      <div className="modal__body">
+                        <div className="modal__description">
+                          <div className="modal__description-input">
+                            <Input
+                              type="text"
+                              placeholder="Nome fantasia"
+                              defaultValue={partner?.fantasyName}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Razão Social"
+                              defaultValue={partner?.companyName}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="CNPJ"
+                              defaultValue={partner?.cnpj}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Inscrição Estadual"
+                              defaultValue={partner?.stateRegistration}
+                            />
+                          </div>
+
+                          <div className="modal__image">
+                            <img src={partner?.image} />
+                          </div>
+                        </div>
+
+                        <div className="modal__cep">
+                          <Input
+                            type="text"
+                            placeholder="CEP"
+                            defaultValue={partner?.cep}
+                          />
+                          <Button color="light">Consultar</Button>
+                        </div>
+
+                        <div className="modal__address">
+                          <Input
+                            type="text"
+                            placeholder="Endereço"
+                            defaultValue={partner?.address}
+                            disabled
+                          />
+                          <Input
+                            type="text"
+                            placeholder="Complemento"
+                            defaultValue={partner?.complement}
+                            disabled
+                          />
+                        </div>
+
+                        <div className="modal__address">
+                          <Input
+                            type="text"
+                            placeholder="Bairro"
+                            defaultValue={partner?.district}
+                            disabled
+                          />
+                          <Input
+                            type="text"
+                            placeholder="Cidade"
+                            defaultValue={partner?.city}
+                            disabled
+                          />
+                          <Input
+                            type="text"
+                            placeholder="Estado"
+                            defaultValue={partner?.uf}
+                            disabled
+                          />
+                        </div>
+
+                        <div className="modal__responsible">
+                          <Input
+                            type="text"
+                            placeholder="Responsável"
+                            defaultValue={partner?.responsible}
+                          />
+                          <Input
+                            type="text"
+                            placeholder="Celular"
+                            defaultValue={partner?.phone1}
+                          />
+                          <Input
+                            type="text"
+                            placeholder="Telefone"
+                            defaultValue={partner?.phone2}
+                          />
+                          <Input
+                            type="text"
+                            placeholder="Telefone 2"
+                            defaultValue={partner?.phone3}
+                          />
+                          <Input
+                            type="text"
+                            placeholder="E-mail"
+                            defaultValue={partner?.email}
+                          />
+                          <Input
+                            type="text"
+                            placeholder="Site"
+                            defaultValue={partner?.website}
+                          />
+                        </div>
+
+                        <div className="modal__buttons">
+                          <Button color="light">Cancelar</Button>
+                          <Button color="primary">Cadastrar Parceiro</Button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </Modal>
               </div>
             </div>
           </div>
@@ -266,3 +493,4 @@ export function CompanyPartner() {
     </>
   );
 }
+export default CompanyPartner;

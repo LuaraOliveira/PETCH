@@ -154,6 +154,7 @@ function Ongs() {
                     onRequestClose={closeModalRegister}
                     style={customStyles}
                     contentLabel="Example Modal Register"
+                    ariaHideApp={false}
                   >
                     <div className="modal__container">
                       <div className="modal__container-close">
@@ -207,9 +208,9 @@ function Ongs() {
                             </div>
                             <div className="modal__image">
                               <label
+                                className={preview ? "active" : ""}
                                 style={{
                                   backgroundImage: `url(${preview})`,
-                                  width: 500,
                                 }}
                               >
                                 <input
@@ -233,7 +234,7 @@ function Ongs() {
                               value={register.cep}
                               onChange={change}
                             />
-                            <Button color="ligth" onClick={searchCep}>
+                            <Button color="light" onClick={searchCep}>
                               Consultar
                             </Button>
                           </div>
@@ -277,7 +278,12 @@ function Ongs() {
                           </div>
 
                           <div className="modal__buttons">
-                            <Button color="ligth">Cancelar</Button>
+                            <Button
+                              color="light"
+                              onRequestClose={closeModalRegister}
+                            >
+                              Cancelar
+                            </Button>
                             <Button color="primary">Cadastrar</Button>
                           </div>
                         </div>
@@ -318,132 +324,6 @@ function Ongs() {
                           >
                             Informações
                           </Button>
-                          <Modal
-                            isOpen={modalIsOpenData}
-                            onRequestClose={closeModalData}
-                            style={customStyles}
-                            contentLabel="Example Modal Data"
-                          >
-                            <div className="modal__container">
-                              <div className="modal__container-close">
-                                <button onClick={closeModalData}>
-                                  <GrClose />
-                                </button>
-                              </div>
-                              <div className="modal__header">
-                                <h2 className="modal__header-title">
-                                  Dados da ONG
-                                </h2>
-                              </div>
-                              <form className="forms">
-                                <div className="modal__body">
-                                  <div className="modal__description">
-                                    <div className="modal__description-input">
-                                      <Input
-                                        type="text"
-                                        placeholder="Nome"
-                                        name="name"
-                                        defaultValue={ong?.name}
-                                      />
-                                      <Input
-                                        type="text"
-                                        placeholder="Email"
-                                        name="email"
-                                        defaultValue={ong?.email}
-                                      />
-
-                                      <Input
-                                        type="text"
-                                        placeholder="Responsável"
-                                        name="responsible"
-                                        defaultValue={ong?.responsible}
-                                      />
-                                      <Input
-                                        type="text"
-                                        placeholder="Telefone"
-                                        name="phone1"
-                                        defaultValue={ong?.phone1}
-                                      />
-                                      <Input
-                                        type="text"
-                                        placeholder="Abrangência"
-                                        name="coverage"
-                                        defaultValue={ong?.coverage}
-                                      />
-                                    </div>
-                                    <div className="modal__image">
-                                      <label
-                                        style={{
-                                          // backgroundImage: `url(${preview})`,
-                                          width: 500,
-                                        }}
-                                      >
-                                        <input
-                                          type="file"
-                                          className="modal__image-file"
-                                          name="myfile"
-                                        />
-                                        <GrImage color="red" size="120px" />
-                                      </label>
-                                    </div>
-                                  </div>
-
-                                  <div className="modal__cep">
-                                    <Input
-                                      type="text"
-                                      placeholder="CEP"
-                                      name="cep"
-                                      defaultValue={ong?.cep}
-                                    />
-                                    <Button color="ligth">Consultar</Button>
-                                  </div>
-                                  <div className="modal__address">
-                                    <Input
-                                      type="text"
-                                      placeholder="Endereço"
-                                      disabled
-                                      name="address"
-                                      defaultValue={ong?.address}
-                                    />
-                                    <Input
-                                      type="text"
-                                      placeholder="Complemento"
-                                      defaultValue={ong?.complement}
-                                    />
-                                  </div>
-
-                                  <div className="modal__address">
-                                    <Input
-                                      type="text"
-                                      placeholder="Bairro"
-                                      disabled
-                                      name="district"
-                                      defaultValue={ong?.district}
-                                    />
-                                    <Input
-                                      type="text"
-                                      placeholder="Cidade"
-                                      disabled
-                                      name="city"
-                                      defaultValue={ong?.city}
-                                    />
-                                    <Input
-                                      type="text"
-                                      placeholder="Estado"
-                                      disabled
-                                      name="uf"
-                                      defaultValue={ong?.uf}
-                                    />
-                                  </div>
-
-                                  <div className="modal__buttons">
-                                    <Button color="ligth">Cancelar</Button>
-                                    <Button color="primary">Editar</Button>
-                                  </div>
-                                </div>
-                              </form>
-                            </div>
-                          </Modal>
                           <Button color="primary" className="btn">
                             Desativar
                           </Button>
@@ -451,6 +331,119 @@ function Ongs() {
                       </div>
                     </div>
                   ))}
+                <Modal
+                  isOpen={modalIsOpenData}
+                  onRequestClose={closeModalData}
+                  style={customStyles}
+                  contentLabel="Example Modal Data"
+                  ariaHideApp={false}
+                >
+                  <div className="modal__container">
+                    <div className="modal__container-close">
+                      <button onClick={closeModalData}>
+                        <GrClose />
+                      </button>
+                    </div>
+                    <div className="modal__header">
+                      <h2 className="modal__header-title">Dados da ONG</h2>
+                    </div>
+                    <form className="forms">
+                      <div className="modal__body">
+                        <div className="modal__description">
+                          <div className="modal__description-input">
+                            <Input
+                              type="text"
+                              placeholder="Nome"
+                              name="name"
+                              defaultValue={ong?.name}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Email"
+                              name="email"
+                              defaultValue={ong?.email}
+                            />
+
+                            <Input
+                              type="text"
+                              placeholder="Responsável"
+                              name="responsible"
+                              defaultValue={ong?.responsible}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Telefone"
+                              name="phone1"
+                              defaultValue={ong?.phone1}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Abrangência"
+                              name="coverage"
+                              defaultValue={ong?.coverage}
+                            />
+                          </div>
+                          <div className="modal__image">
+                            <img src={ong?.image} />
+                          </div>
+                        </div>
+
+                        <div className="modal__cep">
+                          <Input
+                            type="text"
+                            placeholder="CEP"
+                            name="cep"
+                            defaultValue={ong?.cep}
+                          />
+                          <Button color="light">Consultar</Button>
+                        </div>
+                        <div className="modal__address">
+                          <Input
+                            type="text"
+                            placeholder="Endereço"
+                            disabled
+                            name="address"
+                            defaultValue={ong?.address}
+                          />
+                          <Input
+                            type="text"
+                            placeholder="Complemento"
+                            defaultValue={ong?.complement}
+                          />
+                        </div>
+
+                        <div className="modal__address">
+                          <Input
+                            type="text"
+                            placeholder="Bairro"
+                            disabled
+                            name="district"
+                            defaultValue={ong?.district}
+                          />
+                          <Input
+                            type="text"
+                            placeholder="Cidade"
+                            disabled
+                            name="city"
+                            defaultValue={ong?.city}
+                          />
+                          <Input
+                            type="text"
+                            placeholder="Estado"
+                            disabled
+                            name="uf"
+                            defaultValue={ong?.uf}
+                          />
+                        </div>
+
+                        <div className="modal__buttons">
+                          <Button color="light">Cancelar</Button>
+                          <Button color="primary">Editar</Button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </Modal>
               </div>
             </div>
           </div>

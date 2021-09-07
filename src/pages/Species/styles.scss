@@ -1,4 +1,5 @@
 #species {
+  padding-bottom: 64px;
   .species {
     &__create {
       padding: 16px;
@@ -208,8 +209,27 @@
   }
 
   &__image {
+    width: 400px;
+    height: 300px;
     &-file {
       display: none;
+    }
+
+    label {
+      width: 400px;
+      height: 300px;
+      object-fit: cover;
+
+      &.active {
+        svg {
+          display: none;
+        }
+      }
+
+      svg {
+        width: 100%;
+        height: 100%;
+      }
     }
   }
 

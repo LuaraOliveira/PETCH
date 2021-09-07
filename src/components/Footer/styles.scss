@@ -5,7 +5,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
+  position: absolute;
+  bottom: 0;
   &___content {
     display: flex;
     justify-content: center;

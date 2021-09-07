@@ -6,7 +6,7 @@ import iconSad from "../../assets/icons/icon_sad.svg";
 import iconDog from "../../assets/icons/icon_dog.svg";
 import iconHouse from "../../assets/icons/icon_home.svg";
 import { Button } from "../../components/Button";
-export function Dashboard() {
+function Dashboard() {
   return (
     <>
       <section className="container" id="dashboard">
@@ -194,3 +194,4 @@ export function Dashboard() {
     </>
   );
 }
+export default Dashboard;

@@ -2,7 +2,7 @@ import { Breadcrumb } from "../../components/Breadcrumb";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../components/Button";
 import { Select } from "../../components/Select";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import api from "../../services/api";
 import Modal from "react-modal";
 import { Input } from "../../components/Input";
@@ -17,9 +17,23 @@ function Gifts() {
 
   const [gifts, setGifts] = useState([]);
   const [gift, setGift] = useState(undefined);
+  const [image, setImage] = useState(null);
+  const preview = useMemo(() => {
+    return image ? URL.createObjectURL(image) : null;
+  }, [image]);
+  const [register, setRegister] = useState({
+    name: "",
+    size: "",
+    color: "",
+    weight: "",
+    taste: "",
+    description: "",
+  });
 
   useEffect(() => {
-    api.get("/gifts").then((response) => setGifts(response.data));
+    api
+      .get("/gifts?inactives=true")
+      .then((response) => setGifts(response.data));
   }, []);
 
   const customStyles = {
@@ -40,28 +54,66 @@ function Gifts() {
     },
   };
 
-  const [modalIsOpen, setIsOpen] = useState(false);
+  const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
+  const [modalIsOpenData, setIsOpenData] = useState(false);
 
-  function openModal(event) {
+  function openModalRegister(event) {
     event.preventDefault();
-    setIsOpen(true);
+    setIsOpenRegister(true);
   }
 
-  function closeModal(event) {
+  function closeModalRegister(event) {
     event.preventDefault();
-    setIsOpen(false);
+    setIsOpenRegister(false);
     setGift(undefined);
+  }
+
+  function openModalData(event) {
+    event.preventDefault();
+    setIsOpenData(true);
+  }
+
+  function closeModalData(event) {
+    event.preventDefault();
+    setIsOpenData(false);
+    setGift(undefined);
+    setImage(null);
+  }
+
+  async function registerGift(event) {
+    event.preventDefault();
+    try {
+      const instanceForm = new FormData();
+      instanceForm.append("name", register.name);
+      instanceForm.append("size", register.size);
+      instanceForm.append("color", register.color);
+      instanceForm.append("weight", register.weight);
+      instanceForm.append("description", register.description);
+      instanceForm.append("taste", register.taste);
+      instanceForm.append("media", image);
+      const response = await api.post("/gifts", instanceForm);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response);
+    }
   }
 
   async function infoGift(id) {
     try {
       const response = await api.get(`/gifts/${id}`);
       setGift(response.data);
-      setIsOpen(true);
+      setIsOpenData(true);
       console.log(response);
     } catch (error) {
       console.log(error.response);
     }
+  }
+
+  function change(event) {
+    setRegister({
+      ...register,
+      [event.target.name]: event.target.value,
+    });
   }
   return (
     <>
@@ -72,37 +124,37 @@ function Gifts() {
           </div>
           <div className="col-md-12">
             <div className="gifts__create">
-              <form className="gifts__forms">
+              <div className="gifts__forms">
                 <p className="gifts__forms-title">Criar novo brinde</p>
                 <div className="gifts__forms-content">
-                  <Button onClick={openModal}>Adicionar brinde</Button>
+                  <Button onClick={openModalRegister}>Adicionar brinde</Button>
                   <Modal
-                    isOpen={modalIsOpen}
-                    onRequestClose={closeModal}
+                    isOpen={modalIsOpenRegister}
+                    onRequestClose={closeModalRegister}
                     style={customStyles}
                     contentLabel="Example Modal"
+                    ariaHideApp={false}
                   >
                     <div className="modal__container">
                       <div className="modal__container-close">
-                        <button onClick={closeModal}>
+                        <button onClick={closeModalRegister}>
                           <GrClose />
                         </button>
                       </div>
                       <div className="modal__header">
                         <h2 className="modal__header-title">
-                          {gift === undefined
-                            ? " Adicionar Novo Brinde"
-                            : "Dados do Brinde"}
+                          Adicionar Novo Brinde
                         </h2>
                       </div>
-                      <form className="forms">
+                      <form onSubmit={registerGift} className="forms">
                         <div className="modal__body">
                           <div className="modal__description">
                             <div className="modal__description-input">
                               <Input
                                 type="text"
                                 placeholder="Nome do Brinde"
-                                defaultValue={gift?.name}
+                                value={register.name}
+                                onChange={change}
                               />
                               <label className="label" for="coverage">
                                 Descrição
@@ -112,17 +164,28 @@ function Gifts() {
                                 id="coverage"
                                 rows="3"
                                 cols="20"
-                                defaultValue={gift?.description}
+                                value={register.description}
+                                onChange={change}
                               />
                             </div>
 
                             <div className="modal__image">
-                              <input
-                                type="file"
-                                className="modal__image-file"
-                                name="myfile"
-                              />
-                              <GrImage color="red" size="120px" />
+                              <label
+                                className={preview ? "active" : ""}
+                                style={{
+                                  backgroundImage: `url(${preview})`,
+                                }}
+                              >
+                                <input
+                                  type="file"
+                                  className="modal__image-file"
+                                  name="myfile"
+                                  onChange={(event) =>
+                                    setImage(event.target.files[0])
+                                  }
+                                />
+                                <GrImage color="red" size="120px" />
+                              </label>
                             </div>
                           </div>
 
@@ -130,17 +193,20 @@ function Gifts() {
                             <Input
                               type="text"
                               placeholder="Cor"
-                              defaultValue={gift?.color}
+                              value={register.color}
+                              onChange={change}
                             />
                             <Input
                               type="text"
                               placeholder="Tamanho"
-                              defaultValue={gift?.size}
+                              value={register.size}
+                              onChange={change}
                             />
                             <Input
                               type="text"
                               placeholder="Peso"
-                              defaultValue={gift?.weight}
+                              value={register.weight}
+                              onChange={change}
                             />
                           </div>
 
@@ -153,19 +219,15 @@ function Gifts() {
                           </div>
 
                           <div className="modal__buttons">
-                            <Button color="ligth">Cancelar</Button>
-                            <Button color="primary">
-                              {gift === undefined
-                                ? "Cadastrar Brinde"
-                                : "Editar Brinde"}
-                            </Button>
+                            <Button color="light">Cancelar</Button>
+                            <Button color="primary">Cadastrar Brinde</Button>
                           </div>
                         </div>
                       </form>
                     </div>
                   </Modal>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
           <div className="col-md-12">
@@ -193,10 +255,7 @@ function Gifts() {
                           </li> */}
                         </ul>
                         <div className="gifts__body-buttons">
-                          <Button
-                            color="primary"
-                            onClick={() => infoGift(gift.id)}
-                          >
+                          <Button onClick={() => infoGift(gift.id)}>
                             Informações
                           </Button>
                           <Button color="primary" className="btn">
@@ -206,6 +265,87 @@ function Gifts() {
                       </div>
                     </div>
                   ))}
+                <Modal
+                  isOpen={modalIsOpenData}
+                  onRequestClose={closeModalData}
+                  style={customStyles}
+                  contentLabel="Example Modal"
+                  ariaHideApp={false}
+                >
+                  <div className="modal__container">
+                    <div className="modal__container-close">
+                      <button onClick={closeModalData}>
+                        <GrClose />
+                      </button>
+                    </div>
+                    <div className="modal__header">
+                      <h2 className="modal__header-title">Dados do Brinde</h2>
+                    </div>
+                    <form className="forms">
+                      <div className="modal__body">
+                        <div className="modal__description">
+                          <div className="modal__description-input">
+                            <Input
+                              type="text"
+                              placeholder="Nome do Brinde"
+                              defaultValue={gift?.name}
+                            />
+                            <label className="label" for="description">
+                              Descrição
+                            </label>
+
+                            <textarea
+                              id="description"
+                              rows="3"
+                              cols="20"
+                              defaultValue={gift?.description}
+                            />
+                          </div>
+
+                          <div className="modal__image">
+                            <img src={gift?.image} />
+                          </div>
+                        </div>
+
+                        <div className="modal__address">
+                          <Input
+                            type="text"
+                            placeholder="Cor"
+                            defaultValue={gift?.color}
+                          />
+                          <Input
+                            type="text"
+                            placeholder="Tamanho"
+                            defaultValue={gift?.size}
+                          />
+                          <Input
+                            type="text"
+                            placeholder="Peso"
+                            defaultValue={gift?.weight}
+                          />
+                        </div>
+
+                        <div className="modal__textarea">
+                          <label className="label" for="coverage">
+                            Abrangência
+                          </label>
+
+                          <textarea
+                            id="coverage"
+                            rows="3"
+                            cols="20"
+                            defaultValue={gift?.coverage}
+                          />
+                        </div>
+
+                        <div className="modal__buttons">
+                          <Button color="light">Cancelar</Button>
+                          <Button color="primary">Cadastrar Brinde</Button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </Modal>
               </div>
             </div>
           </div>

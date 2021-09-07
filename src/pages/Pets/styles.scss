@@ -1,4 +1,5 @@
 #pets {
+  padding-bottom: 64px;
   .pets {
     &__create {
       padding: 16px;
@@ -285,6 +286,17 @@
     &-file {
       display: none;
     }
+
+    label {
+      width: 500px;
+      height: 300px;
+      object-fit: cover;
+      &.active {
+        svg {
+          display: none;
+        }
+      }
+    }
   }
 
   &__cep {
@@ -355,6 +367,6 @@
   &__buttons {
     display: flex;
     gap: 16px;
-    margin-top: 32px;
+    margin-top: 230px;
   }
 }
