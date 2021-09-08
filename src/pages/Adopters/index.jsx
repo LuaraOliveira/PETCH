@@ -1,7 +1,6 @@
 import { Breadcrumb } from "../../components/Breadcrumb";
-import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../components/Button";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import api from "../../services/api";
 import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
@@ -14,24 +13,6 @@ function Adopters() {
 
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState(undefined);
-  const [image, setImage] = useState(null);
-  const preview = useMemo(() => {
-    return image ? URL.createObjectURL(image) : null;
-  }, [image]);
-  const [register, setRegister] = useState({
-    name: "",
-    email: "",
-    cpf: "",
-    birthday: "",
-    gender: "",
-    cep: "",
-    address: "",
-    district: "",
-    complement: "",
-    city: "",
-    uf: "",
-    phone: "",
-  });
 
   useEffect(() => {
     api
@@ -58,11 +39,6 @@ function Adopters() {
   };
   const [modalIsOpenData, setIsOpenData] = useState(false);
 
-  function openModalData(event) {
-    event.preventDefault();
-    setIsOpenData(true);
-  }
-
   function closeModalData(event) {
     event.preventDefault();
     setIsOpenData(false);
@@ -78,36 +54,6 @@ function Adopters() {
     } catch (error) {
       console.log(error.response);
     }
-  }
-  async function registerUser(event) {
-    event.preventDefault();
-    try {
-      const instanceForm = new FormData();
-      instanceForm.append("name ", register.name);
-      instanceForm.append("email ", register.email);
-      instanceForm.append("cpf", register.cpf);
-      instanceForm.append("birthday", register.birthday);
-      instanceForm.append("gender", register.gender);
-      instanceForm.append("cep", register.cep);
-      instanceForm.append("address", register.address);
-      instanceForm.append("district", register.district);
-      instanceForm.append("complement", register.complement);
-      instanceForm.append("city", register.city);
-      instanceForm.append("uf", register.uf);
-      instanceForm.append("phone", register.phone);
-      instanceForm.append("media", image);
-      const response = await api.post("/users", instanceForm);
-      console.log(response.data);
-    } catch (error) {
-      console.log(error.response);
-    }
-  }
-
-  function change(event) {
-    setRegister({
-      ...register,
-      [event.target.name]: event.target.value,
-    });
   }
 
   async function deleteUser(id) {

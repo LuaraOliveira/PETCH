@@ -1,8 +1,8 @@
 import { BsEyeSlash } from "react-icons/bs";
-import { useState } from "react";
+import { useState, forwardRef } from "react";
 import { BsEye } from "react-icons/bs";
 
-export function Input({ password, ...rest }) {
+export const Input = forwardRef(({ password, ...rest }, ref) => {
   const [type, setType] = useState("password");
 
   function ChangeIcons(value) {
@@ -11,7 +11,7 @@ export function Input({ password, ...rest }) {
 
   return password === true ? (
     <div className="form-group">
-      <input {...rest} type={type} className="form-group__input " />
+      <input ref={ref} {...rest} type={type} className="form-group__input " />
 
       {type === "password" ? (
         <BsEye onClick={() => ChangeIcons("text")} />
@@ -21,7 +21,7 @@ export function Input({ password, ...rest }) {
     </div>
   ) : (
     <div className="form-group">
-      <input {...rest} className="form-group__input" />
+      <input ref={ref} {...rest} className="form-group__input" />
     </div>
   );
-}
+});

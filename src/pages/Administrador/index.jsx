@@ -2,24 +2,29 @@ import { Breadcrumb } from "../../components/Breadcrumb";
 import { Input } from "../../components/Input";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../components/Button";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import api from "../../services/api";
 import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
-
+import axios from "axios";
 function Administrador() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Administrador" },
   ];
 
+  const address = useRef(null);
+  const district = useRef(null);
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState(undefined);
   const [image, setImage] = useState(null);
+  const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
+
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
+
   const [register, setRegister] = useState({
     name: "",
     email: "",
@@ -33,6 +38,7 @@ function Administrador() {
     city: "",
     uf: "",
     phone: "",
+    number: "",
   });
 
   useEffect(() => {
@@ -59,8 +65,6 @@ function Administrador() {
     },
   };
 
-  const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
-
   function openModalRegister(event) {
     event.preventDefault();
     setIsOpenRegister(true);
@@ -70,17 +74,6 @@ function Administrador() {
     event.preventDefault();
     setIsOpenRegister(false);
     setUser(undefined);
-  }
-
-  async function infoUser(id) {
-    try {
-      const response = await api.get(`/users/${id}`);
-      setUser(response.data);
-      setIsOpenRegister(true);
-      console.log(response);
-    } catch (error) {
-      console.log(error.response);
-    }
   }
 
   async function registerUser(event) {
@@ -93,7 +86,7 @@ function Administrador() {
       instanceForm.append("birthday", register.birthday);
       instanceForm.append("gender", register.gender);
       instanceForm.append("cep", register.cep);
-      instanceForm.append("address", register.address);
+      instanceForm.append("address", `${register.address},${register.number}`);
       instanceForm.append("district", register.district);
       instanceForm.append("complement", register.complement);
       instanceForm.append("city", register.city);
@@ -105,6 +98,27 @@ function Administrador() {
     } catch (error) {
       console.log(error.response);
     }
+  }
+
+  async function searchCep(event) {
+    event.preventDefault();
+    const apiCep = `https://viacep.com.br/ws/${register.cep}/json/`;
+    const response = await axios.get(apiCep);
+    const { logradouro, localidade, uf, bairro } = response.data;
+    setRegister({
+      ...register,
+      address: logradouro,
+      city: localidade,
+      district: bairro,
+      uf,
+    });
+    !address.current?.value
+      ? address.current?.removeAttribute("disabled")
+      : address.current?.setAttribute("disabled", "false");
+
+    !district.current?.value
+      ? district.current?.removeAttribute("disabled")
+      : district.current?.setAttribute("disabled", "false");
   }
 
   function change(event) {
@@ -157,18 +171,42 @@ function Administrador() {
                                 placeholder="Nome"
                                 value={register.name}
                                 onChange={change}
+                                name="name"
                               />
                               <Input
                                 type="text"
                                 placeholder="Email"
                                 value={register.email}
                                 onChange={change}
+                                name="email"
                               />
                               <Input
                                 type="text"
                                 placeholder="Telefone"
                                 value={register.phone}
                                 onChange={change}
+                                name="phone"
+                              />
+                              <Input
+                                type="text"
+                                placeholder="Data de Nascimento"
+                                value={register.birthday}
+                                onChange={change}
+                                name="birthday"
+                              />
+                              <Input
+                                type="text"
+                                placeholder="Gênero"
+                                value={register.gender}
+                                onChange={change}
+                                name="gender"
+                              />
+                              <Input
+                                type="text"
+                                placeholder="CPF"
+                                value={register.cpf}
+                                onChange={change}
+                                name="cpf"
                               />
                             </div>
 
@@ -192,50 +230,41 @@ function Administrador() {
                             </div>
                           </div>
 
-                          <div className="modal__genre">
-                            <Input
-                              type="text"
-                              placeholder="Data de Nascimento"
-                              value={register.birthday}
-                              onChange={change}
-                            />
-                            <Input
-                              type="text"
-                              placeholder="Gênero"
-                              value={register.gender}
-                              onChange={change}
-                            />
-                            <Input
-                              type="text"
-                              placeholder="CPF"
-                              value={register.cpf}
-                              onChange={change}
-                            />
-                          </div>
-
                           <div className="modal__cep">
                             <Input
                               type="text"
                               placeholder="CEP"
                               value={register.cep}
                               onChange={change}
+                              name="cep"
                             />
-                            <Button color="light">Consultar</Button>
+                            <Button color="light" onClick={searchCep}>
+                              Consultar
+                            </Button>
                           </div>
                           <div className="modal__address">
                             <Input
                               type="text"
                               placeholder="Endereço"
                               value={register.address}
+                              ref={address}
                               onChange={change}
                               disabled
+                              name="address"
                             />
                             <Input
                               type="text"
                               placeholder="Complemento"
                               value={register.complement}
                               onChange={change}
-                              disabled
+                              name="complement"
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Número"
+                              value={register.number}
+                              onChange={change}
+                              name="number"
                             />
                           </div>
 
@@ -244,8 +273,10 @@ function Administrador() {
                               type="text"
                               placeholder="Bairro"
                               disabled
+                              ref={district}
                               value={register.district}
                               onChange={change}
+                              name="district"
                             />
                             <Input
                               type="text"
@@ -253,6 +284,7 @@ function Administrador() {
                               disabled
                               value={register.city}
                               onChange={change}
+                              name="city"
                             />
                             <Input
                               type="text"
@@ -260,6 +292,7 @@ function Administrador() {
                               disabled
                               value={register.uf}
                               onChange={change}
+                              name="uf"
                             />
                           </div>
 

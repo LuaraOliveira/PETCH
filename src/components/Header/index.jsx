@@ -1,6 +1,6 @@
 import { FaUserCircle } from "react-icons/fa";
 import { Button } from "../../components/Button";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import logo from "../../assets/logo/logo.svg";

@@ -1,7 +1,6 @@
 import { Breadcrumb } from "../../components/Breadcrumb";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../components/Button";
-import { Select } from "../../components/Select";
 import { useState, useEffect, useMemo } from "react";
 import api from "../../services/api";
 import Modal from "react-modal";
@@ -156,15 +155,22 @@ function Gifts() {
                                 value={register.name}
                                 onChange={change}
                               />
-                              <label className="label" for="coverage">
-                                Descrição
-                              </label>
-
-                              <textarea
-                                id="coverage"
-                                rows="3"
-                                cols="20"
-                                value={register.description}
+                              <Input
+                                type="text"
+                                placeholder="Cor"
+                                value={register.color}
+                                onChange={change}
+                              />
+                              <Input
+                                type="text"
+                                placeholder="Tamanho"
+                                value={register.size}
+                                onChange={change}
+                              />
+                              <Input
+                                type="text"
+                                placeholder="Peso"
+                                value={register.weight}
                                 onChange={change}
                               />
                             </div>
@@ -188,24 +194,16 @@ function Gifts() {
                               </label>
                             </div>
                           </div>
+                          <div className="modal__textarea">
+                            <label className="label" for="coverage">
+                              Descrição
+                            </label>
 
-                          <div className="modal__address">
-                            <Input
-                              type="text"
-                              placeholder="Cor"
-                              value={register.color}
-                              onChange={change}
-                            />
-                            <Input
-                              type="text"
-                              placeholder="Tamanho"
-                              value={register.size}
-                              onChange={change}
-                            />
-                            <Input
-                              type="text"
-                              placeholder="Peso"
-                              value={register.weight}
+                            <textarea
+                              id="coverage"
+                              rows="3"
+                              cols="20"
+                              value={register.description}
                               onChange={change}
                             />
                           </div>
@@ -290,15 +288,20 @@ function Gifts() {
                               placeholder="Nome do Brinde"
                               defaultValue={gift?.name}
                             />
-                            <label className="label" for="description">
-                              Descrição
-                            </label>
-
-                            <textarea
-                              id="description"
-                              rows="3"
-                              cols="20"
-                              defaultValue={gift?.description}
+                            <Input
+                              type="text"
+                              placeholder="Cor"
+                              defaultValue={gift?.color}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Tamanho"
+                              defaultValue={gift?.size}
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Peso"
+                              defaultValue={gift?.weight}
                             />
                           </div>
 
@@ -307,21 +310,16 @@ function Gifts() {
                           </div>
                         </div>
 
-                        <div className="modal__address">
-                          <Input
-                            type="text"
-                            placeholder="Cor"
-                            defaultValue={gift?.color}
-                          />
-                          <Input
-                            type="text"
-                            placeholder="Tamanho"
-                            defaultValue={gift?.size}
-                          />
-                          <Input
-                            type="text"
-                            placeholder="Peso"
-                            defaultValue={gift?.weight}
+                        <div className="modal__textarea">
+                          <label className="label" for="description">
+                            Descrição
+                          </label>
+
+                          <textarea
+                            id="description"
+                            rows="3"
+                            cols="20"
+                            defaultValue={gift?.description}
                           />
                         </div>
 

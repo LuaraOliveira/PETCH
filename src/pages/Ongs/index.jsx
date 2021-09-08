@@ -1,7 +1,7 @@
 import { Breadcrumb } from "../../components/Breadcrumb";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../components/Button";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import api from "../../services/api";
 import Modal from "react-modal";
 import { Input } from "../../components/Input";
@@ -14,7 +14,8 @@ function Ongs() {
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "ONGs" },
   ];
-
+  const address = useRef(null);
+  const district = useRef(null);
   const [ongs, setOngs] = useState([]);
   const [ong, setOng] = useState(undefined);
   const [image, setImage] = useState(null);
@@ -26,6 +27,8 @@ function Ongs() {
     email: "",
     responsible: "",
     phone1: "",
+    complement: "",
+    number: "",
     cep: "",
     address: "",
     district: "",
@@ -68,11 +71,6 @@ function Ongs() {
     event.preventDefault();
     setIsOpenRegister(false);
     setOng(undefined);
-  }
-
-  function openModalData(event) {
-    event.preventDefault();
-    setIsOpenData(true);
   }
 
   function closeModalData(event) {
@@ -126,9 +124,14 @@ function Ongs() {
       district: bairro,
       uf,
     });
-    console.log(response);
-  }
+    !address.current?.value
+      ? address.current?.removeAttribute("disabled")
+      : address.current?.setAttribute("disabled", "false");
 
+    !district.current?.value
+      ? district.current?.removeAttribute("disabled")
+      : district.current?.setAttribute("disabled", "false");
+  }
   function change(event) {
     setRegister({
       ...register,
@@ -246,8 +249,22 @@ function Ongs() {
                               name="address"
                               value={register.address}
                               onChange={change}
+                              ref={address}
                             />
-                            <Input type="text" placeholder="Complemento" />
+                            <Input
+                              type="text"
+                              placeholder="Complemento"
+                              value={register.complement}
+                              onChange={change}
+                              name="complement"
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Numero"
+                              value={register.number}
+                              onChange={change}
+                              name="number"
+                            />
                           </div>
 
                           <div className="modal__address">
@@ -258,6 +275,7 @@ function Ongs() {
                               name="district"
                               value={register.district}
                               onChange={change}
+                              ref={district}
                             />
                             <Input
                               type="text"
@@ -395,7 +413,9 @@ function Ongs() {
                             name="cep"
                             defaultValue={ong?.cep}
                           />
-                          <Button color="light">Consultar</Button>
+                          <Button color="light" onClick={searchCep}>
+                            Consultar
+                          </Button>
                         </div>
                         <div className="modal__address">
                           <Input
@@ -409,6 +429,11 @@ function Ongs() {
                             type="text"
                             placeholder="Complemento"
                             defaultValue={ong?.complement}
+                          />
+                          <Input
+                            type="text"
+                            placeholder="Número"
+                            defaultValue={ong?.number}
                           />
                         </div>
 

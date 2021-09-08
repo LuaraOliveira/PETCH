@@ -1,24 +1,31 @@
 import { Breadcrumb } from "../../components/Breadcrumb";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../components/Button";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import api from "../../services/api";
 import Modal from "react-modal";
 import { Input } from "../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
+import axios from "axios";
 function CompanyPartner() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Empresas Parceiras" },
   ];
 
+  const address = useRef(null);
+  const district = useRef(null);
   const [partners, setPartners] = useState([]);
   const [partner, setPartner] = useState(undefined);
   const [image, setImage] = useState(null);
+  const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
+  const [modalIsOpenData, setIsOpenData] = useState(false);
+
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
+
   const [register, setRegister] = useState({
     fantasyName: "",
     companyName: "",
@@ -27,6 +34,7 @@ function CompanyPartner() {
     cep: "",
     address: "",
     complement: "",
+    number: "",
     district: "",
     city: "",
     uf: "",
@@ -60,8 +68,6 @@ function CompanyPartner() {
       backgroundColor: "rgba(0, 0, 0, 0.84)",
     },
   };
-  const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
-  const [modalIsOpenData, setIsOpenData] = useState(false);
 
   function openModalRegister(event) {
     event.preventDefault();
@@ -72,11 +78,6 @@ function CompanyPartner() {
     event.preventDefault();
     setIsOpenRegister(false);
     setPartner(undefined);
-  }
-
-  function openModalData(event) {
-    event.preventDefault();
-    setIsOpenData(true);
   }
 
   function closeModalData(event) {
@@ -105,7 +106,7 @@ function CompanyPartner() {
       instanceForm.append("cnpj", register.cnpj);
       instanceForm.append("stateRegistration", register.stateRegistration);
       instanceForm.append("cep", register.cep);
-      instanceForm.append("address", register.address);
+      instanceForm.append("address", `${register.address},${register.number}`);
       instanceForm.append("complement", register.complement);
       instanceForm.append("district", register.district);
       instanceForm.append("city", register.city);
@@ -122,6 +123,27 @@ function CompanyPartner() {
     } catch (error) {
       console.log(error.response);
     }
+  }
+
+  async function searchCep(event) {
+    event.preventDefault();
+    const apiCep = `https://viacep.com.br/ws/${register.cep}/json/`;
+    const response = await axios.get(apiCep);
+    const { logradouro, localidade, uf, bairro } = response.data;
+    setRegister({
+      ...register,
+      address: logradouro,
+      city: localidade,
+      district: bairro,
+      uf,
+    });
+    !address.current?.value
+      ? address.current?.removeAttribute("disabled")
+      : address.current?.setAttribute("disabled", "false");
+
+    !district.current?.value
+      ? district.current?.removeAttribute("disabled")
+      : district.current?.setAttribute("disabled", "false");
   }
 
   function change(event) {
@@ -170,24 +192,28 @@ function CompanyPartner() {
                                 placeholder="Nome fantasia"
                                 value={register.fantasyName}
                                 onChange={change}
+                                name="fantasyName"
                               />
                               <Input
                                 type="text"
                                 placeholder="Razão Social"
                                 value={register.companyName}
                                 onChange={change}
+                                name="companyName"
                               />
                               <Input
                                 type="text"
                                 placeholder="CNPJ"
                                 value={register.cnpj}
                                 onChange={change}
+                                name="cnpj"
                               />
                               <Input
                                 type="text"
                                 placeholder="Inscrição Estadual"
                                 value={register.stateRegistration}
                                 onChange={change}
+                                name="stateRegistration"
                               />
                             </div>
 
@@ -217,8 +243,11 @@ function CompanyPartner() {
                               placeholder="CEP"
                               value={register.cep}
                               onChange={change}
+                              name="cep"
                             />
-                            <Button color="light">Consultar</Button>
+                            <Button color="light" onClick={searchCep}>
+                              Consultar
+                            </Button>
                           </div>
 
                           <div className="modal__address">
@@ -227,14 +256,23 @@ function CompanyPartner() {
                               placeholder="Endereço"
                               value={register.address}
                               onChange={change}
+                              ref={address}
                               disabled
+                              name="address"
                             />
                             <Input
                               type="text"
                               placeholder="Complemento"
                               value={register.complement}
                               onChange={change}
-                              disabled
+                              name="complement"
+                            />
+                            <Input
+                              type="text"
+                              placeholder="Número"
+                              value={register.number}
+                              onChange={change}
+                              name="number"
                             />
                           </div>
 
@@ -243,8 +281,10 @@ function CompanyPartner() {
                               type="text"
                               placeholder="Bairro"
                               value={register.district}
+                              ref={district}
                               onChange={change}
                               disabled
+                              name="district"
                             />
                             <Input
                               type="text"
@@ -252,6 +292,7 @@ function CompanyPartner() {
                               value={register.city}
                               onChange={change}
                               disabled
+                              name="city"
                             />
                             <Input
                               type="text"
@@ -259,6 +300,7 @@ function CompanyPartner() {
                               value={register.uf}
                               onChange={change}
                               disabled
+                              name="uf"
                             />
                           </div>
 
@@ -268,36 +310,42 @@ function CompanyPartner() {
                               placeholder="Responsável"
                               value={register.responsible}
                               onChange={change}
+                              name="responsible"
                             />
                             <Input
                               type="text"
                               placeholder="Celular"
                               value={register.phone1}
                               onChange={change}
+                              name="phone1"
                             />
                             <Input
                               type="text"
                               placeholder="Telefone"
                               value={register.phone2}
                               onChange={change}
+                              name="phone2"
                             />
                             <Input
                               type="text"
                               placeholder="Telefone 2"
                               value={register.phone3}
                               onChange={change}
+                              name="phone3"
                             />
                             <Input
                               type="text"
                               placeholder="E-mail"
                               value={register.email}
                               onChange={change}
+                              name="email"
                             />
                             <Input
                               type="text"
                               placeholder="Site"
                               value={register.website}
                               onChange={change}
+                              name="website"
                             />
                           </div>
 
@@ -419,6 +467,12 @@ function CompanyPartner() {
                             type="text"
                             placeholder="Complemento"
                             defaultValue={partner?.complement}
+                            disabled
+                          />
+                          <Input
+                            type="text"
+                            placeholder="Número"
+                            defaultValue={partner?.number}
                             disabled
                           />
                         </div>
