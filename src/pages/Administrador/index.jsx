@@ -151,6 +151,7 @@ function Administrador() {
                     style={customStyles}
                     contentLabel="Example Modal"
                     portalClassName="admin"
+                    ariaHideApp={false}
                   >
                     <div className="modal__container">
                       <div className="modal__container-close">

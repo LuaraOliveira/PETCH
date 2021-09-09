@@ -285,7 +285,10 @@ function Species() {
                         <div className="modal__species">
                           {specie?.sizes &&
                             specie?.sizes.map((specie) => (
-                              <div className="modal__species-container">
+                              <div
+                                key={specie.id}
+                                className="modal__species-container"
+                              >
                                 <Input
                                   type="text"
                                   placeholder="Descrição"

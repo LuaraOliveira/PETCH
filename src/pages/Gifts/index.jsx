@@ -27,6 +27,7 @@ function Gifts() {
     weight: "",
     taste: "",
     description: "",
+    coverage: "",
   });
 
   useEffect(() => {
@@ -83,6 +84,7 @@ function Gifts() {
       instanceForm.append("color", register.color);
       instanceForm.append("weight", register.weight);
       instanceForm.append("description", register.description);
+      instanceForm.append("coverage", register.coverage);
       instanceForm.append("taste", register.taste);
       instanceForm.append("media", image);
       const response = await api.post("/gifts", instanceForm);
@@ -150,24 +152,28 @@ function Gifts() {
                                 placeholder="Nome do Brinde"
                                 value={register.name}
                                 onChange={change}
+                                name="name"
                               />
                               <Input
                                 type="text"
                                 placeholder="Cor"
                                 value={register.color}
                                 onChange={change}
+                                name="color"
                               />
                               <Input
                                 type="text"
                                 placeholder="Tamanho"
                                 value={register.size}
                                 onChange={change}
+                                name="size"
                               />
                               <Input
                                 type="text"
                                 placeholder="Peso"
                                 value={register.weight}
                                 onChange={change}
+                                name="weight"
                               />
                             </div>
 
@@ -201,6 +207,7 @@ function Gifts() {
                               cols="20"
                               value={register.description}
                               onChange={change}
+                              name="description"
                             />
                           </div>
 
@@ -209,7 +216,14 @@ function Gifts() {
                               Abrangência
                             </label>
 
-                            <textarea id="coverage" rows="3" cols="20" />
+                            <textarea
+                              id="coverage"
+                              rows="3"
+                              cols="20"
+                              value={register.coverage}
+                              onChange={change}
+                              name="coverage"
+                            />
                           </div>
 
                           <div className="modal__buttons">
