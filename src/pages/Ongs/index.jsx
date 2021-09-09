@@ -158,6 +158,7 @@ function Ongs() {
                     style={customStyles}
                     contentLabel="Example Modal Register"
                     ariaHideApp={false}
+                    portalClassName="ong"
                   >
                     <div className="modal__container">
                       <div className="modal__container-close">
@@ -355,6 +356,7 @@ function Ongs() {
                   style={customStyles}
                   contentLabel="Example Modal Data"
                   ariaHideApp={false}
+                  portalClassName="ong"
                 >
                   <div className="modal__container">
                     <div className="modal__container-close">
@@ -402,7 +404,7 @@ function Ongs() {
                             />
                           </div>
                           <div className="modal__image">
-                            <img src={ong?.image} />
+                            <img src={ong?.image} alt="avatar" />
                           </div>
                         </div>
 
@@ -422,6 +424,7 @@ function Ongs() {
                             type="text"
                             placeholder="Endereço"
                             disabled
+                            ref={address}
                             name="address"
                             defaultValue={ong?.address}
                           />
@@ -443,6 +446,7 @@ function Ongs() {
                             placeholder="Bairro"
                             disabled
                             name="district"
+                            ref={district}
                             defaultValue={ong?.district}
                           />
                           <Input

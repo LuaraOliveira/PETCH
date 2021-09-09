@@ -80,8 +80,8 @@ function Administrador() {
     event.preventDefault();
     try {
       const instanceForm = new FormData();
-      instanceForm.append("name ", register.name);
-      instanceForm.append("email ", register.email);
+      instanceForm.append("name", register.name);
+      instanceForm.append("email", register.email);
       instanceForm.append("cpf", register.cpf);
       instanceForm.append("birthday", register.birthday);
       instanceForm.append("gender", register.gender);
@@ -150,6 +150,7 @@ function Administrador() {
                     onRequestClose={closeModalRegister}
                     style={customStyles}
                     contentLabel="Example Modal"
+                    portalClassName="admin"
                   >
                     <div className="modal__container">
                       <div className="modal__container-close">

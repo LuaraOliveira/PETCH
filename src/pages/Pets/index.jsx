@@ -66,11 +66,6 @@ function Pets() {
     setPet(undefined);
   }
 
-  function openModalData(event) {
-    event.preventDefault();
-    setIsOpenData(true);
-  }
-
   function closeModalData(event) {
     event.preventDefault();
     setIsOpenData(false);
@@ -107,6 +102,7 @@ function Pets() {
                     style={customStyles}
                     contentLabel="Example Modal Register"
                     ariaHideApp={false}
+                    portalClassName="pet"
                   >
                     <div className="modal__container">
                       <div className="modal__container-close">
@@ -289,6 +285,7 @@ function Pets() {
                   style={customStyles}
                   contentLabel="Example Modal Data"
                   ariaHideApp={false}
+                  portalClassName="pet"
                 >
                   <div className="modal__container">
                     <div className="modal__container-close">

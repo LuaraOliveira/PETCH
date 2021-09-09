@@ -65,11 +65,6 @@ function Species() {
     setSpecie(undefined);
   }
 
-  function openModalData(event) {
-    event.preventDefault();
-    setIsOpenData(true);
-  }
-
   function closeModalData(event) {
     event.preventDefault();
     setIsOpenData(false);
@@ -129,6 +124,7 @@ function Species() {
                     style={customStyles}
                     contentLabel="Example Modal Register"
                     ariaHideApp={false}
+                    portalClassName="species"
                   >
                     <div className="modal__container">
                       <div className="modal__container-close">
@@ -260,6 +256,7 @@ function Species() {
                   style={customStyles}
                   contentLabel="Example Modal Register"
                   ariaHideApp={false}
+                  portalClassName="species"
                 >
                   <div className="modal__container">
                     <div className="modal__container-close">
@@ -274,7 +271,7 @@ function Species() {
                       <div className="modal__body">
                         <div className="modal__description center">
                           <div className="modal__image">
-                            <img src={specie?.image} />
+                            <img src={specie?.image} alt="avatar" />
                           </div>
                         </div>
 

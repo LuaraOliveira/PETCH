@@ -116,257 +116,259 @@
   }
 }
 
-.modal {
-  &__body {
-    overflow: auto;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    height: 500px;
-
-    @media only screen and (min-width: 992px) {
-      overflow: hidden;
-      height: 100%;
-    }
-  }
-  &__container {
-    &-close {
-      position: absolute;
-      right: 20px;
-      top: 10px;
-    }
-  }
-
-  &__image {
-    &-list {
-      list-style: none;
-      width: 100%;
-      padding-left: 0;
-      height: 200px;
+.pet {
+  .modal {
+    &__body {
       overflow: auto;
       -ms-overflow-style: none;
       scrollbar-width: none;
-    }
-    &-container {
-      display: flex;
-      margin-bottom: 16px;
-      gap: 16px;
+      height: 500px;
 
-      svg {
-        width: 200px;
-        height: 40px;
+      @media only screen and (min-width: 992px) {
+        overflow: hidden;
+        height: 100%;
       }
     }
-  }
-
-  &__header {
-    &-title {
-      font-size: 1.2rem;
-      color: #000000;
-      font-weight: normal;
-    }
-  }
-
-  &__description {
-    display: flex;
-    gap: 32px;
-    margin-bottom: 32px;
-    flex-wrap: wrap;
-
-    @media only screen and (min-width: 992px) {
-      flex-wrap: nowrap;
+    &__container {
+      &-close {
+        position: absolute;
+        right: 20px;
+        top: 10px;
+      }
     }
 
-    &-ong {
-      display: flex;
-      gap: 16px;
-
-      .form-group {
+    &__image {
+      &-list {
+        list-style: none;
         width: 100%;
+        padding-left: 0;
+        height: 200px;
+        overflow: auto;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+      &-container {
+        display: flex;
+        margin-bottom: 16px;
+        gap: 16px;
+
+        svg {
+          width: 200px;
+          height: 40px;
+        }
       }
     }
 
-    &-castration {
+    &__header {
       &-title {
+        font-size: 1.2rem;
+        color: #000000;
+        font-weight: normal;
+      }
+    }
+
+    &__description {
+      display: flex;
+      gap: 32px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+
+      @media only screen and (min-width: 992px) {
+        flex-wrap: nowrap;
+      }
+
+      &-ong {
+        display: flex;
+        gap: 16px;
+
+        .form-group {
+          width: 100%;
+        }
+      }
+
+      &-castration {
+        &-title {
+          margin-bottom: 0;
+          color: $black;
+          font-size: 1rem;
+        }
+
+        &-radio {
+          display: flex;
+          align-items: center;
+          gap: 42px;
+        }
+      }
+
+      &-weigth {
+        display: flex;
+        gap: 16px;
+      }
+
+      &-age {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        flex-wrap: wrap;
+        @media only screen and (min-width: 992px) {
+          flex-wrap: nowrap;
+        }
+        .form-group {
+          width: 100%;
+          @media only screen and (min-width: 992px) {
+            width: 30%;
+          }
+        }
+      }
+
+      &-input {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 16px;
+      }
+
+      &.center {
+        justify-content: center;
+      }
+    }
+
+    &__pets {
+      border: 1px solid $gray4;
+      padding: 16px;
+
+      .label {
         margin-bottom: 0;
         color: $black;
         font-size: 1rem;
       }
 
-      &-radio {
+      &-container {
         display: flex;
-        align-items: center;
-        gap: 42px;
+        width: 100%;
+        gap: 16px;
+        flex-wrap: wrap;
+        @media only screen and (min-width: 992px) {
+          flex-wrap: nowrap;
+          margin-bottom: 16px;
+        }
+        .form-group {
+          width: 100%;
+        }
+        .c-button {
+          @media only screen and (min-width: 992px) {
+            max-width: 76px;
+          }
+        }
+      }
+
+      &-title {
+        margin-bottom: 0;
+        color: $black;
+        margin-top: 32px;
+        margin-bottom: 8px;
+      }
+
+      &-description {
+        display: flex;
+        width: 100%;
+        gap: 16px;
+        flex-wrap: wrap;
+        @media only screen and (min-width: 992px) {
+          flex-wrap: nowrap;
+        }
+        .form-group {
+          width: 100%;
+        }
+      }
+    }
+    &__image {
+      width: 700px;
+      &-file {
+        display: none;
+      }
+
+      label {
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        &.active {
+          svg {
+            display: none;
+          }
+        }
       }
     }
 
-    &-weigth {
+    &__cep {
+      width: 100%;
       display: flex;
+      grid-gap: 16px;
       gap: 16px;
-    }
-
-    &-age {
-      display: flex;
-      gap: 16px;
-      align-items: center;
       flex-wrap: wrap;
+
       @media only screen and (min-width: 992px) {
         flex-wrap: nowrap;
       }
+
       .form-group {
         width: 100%;
         @media only screen and (min-width: 992px) {
           width: 30%;
         }
       }
-    }
 
-    &-input {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      gap: 16px;
-    }
-
-    &.center {
-      justify-content: center;
-    }
-  }
-
-  &__pets {
-    border: 1px solid $gray4;
-    padding: 16px;
-
-    .label {
-      margin-bottom: 0;
-      color: $black;
-      font-size: 1rem;
-    }
-
-    &-container {
-      display: flex;
-      width: 100%;
-      gap: 16px;
-      flex-wrap: wrap;
-      @media only screen and (min-width: 992px) {
-        flex-wrap: nowrap;
-        margin-bottom: 16px;
-      }
-      .form-group {
-        width: 100%;
-      }
       .c-button {
         @media only screen and (min-width: 992px) {
-          max-width: 76px;
+          max-width: 200px;
         }
       }
     }
 
-    &-title {
-      margin-bottom: 0;
-      color: $black;
-      margin-top: 32px;
-      margin-bottom: 8px;
-    }
-
-    &-description {
+    &__address {
       display: flex;
-      width: 100%;
       gap: 16px;
+      width: 100%;
       flex-wrap: wrap;
+
       @media only screen and (min-width: 992px) {
         flex-wrap: nowrap;
       }
+
       .form-group {
         width: 100%;
       }
     }
-  }
 
-  &__image {
-    &-file {
-      display: none;
-    }
+    &__responsible {
+      display: flex;
+      padding: 32px 0;
+      flex-wrap: wrap;
+      width: 100%;
 
-    label {
-      width: 500px;
-      height: 300px;
-      object-fit: cover;
-      &.active {
-        svg {
-          display: none;
+      input:first-child {
+        margin-top: 32px;
+      }
+
+      input:last-child {
+        margin-top: 16px;
+      }
+
+      .form-group {
+        width: 100%;
+        padding-right: 0px;
+
+        @media only screen and (min-width: 992px) {
+          width: 50%;
+          padding-right: 8px;
         }
       }
     }
-  }
 
-  &__cep {
-    width: 100%;
-    display: flex;
-    grid-gap: 16px;
-    gap: 16px;
-    flex-wrap: wrap;
-
-    @media only screen and (min-width: 992px) {
-      flex-wrap: nowrap;
+    &__buttons {
+      display: flex;
+      gap: 16px;
+      margin-top: 230px;
     }
-
-    .form-group {
-      width: 100%;
-      @media only screen and (min-width: 992px) {
-        width: 30%;
-      }
-    }
-
-    .c-button {
-      @media only screen and (min-width: 992px) {
-        max-width: 200px;
-      }
-    }
-  }
-
-  &__address {
-    display: flex;
-    gap: 16px;
-    width: 100%;
-    flex-wrap: wrap;
-
-    @media only screen and (min-width: 992px) {
-      flex-wrap: nowrap;
-    }
-
-    .form-group {
-      width: 100%;
-    }
-  }
-
-  &__responsible {
-    display: flex;
-    padding: 32px 0;
-    flex-wrap: wrap;
-    width: 100%;
-
-    input:first-child {
-      margin-top: 32px;
-    }
-
-    input:last-child {
-      margin-top: 16px;
-    }
-
-    .form-group {
-      width: 100%;
-      padding-right: 0px;
-
-      @media only screen and (min-width: 992px) {
-        width: 50%;
-        padding-right: 8px;
-      }
-    }
-  }
-
-  &__buttons {
-    display: flex;
-    gap: 16px;
-    margin-top: 230px;
   }
 }

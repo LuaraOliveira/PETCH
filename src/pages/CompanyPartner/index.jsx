@@ -171,6 +171,7 @@ function CompanyPartner() {
                     style={customStyles}
                     contentLabel="Example Modal"
                     ariaHideApp={false}
+                    portalClassName="companyPartner"
                   >
                     <div className="modal__container">
                       <div className="modal__container-close">
@@ -404,6 +405,7 @@ function CompanyPartner() {
                   style={customStyles}
                   contentLabel="Example Modal"
                   ariaHideApp={false}
+                  portalClassName="companyPartner"
                 >
                   <div className="modal__container">
                     <div className="modal__container-close">
@@ -443,7 +445,7 @@ function CompanyPartner() {
                           </div>
 
                           <div className="modal__image">
-                            <img src={partner?.image} />
+                            <img src={partner?.image} alt="avatar" />
                           </div>
                         </div>
 

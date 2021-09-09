@@ -67,11 +67,6 @@ function Gifts() {
     setGift(undefined);
   }
 
-  function openModalData(event) {
-    event.preventDefault();
-    setIsOpenData(true);
-  }
-
   function closeModalData(event) {
     event.preventDefault();
     setIsOpenData(false);
@@ -133,6 +128,7 @@ function Gifts() {
                     style={customStyles}
                     contentLabel="Example Modal"
                     ariaHideApp={false}
+                    portalClassName="gift"
                   >
                     <div className="modal__container">
                       <div className="modal__container-close">
@@ -195,7 +191,7 @@ function Gifts() {
                             </div>
                           </div>
                           <div className="modal__textarea">
-                            <label className="label" for="coverage">
+                            <label className="label" htmlFor="coverage">
                               Descrição
                             </label>
 
@@ -209,7 +205,7 @@ function Gifts() {
                           </div>
 
                           <div className="modal__textarea">
-                            <label className="label" for="coverage">
+                            <label className="label" htmlFor="coverage">
                               Abrangência
                             </label>
 
@@ -269,6 +265,7 @@ function Gifts() {
                   style={customStyles}
                   contentLabel="Example Modal"
                   ariaHideApp={false}
+                  portalClassName="gift"
                 >
                   <div className="modal__container">
                     <div className="modal__container-close">
@@ -306,12 +303,12 @@ function Gifts() {
                           </div>
 
                           <div className="modal__image">
-                            <img src={gift?.image} />
+                            <img src={gift?.image} alt="avatar" />
                           </div>
                         </div>
 
                         <div className="modal__textarea">
-                          <label className="label" for="description">
+                          <label className="label" htmlFor="description">
                             Descrição
                           </label>
 
@@ -324,7 +321,7 @@ function Gifts() {
                         </div>
 
                         <div className="modal__textarea">
-                          <label className="label" for="coverage">
+                          <label className="label" htmlFor="coverage">
                             Abrangência
                           </label>
 

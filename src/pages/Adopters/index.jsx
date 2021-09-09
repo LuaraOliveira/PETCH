@@ -81,7 +81,7 @@ function Adopters() {
                   users.map((user) => (
                     <div key={user.id} className="adopters__body-container">
                       <div className="adopters__body-image">
-                        <img src={user.avatar} />
+                        <img src={user.avatar} alt="avatar" />
                       </div>
                       <div className="adopters__body-info">
                         <ul className="adopters__body-list">
@@ -113,6 +113,7 @@ function Adopters() {
                   style={customStyles}
                   contentLabel="Example Modal"
                   ariaHideApp={false}
+                  portalClassName="adopter"
                 >
                   <div className="modal__container">
                     <div className="modal__container-close">

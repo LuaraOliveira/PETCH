@@ -6,6 +6,7 @@ import logo from "../../assets/logo/logo.svg";
 import { Button } from "../../components/Button";
 import { Input } from "../../components/Input";
 import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -61,9 +62,9 @@ function Login() {
                 onChange={(e) => setPassword(e.target.value)}
               />
 
-              <a href="#" className="login__forms-link">
+              <Link to="/" className="login__forms-link">
                 Esqueceu seu acesso?
-              </a>
+              </Link>
               <Button color="primary" onClick={login}>
                 Entrar
               </Button>
