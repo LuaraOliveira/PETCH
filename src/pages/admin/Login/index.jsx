@@ -1,7 +1,6 @@
-import { GoogleLogin } from "react-google-login";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../../services/api";
-import { isLogin } from "../../../services/auth";
+import { isLogin, setRole, getRole } from "../../../services/auth";
 import logo from "../../../assets/logo/logo.svg";
 import { Button } from "../../../components/Button";
 import { Input } from "../../../components/Input";
@@ -11,29 +10,25 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
-
+  useEffect(() => {
+    if (getRole() !== undefined) {
+      if (getRole()?.toLowerCase() === "Adotante") {
+        return history.push("/dashboard");
+      }
+      if (getRole()?.toLowerCase() === "Admin") {
+        return history.push("/admin/dashboard");
+      }
+    }
+  }, []);
   async function login(e) {
     e.preventDefault();
     try {
       const response = await api.post("/auth/login", { email, password });
       isLogin(response.data.token);
-      history.push("/dashboard");
-    } catch (error) {
-      console.log(error.response);
-    }
-  }
-
-  async function AccessLogin(param) {
-    const { name, email, googleId, imageUrl: avatar } = param.profileObj;
-
-    try {
-      const response = await api.post("/auth/login/google", {
-        name,
-        email,
-        googleId,
-        avatar,
-      });
-      console.log(response);
+      setRole(response.data.role);
+      response.data.role === "Admin"
+        ? history.push("/admin/dashboard")
+        : history.push("/dashboard");
     } catch (error) {
       console.log(error.response);
     }
@@ -68,11 +63,6 @@ function Login() {
               <Button color="primary" onClick={login}>
                 Entrar
               </Button>
-
-              <GoogleLogin
-                clientId={process.env.REACT_APP_GOOGLE_CLOUD_SECURITY_ID}
-                onSuccess={AccessLogin}
-              />
             </form>
           </div>
         </div>

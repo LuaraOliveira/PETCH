@@ -25,6 +25,13 @@ export function Routes() {
           component={LoginAdopter}
         />
         <Route
+          path="/dashboard"
+          hasFooter={false}
+          exact
+          hasHeader={false}
+          component={() => <h1>Hello World</h1>}
+        />
+        <Route
           path="/admin/Login"
           hasFooter={false}
           exact

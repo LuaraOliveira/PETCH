@@ -2,6 +2,7 @@ import { FaUserCircle } from "react-icons/fa";
 import { Button } from "../../components/Button";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import { isLogout } from "../../services/auth";
 import { AiFillCloseCircle } from "react-icons/ai";
 import logo from "../../assets/logo/logo.svg";
 export function Header() {
@@ -59,7 +60,7 @@ export function Header() {
               <p className="header__user-title">Olá, Luara.</p>
             </div>
             <div className="header__info-exit">
-              <Button color="primary" className="btn">
+              <Button color="primary" className="btn" onClick={isLogout}>
                 Sair
               </Button>
             </div>

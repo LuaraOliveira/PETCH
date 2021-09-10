@@ -1,33 +1,26 @@
 .loginAdopter {
-  height: 100vh;
+  min-height: 100vh;
+  background-image: url("../../../assets/background/bg_left.png"),
+    linear-gradient(#ff7854, #fd267d);
+  background-position: 100% 50%;
   width: 100%;
-  background: rgb(255, 120, 84);
-  background: -moz-linear-gradient(
-    180deg,
-    rgba(255, 120, 84, 1) 8%,
-    rgba(253, 38, 125, 1) 57%
-  );
-  background: -webkit-linear-gradient(
-    180deg,
-    rgba(255, 120, 84, 1) 8%,
-    rgba(253, 38, 125, 1) 57%
-  );
-  background: linear-gradient(
-    180deg,
-    rgba(255, 120, 84, 1) 8%,
-    rgba(253, 38, 125, 1) 57%
-  );
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff7854",endColorstr="#fd267d",GradientType=1);
+  background-repeat: no-repeat;
+  position: relative;
+  &__image {
+    min-height: 100vh;
+    background-image: url("../../../assets/background/bg_right.png");
+    background-position: 3% 50%;
+    width: 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+  }
 
   &__container {
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    @media only screen and (min-width: 992px) {
-      height: 100vh;
-    }
   }
 
   &__content {
@@ -37,6 +30,7 @@
     flex-direction: column;
     width: 100%;
     padding-top: 20px;
+    z-index: 1;
   }
 
   &__header {
@@ -77,19 +71,14 @@
     .form-group {
       width: 100%;
       @media only screen and (min-width: 992px) {
-        width: 40%;
+        max-width: 425px;
       }
 
       &__input {
         background: $white;
         font-family: $baloo;
-        color: $gray6;
+        color: $gray2;
         border: 1px solid $white;
-
-        input::placeholder {
-          color: $gray6;
-          font-family: $baloo;
-        }
       }
     }
   }

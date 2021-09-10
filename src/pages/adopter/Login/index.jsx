@@ -1,9 +1,9 @@
 import logo from "../../../assets/logo/logo-white.png";
 import { Input } from "../../../components/Input";
 import api from "../../../services/api";
-import { isLogin } from "../../../services/auth";
+import { isLogin, setRole, getRole } from "../../../services/auth";
 import { Button } from "../../../components/Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { GoogleLogin } from "react-google-login";
@@ -11,13 +11,25 @@ function LoginAdopter() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
-
+  useEffect(() => {
+    if (getRole() !== undefined) {
+      if (getRole()?.toLowerCase() === "Adotante") {
+        return history.push("/dashboard");
+      }
+      if (getRole()?.toLowerCase() === "Admin") {
+        return history.push("/admin/dashboard");
+      }
+    }
+  }, []);
   async function login(e) {
     e.preventDefault();
     try {
       const response = await api.post("/auth/login", { email, password });
       isLogin(response.data.token);
-      history.push("/dashboard");
+      setRole(response.data.role);
+      response.data.role === "Admin"
+        ? history.push("/admin/dashboard")
+        : history.push("/dashboard");
     } catch (error) {
       console.log(error.response);
     }
@@ -33,7 +45,11 @@ function LoginAdopter() {
         googleId,
         avatar,
       });
-      console.log(response);
+      isLogin(response.data.token);
+      setRole(response.data.role);
+      response.data.role === "Admin"
+        ? history.push("/admin/dashboard")
+        : history.push("/dashboard");
     } catch (error) {
       console.log(error.response);
     }
@@ -42,6 +58,7 @@ function LoginAdopter() {
   return (
     <>
       <section className="loginAdopter">
+        <div className="loginAdopter__image"></div>
         <div className="loginAdopter__container">
           <div className="loginAdopter__content">
             <div className="loginAdopter__header">

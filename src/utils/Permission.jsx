@@ -1,13 +1,16 @@
 import { Redirect } from "react-router-dom";
-
-const Permission = (role) => (Component) => (props) => {
-  const rolerUser = "adotante";
-  //   if (!rolerUser) return;
-  return role.includes(rolerUser) ? (
-    <Component {...props} />
-  ) : (
-    <Redirect to="/" />
-  );
-};
+import { getRole } from "../services/auth";
+const Permission =
+  (role, redirect = "/") =>
+  (Component) =>
+  (props) => {
+    const rolerUser = getRole()?.toLowerCase();
+    if (!rolerUser) return <Redirect to={"/"} />;
+    return role.includes(rolerUser) ? (
+      <Component {...props} />
+    ) : (
+      <Redirect to={redirect} />
+    );
+  };
 
 export default Permission;

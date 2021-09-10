@@ -7,7 +7,7 @@ import Modal from "react-modal";
 import { Input } from "../../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
-// import Permission from "../../utils/Permission";
+import Permission from "../../../utils/Permission";
 function Gifts() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
@@ -364,6 +364,6 @@ function Gifts() {
   );
 }
 
-// export default Permission(["admin"])(Gifts); isso aqui serve para eu diferenciar o admin / adotante.
+export default Permission(["adotante"], "/admin/CompanyPartner")(Gifts);
 
-export default Gifts;
+// export default Gifts;
