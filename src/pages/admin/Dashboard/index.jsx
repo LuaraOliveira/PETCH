@@ -1,11 +1,11 @@
 import { GoAlert } from "react-icons/go";
-import iconVaccine from "../../assets/icons/icon_vaccine.svg";
-import iconMedication from "../../assets/icons/icon_medication.svg";
-import iconStar from "../../assets/icons/icon_star.svg";
-import iconSad from "../../assets/icons/icon_sad.svg";
-import iconDog from "../../assets/icons/icon_dog.svg";
-import iconHouse from "../../assets/icons/icon_home.svg";
-import { Button } from "../../components/Button";
+import iconVaccine from "../../../assets/icons/icon_vaccine.svg";
+import iconMedication from "../../../assets/icons/icon_medication.svg";
+import iconStar from "../../../assets/icons/icon_star.svg";
+import iconSad from "../../../assets/icons/icon_sad.svg";
+import iconDog from "../../../assets/icons/icon_dog.svg";
+import iconHouse from "../../../assets/icons/icon_home.svg";
+import { Button } from "../../../components/Button";
 function Dashboard() {
   return (
     <>

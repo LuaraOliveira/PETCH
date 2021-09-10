@@ -1,0 +1,140 @@
+.loginAdopter {
+  height: 100vh;
+  width: 100%;
+  background: rgb(255, 120, 84);
+  background: -moz-linear-gradient(
+    180deg,
+    rgba(255, 120, 84, 1) 8%,
+    rgba(253, 38, 125, 1) 57%
+  );
+  background: -webkit-linear-gradient(
+    180deg,
+    rgba(255, 120, 84, 1) 8%,
+    rgba(253, 38, 125, 1) 57%
+  );
+  background: linear-gradient(
+    180deg,
+    rgba(255, 120, 84, 1) 8%,
+    rgba(253, 38, 125, 1) 57%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#ff7854",endColorstr="#fd267d",GradientType=1);
+
+  &__container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @media only screen and (min-width: 992px) {
+      height: 100vh;
+    }
+  }
+
+  &__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 20px;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    img {
+      max-width: 150px;
+
+      @media only screen and (min-width: 992px) {
+        max-width: 272px;
+      }
+    }
+
+    &-title {
+      font-family: $baloo;
+      color: $white;
+      font-weight: 400;
+      font-size: 1.4rem;
+      margin: 16px 0;
+      text-align: center;
+    }
+  }
+
+  &__forms {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 16px;
+
+    @media only screen and (min-width: 992px) {
+      padding: 40px;
+    }
+    .form-group {
+      width: 100%;
+      @media only screen and (min-width: 992px) {
+        width: 40%;
+      }
+
+      &__input {
+        background: $white;
+        font-family: $baloo;
+        color: $gray6;
+        border: 1px solid $white;
+
+        input::placeholder {
+          color: $gray6;
+          font-family: $baloo;
+        }
+      }
+    }
+  }
+
+  &__outher {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-title {
+      font-family: $baloo;
+      color: $white;
+      font-weight: 400;
+      font-size: 1.4rem;
+      margin: 16px 8px;
+      text-align: center;
+    }
+    &-line {
+      width: 100px;
+      border: 0.1px solid $white;
+    }
+  }
+
+  &__google {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+
+    &-link {
+      font-family: $baloo;
+      color: $white;
+      font-weight: 400;
+      font-size: 1rem;
+      margin: 0;
+      text-align: center;
+    }
+  }
+
+  &__buttons {
+    .c-button {
+      width: 104px;
+      margin: 16px 0;
+    }
+  }
+}

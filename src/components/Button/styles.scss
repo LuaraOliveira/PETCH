@@ -99,10 +99,10 @@
     }
   }
 
-  &--success {
+  &--third {
     color: $white;
-    background: $status-success;
-    border: 1px solid $status-success;
+    background: $orange;
+    border: 1px solid $white;
 
     &:hover {
       filter: brightness(0.9);
@@ -123,6 +123,26 @@
     color: $white;
     background: $status-negative;
     border: 1px solid $status-negative;
+
+    &:hover {
+      filter: brightness(0.9);
+      color: $white;
+    }
+
+    &:disabled {
+      background: $gray-200;
+      color: $gray-100;
+
+      path {
+        fill: $gray-200;
+      }
+    }
+  }
+
+  &--success {
+    color: $white;
+    background: $status-success;
+    border: 1px solid $status-success;
 
     &:hover {
       filter: brightness(0.9);

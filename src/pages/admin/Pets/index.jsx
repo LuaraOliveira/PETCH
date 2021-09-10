@@ -1,14 +1,14 @@
-import { Breadcrumb } from "../../components/Breadcrumb";
+import { Breadcrumb } from "../../../components/Breadcrumb";
 import { BiUserCircle } from "react-icons/bi";
-import { Button } from "../../components/Button";
+import { Button } from "../../../components/Button";
 import { useState, useEffect, useMemo } from "react";
-import api from "../../services/api";
-import { Radio } from "../../components/Radio";
+import api from "../../../services/api";
+import { Radio } from "../../../components/Radio";
 import Modal from "react-modal";
-import { Input } from "../../components/Input";
+import { Input } from "../../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
-import { Select } from "../../components/Select";
+import { Select } from "../../../components/Select";
 function Pets() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },

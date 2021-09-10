@@ -9,12 +9,13 @@
 @import "../components/Select/styles";
 @import "../components/Radio/styles";
 //Pages
-@import "../pages/Login/styles";
-@import "../pages/Dashboard/styles";
-@import "../pages/Administrador/styles";
-@import "../pages/CompanyPartner/styles";
-@import "../pages/Gifts/styles";
-@import "../pages/Species/styles";
-@import "../pages/Pets/styles";
-@import "../pages/Adopters/styles";
-@import "../pages/Ongs/styles";
+@import "../pages/admin/Login/styles";
+@import "../pages/admin/Dashboard/styles";
+@import "../pages/admin/Administrador/styles";
+@import "../pages/admin/CompanyPartner/styles";
+@import "../pages/admin/Gifts/styles";
+@import "../pages/admin/Species/styles";
+@import "../pages/admin/Pets/styles";
+@import "../pages/admin/Adopters/styles";
+@import "../pages/admin/Ongs/styles";
+@import "../pages/adopter/Login/styles";

@@ -1,10 +1,10 @@
 import { GoogleLogin } from "react-google-login";
 import { useState } from "react";
-import api from "../../services/api";
-import { isLogin } from "../../services/auth";
-import logo from "../../assets/logo/logo.svg";
-import { Button } from "../../components/Button";
-import { Input } from "../../components/Input";
+import api from "../../../services/api";
+import { isLogin } from "../../../services/auth";
+import logo from "../../../assets/logo/logo.svg";
+import { Button } from "../../../components/Button";
+import { Input } from "../../../components/Input";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 function Login() {

@@ -1,7 +1,7 @@
-import { Breadcrumb } from "../../components/Breadcrumb";
-import { Button } from "../../components/Button";
+import { Breadcrumb } from "../../../components/Breadcrumb";
+import { Button } from "../../../components/Button";
 import { useState, useEffect } from "react";
-import api from "../../services/api";
+import api from "../../../services/api";
 import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
 

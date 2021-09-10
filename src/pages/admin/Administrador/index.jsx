@@ -1,9 +1,9 @@
-import { Breadcrumb } from "../../components/Breadcrumb";
-import { Input } from "../../components/Input";
+import { Breadcrumb } from "../../../components/Breadcrumb";
+import { Input } from "../../../components/Input";
 import { BiUserCircle } from "react-icons/bi";
-import { Button } from "../../components/Button";
+import { Button } from "../../../components/Button";
 import { useState, useEffect, useMemo, useRef } from "react";
-import api from "../../services/api";
+import api from "../../../services/api";
 import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";

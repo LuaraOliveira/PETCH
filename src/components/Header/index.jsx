@@ -28,18 +28,20 @@ export function Header() {
                   <AiFillCloseCircle onClick={() => setMenu(false)} />
                 </div>
                 <div className="menu__list-itens">
-                  <p onClick={() => changePage("/Administrador")}>
+                  <p onClick={() => changePage("/admin/Administrador")}>
                     Administradores
                   </p>
-                  <p onClick={() => changePage("/CompanyPartner")}>
+                  <p onClick={() => changePage("/admin/CompanyPartner")}>
                     Empresas Parceiras
                   </p>
-                  <p onClick={() => changePage("/Gifts")}>Brindes</p>
-                  <p onClick={() => changePage("/Species")}>Espécies</p>
-                  <p onClick={() => changePage("/Pets")}>Pets</p>
-                  <p onClick={() => changePage("/Adopters")}>Adotantes</p>
-                  <p onClick={() => changePage("/Ongs")}>ONGs</p>
-                  <p onClick={() => changePage("/Dashboard")}>Relatórios</p>
+                  <p onClick={() => changePage("/admin/Gifts")}>Brindes</p>
+                  <p onClick={() => changePage("/admin/Species")}>Espécies</p>
+                  <p onClick={() => changePage("/admin/Pets")}>Pets</p>
+                  <p onClick={() => changePage("/admin/Adopters")}>Adotantes</p>
+                  <p onClick={() => changePage("/admin/Ongs")}>ONGs</p>
+                  <p onClick={() => changePage("/admin/Dashboard")}>
+                    Relatórios
+                  </p>
                 </div>
               </div>
             </div>

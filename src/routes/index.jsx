@@ -1,14 +1,17 @@
 import { Switch } from "react-router-dom";
 import { Route } from "./Route";
-import Login from "../pages/Login";
-import Dashboard from "../pages/Dashboard";
-import Administrador from "../pages/Administrador";
-import CompanyPartner from "../pages/CompanyPartner";
-import Gifts from "../pages/Gifts";
-import Species from "../pages/Species";
-import Pets from "../pages/Pets";
-import Adopters from "../pages/Adopters";
-import Ongs from "../pages/Ongs";
+import Login from "../pages/admin/Login";
+import Dashboard from "../pages/admin/Dashboard";
+import Administrador from "../pages/admin/Administrador";
+import CompanyPartner from "../pages/admin/CompanyPartner";
+import Gifts from "../pages/admin/Gifts";
+import Species from "../pages/admin/Species";
+import Pets from "../pages/admin/Pets";
+import Adopters from "../pages/admin/Adopters";
+import Ongs from "../pages/admin/Ongs";
+
+//page adotantes
+import LoginAdopter from "../pages/adopter/Login";
 
 export function Routes() {
   return (
@@ -19,10 +22,17 @@ export function Routes() {
           hasFooter={false}
           exact
           hasHeader={false}
+          component={LoginAdopter}
+        />
+        <Route
+          path="/admin/Login"
+          hasFooter={false}
+          exact
+          hasHeader={false}
           component={Login}
         />
         <Route
-          path="/dashboard"
+          path="/admin/Dashboard"
           exact
           hasFooter={true}
           hasHeader={true}
@@ -30,7 +40,7 @@ export function Routes() {
         />
 
         <Route
-          path="/administrador"
+          path="/admin/Administrador"
           exact
           hasFooter={true}
           hasHeader={true}
@@ -38,7 +48,7 @@ export function Routes() {
         />
 
         <Route
-          path="/companyPartner"
+          path="/admin/CompanyPartner"
           exact
           hasFooter={true}
           hasHeader={true}
@@ -46,7 +56,7 @@ export function Routes() {
         />
 
         <Route
-          path="/gifts"
+          path="/admin/Gifts"
           exact
           hasFooter={true}
           hasHeader={true}
@@ -54,7 +64,7 @@ export function Routes() {
         />
 
         <Route
-          path="/species"
+          path="/admin/Species"
           exact
           hasFooter={true}
           hasHeader={true}
@@ -62,7 +72,7 @@ export function Routes() {
         />
 
         <Route
-          path="/pets"
+          path="/admin/Pets"
           exact
           hasFooter={true}
           hasHeader={true}
@@ -70,7 +80,7 @@ export function Routes() {
         />
 
         <Route
-          path="/adopters"
+          path="/admin/Adopters"
           exact
           hasFooter={true}
           hasHeader={true}
@@ -78,7 +88,7 @@ export function Routes() {
         />
 
         <Route
-          path="/ongs"
+          path="/admin/Ongs"
           exact
           hasFooter={true}
           hasHeader={true}
