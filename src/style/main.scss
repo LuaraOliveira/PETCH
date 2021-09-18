@@ -1,6 +1,7 @@
 @import "./global";
 
 //components
+@import "../components/HeaderAdopter/styles";
 @import "../components/Header/styles";
 @import "../components/Footer/styles";
 @import "../components/Breadcrumb/styles";
@@ -8,6 +9,8 @@
 @import "../components/Button/styles";
 @import "../components/Select/styles";
 @import "../components/Radio/styles";
+@import "../components/CardTinder/styles";
+@import "../components/CardTinderInfo/styles";
 //Pages
 @import "../pages/admin/Login/styles";
 @import "../pages/admin/Dashboard/styles";
@@ -19,3 +22,4 @@
 @import "../pages/admin/Adopters/styles";
 @import "../pages/admin/Ongs/styles";
 @import "../pages/adopter/Login/styles";
+@import "../pages/adopter/Dashboard/styles";

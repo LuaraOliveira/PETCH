@@ -1,22 +1,25 @@
 import { Breadcrumb } from "../../../components/Breadcrumb";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../../components/Button";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import api from "../../../services/api";
 import Modal from "react-modal";
+import { Select } from "../../../components/Select";
 import { Input } from "../../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import Permission from "../../../utils/Permission";
+import { usePetch } from "../../../context/petchcontext";
 function Gifts() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Brindes" },
   ];
 
-  const [gifts, setGifts] = useState([]);
   const [gift, setGift] = useState(undefined);
   const [image, setImage] = useState(null);
+  const { gifts, partners } = usePetch();
+
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
@@ -28,13 +31,8 @@ function Gifts() {
     taste: "",
     description: "",
     coverage: "",
+    partnerId: "",
   });
-
-  useEffect(() => {
-    api
-      .get("/gifts?inactives=true")
-      .then((response) => setGifts(response.data));
-  }, []);
 
   const customStyles = {
     content: {
@@ -87,6 +85,7 @@ function Gifts() {
       instanceForm.append("coverage", register.coverage);
       instanceForm.append("taste", register.taste);
       instanceForm.append("media", image);
+      instanceForm.append("partnerId", register.partnerId);
       const response = await api.post("/gifts", instanceForm);
       console.log(response.data);
     } catch (error) {
@@ -175,6 +174,21 @@ function Gifts() {
                                 onChange={change}
                                 name="weight"
                               />
+                              <Select
+                                name="partnerId"
+                                onChange={change}
+                                value={register.partnerId}
+                              >
+                                <option value="" defaultChecked disabled>
+                                  Selecionar Parceiro
+                                </option>
+                                {partners &&
+                                  partners.map((partner) => (
+                                    <option value={partner.id} key={partner.id}>
+                                      {partner.fantasyName}
+                                    </option>
+                                  ))}
+                              </Select>
                             </div>
 
                             <div className="modal__image">
@@ -364,6 +378,6 @@ function Gifts() {
   );
 }
 
-export default Permission(["adotante"], "/admin/CompanyPartner")(Gifts);
+export default Permission(["admin"])(Gifts);
 
 // export default Gifts;

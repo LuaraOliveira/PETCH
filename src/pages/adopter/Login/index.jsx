@@ -6,15 +6,20 @@ import { Button } from "../../../components/Button";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { GoogleLogin } from "react-google-login";
+import { useGoogleLogin } from "react-google-login";
+import { FaGoogle } from "react-icons/fa";
 function LoginAdopter() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const history = useHistory();
+  const { signIn } = useGoogleLogin({
+    clientId: process.env.REACT_APP_GOOGLE_CLOUD_SECURITY_ID,
+    onSuccess: AccessLogin,
+  });
   useEffect(() => {
     if (getRole() !== undefined) {
       if (getRole()?.toLowerCase() === "Adotante") {
-        return history.push("/dashboard");
+        return history.push("/adopter/dashboard");
       }
       if (getRole()?.toLowerCase() === "Admin") {
         return history.push("/admin/dashboard");
@@ -29,7 +34,7 @@ function LoginAdopter() {
       setRole(response.data.role);
       response.data.role === "Admin"
         ? history.push("/admin/dashboard")
-        : history.push("/dashboard");
+        : history.push("/adopter/dashboard");
     } catch (error) {
       console.log(error.response);
     }
@@ -49,7 +54,7 @@ function LoginAdopter() {
       setRole(response.data.role);
       response.data.role === "Admin"
         ? history.push("/admin/dashboard")
-        : history.push("/dashboard");
+        : history.push("/adopter/dashboard");
     } catch (error) {
       console.log(error.response);
     }
@@ -94,16 +99,19 @@ function LoginAdopter() {
                 <div className="loginAdopter__outher-line"></div>
               </div>
               <div className="loginAdopter__google">
-                <GoogleLogin
-                  clientId={process.env.REACT_APP_GOOGLE_CLOUD_SECURITY_ID}
-                  onSuccess={AccessLogin}
-                />
-
-                <Link to="/" className="loginAdopter__google-link">
+                <Button color="google" onClick={signIn}>
+                  <div style={{ color: "blue" }}>
+                    <FaGoogle size={32} />
+                  </div>
+                  Entrar com o google
+                </Button>
+              </div>
+              <div className="loginAdopter__link">
+                <Link to="/" className="loginAdopter__link-link">
                   Esqueceu a senha?
                 </Link>
 
-                <Link to="/" className="loginAdopter__google-link">
+                <Link to="/" className="loginAdopter__link-link">
                   Não tem conta? <strong>Cadastre-se</strong>
                 </Link>
               </div>

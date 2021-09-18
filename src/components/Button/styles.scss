@@ -159,6 +159,89 @@
     }
   }
 
+  &--circle {
+    color: $white;
+    background: $white;
+    border: 1px solid $white;
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
+    box-shadow: 0px 7px 20px rgba(0, 0, 0, 0.4);
+
+    &:hover {
+      filter: brightness(0.9);
+      color: $white;
+    }
+
+    &:disabled {
+      background: $gray-200;
+      color: $gray-100;
+
+      path {
+        fill: $gray-200;
+      }
+    }
+
+    svg {
+      font-size: 30px;
+    }
+  }
+
+  &--gradient {
+    color: $white;
+    background: linear-gradient(180deg, #ff7854 0%, #fd267d 100%);
+    border: none;
+    box-shadow: 0px 7px 64px rgba(0, 0, 0, 0.07);
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+    box-shadow: 0px 7px 20px rgba(0, 0, 0, 0.4);
+
+    &:hover {
+      filter: brightness(0.9);
+      color: $white;
+    }
+
+    &:disabled {
+      background: $gray-200;
+      color: $gray-100;
+
+      path {
+        fill: $gray-200;
+      }
+    }
+
+    svg {
+      font-size: 30px;
+    }
+  }
+
+  &--google {
+    color: $white;
+    background: transparent;
+    border: 1px solid $white;
+    border-radius: 6px;
+    height: 48px;
+
+    &:disabled {
+      background: $gray-200;
+      color: $gray-100;
+    }
+
+    path {
+      fill: $white;
+      transition: inherit;
+    }
+
+    svg {
+      font-size: 30px;
+    }
+
+    &:hover {
+      background: $pink;
+    }
+  }
+
   &__icon {
     width: 2rem;
     height: 2rem;

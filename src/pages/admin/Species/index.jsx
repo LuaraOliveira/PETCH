@@ -1,20 +1,20 @@
 import { Breadcrumb } from "../../../components/Breadcrumb";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../../components/Button";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import api from "../../../services/api";
 import Modal from "react-modal";
 import { Input } from "../../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
-
+import { usePetch } from "../../../context/petchcontext";
 function Species() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Espécies" },
   ];
 
-  const [species, setSpecies] = useState([]);
+  const { species } = usePetch();
   const [specie, setSpecie] = useState(undefined);
   const [image, setImage] = useState(null);
   const preview = useMemo(() => {
@@ -26,12 +26,6 @@ function Species() {
     email: "",
     phone1: "",
   });
-
-  useEffect(() => {
-    api
-      .get("/species?inactives=true")
-      .then((response) => setSpecies(response.data));
-  }, []);
 
   const customStyles = {
     content: {

@@ -8,6 +8,7 @@ import { Input } from "../../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import axios from "axios";
+import { usePetch } from "../../../context/petchcontext";
 function CompanyPartner() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
@@ -16,11 +17,11 @@ function CompanyPartner() {
 
   const address = useRef(null);
   const district = useRef(null);
-  const [partners, setPartners] = useState([]);
   const [partner, setPartner] = useState(undefined);
   const [image, setImage] = useState(null);
   const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
   const [modalIsOpenData, setIsOpenData] = useState(false);
+  const { partners } = usePetch();
 
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
@@ -45,11 +46,6 @@ function CompanyPartner() {
     email: "",
     website: "",
   });
-  useEffect(() => {
-    api
-      .get("/partners?inactives=true")
-      .then((response) => setPartners(response.data));
-  }, []);
 
   const customStyles = {
     content: {

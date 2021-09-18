@@ -12,6 +12,7 @@ import Ongs from "../pages/admin/Ongs";
 
 //page adotantes
 import LoginAdopter from "../pages/adopter/Login";
+import DashboardAdopter from "../pages/adopter/Dashboard";
 
 export function Routes() {
   return (
@@ -25,11 +26,11 @@ export function Routes() {
           component={LoginAdopter}
         />
         <Route
-          path="/dashboard"
+          path="/adopter/Dashboard"
           hasFooter={false}
           exact
           hasHeader={false}
-          component={() => <h1>Hello World</h1>}
+          component={DashboardAdopter}
         />
         <Route
           path="/admin/Login"

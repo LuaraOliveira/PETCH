@@ -1,7 +1,7 @@
 import { Breadcrumb } from "../../../components/Breadcrumb";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../../components/Button";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useMemo } from "react";
 import api from "../../../services/api";
 import { Radio } from "../../../components/Radio";
 import Modal from "react-modal";
@@ -9,13 +9,14 @@ import { Input } from "../../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import { Select } from "../../../components/Select";
+import { usePetch } from "../../../context/petchcontext";
 function Pets() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Animais" },
   ];
 
-  const [pets, setPets] = useState([]);
+  const { pets } = usePetch();
   const [pet, setPet] = useState(undefined);
   const [image, setImage] = useState(null);
   const preview = useMemo(() => {
@@ -30,9 +31,6 @@ function Pets() {
     species: "",
     breed: "",
   });
-  useEffect(() => {
-    api.get("/pets").then((response) => setPets(response.data));
-  }, []);
 
   const customStyles = {
     content: {

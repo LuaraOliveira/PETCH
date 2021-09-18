@@ -1,14 +1,14 @@
 import { Breadcrumb } from "../../../components/Breadcrumb";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../../components/Button";
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useMemo, useRef } from "react";
 import api from "../../../services/api";
 import Modal from "react-modal";
 import { Input } from "../../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import axios from "axios";
-
+import { usePetch } from "../../../context/petchcontext";
 function Ongs() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
@@ -16,7 +16,7 @@ function Ongs() {
   ];
   const address = useRef(null);
   const district = useRef(null);
-  const [ongs, setOngs] = useState([]);
+  const { ongs } = usePetch();
   const [ong, setOng] = useState(undefined);
   const [image, setImage] = useState(null);
   const preview = useMemo(() => {
@@ -36,10 +36,6 @@ function Ongs() {
     uf: "",
     coverage: "",
   });
-
-  useEffect(() => {
-    api.get("/ongs").then((response) => setOngs(response.data));
-  }, []);
 
   const customStyles = {
     content: {
