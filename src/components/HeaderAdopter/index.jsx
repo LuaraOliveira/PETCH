@@ -1,4 +1,3 @@
-import { FaUserCircle } from "react-icons/fa";
 import { Button } from "../../components/Button";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";

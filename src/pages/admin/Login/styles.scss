@@ -26,13 +26,9 @@
   }
 
   &__header {
-    border: 2px solid $blue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 8px;
     margin-bottom: 0;
-    width: 150px;
+    width: 200px;
 
     &-title {
       color: $blue;
@@ -44,7 +40,7 @@
   }
 
   &__forms {
-    margin-top: 40px;
+    margin-top: 20px;
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -89,12 +85,18 @@
     &-link {
       color: $black;
       font-size: 0.8rem;
-      padding: 0px 8px;
-      margin-top: 8px;
+      padding: 0px 18px;
+      margin-top: 13px;
       margin-bottom: 16px;
+
+      &:hover {
+        color: $black;
+        text-decoration: underline;
+      }
     }
     .c-button {
-      margin-bottom: 32px;
+      margin-bottom: 0;
+      margin-top: 30px;
     }
   }
 }

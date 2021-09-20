@@ -4,15 +4,12 @@
   width: 100%;
   padding: 10px;
   margin-bottom: 40px;
+  border-radius: 0 0 8px 8px;
   &__container {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     position: relative;
     gap: 6px;
-
-    @media only screen and (min-width: 992px) {
-      justify-content: space-between;
-    }
   }
 
   &__info {
@@ -24,16 +21,12 @@
     }
   }
   &__logo {
-    border: 2px solid $blue;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 8px;
     margin-bottom: 0;
-    width: 70px;
+    width: 100px;
 
     @media only screen and (min-width: 992px) {
-      width: 150px;
+      width: 200px;
     }
 
     &-title {
@@ -58,8 +51,10 @@
       color: $black;
       font-size: 1rem;
       margin-bottom: 0;
+      display: none;
       @media only screen and (min-width: 992px) {
         font-size: 1.2rem;
+        display: block;
       }
     }
     &-image {
@@ -108,11 +103,11 @@
 .menu {
   &__hamburguer {
     width: 40px;
+    width: 40px;
     height: 100%;
     display: flex;
-    grid-gap: 2px;
     justify-content: center;
-    gap: 2px;
+    gap: 6px;
     flex-direction: column;
     align-items: center;
     cursor: pointer;
@@ -159,6 +154,8 @@
       p {
         margin-bottom: 0;
         cursor: pointer;
+        color: $white;
+        font-size: 1.1rem;
 
         &:hover {
           color: $primary;

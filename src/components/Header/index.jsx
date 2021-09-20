@@ -3,7 +3,7 @@ import { Button } from "../../components/Button";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { isLogout } from "../../services/auth";
-import { AiFillCloseCircle } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 import logo from "../../assets/logo/logo.svg";
 export function Header() {
   const [menu, setMenu] = useState(false);
@@ -26,7 +26,7 @@ export function Header() {
             <div className={`menu__background ${menu ? "active" : ""}`}>
               <div className={`menu__list ${menu ? "active" : ""}`}>
                 <div className="menu__list-close">
-                  <AiFillCloseCircle onClick={() => setMenu(false)} />
+                  <AiOutlineClose onClick={() => setMenu(false)} />
                 </div>
                 <div className="menu__list-itens">
                   <p onClick={() => changePage("/admin/Administrador")}>

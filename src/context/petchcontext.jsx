@@ -26,7 +26,7 @@ export function PetchProvider({ children }) {
   }, []);
 
   return (
-    <PetchContext.Provider value={{ partners, gifts, species }}>
+    <PetchContext.Provider value={{ partners, gifts, species, pets, ongs }}>
       {children}
     </PetchContext.Provider>
   );

@@ -5,7 +5,7 @@
       padding: 16px;
       background: $white;
       margin-bottom: 1rem;
-
+      border-radius: 8px;
       &-title {
         margin: 0 0 8px 0;
         font-size: 1.2rem;
@@ -129,6 +129,14 @@
         height: 100%;
       }
     }
+
+    &__textarea {
+      .label {
+        font-size: 1rem;
+        color: $black;
+        margin-bottom: 8px;
+      }
+    }
     &__container {
       &-close {
         position: absolute;
@@ -157,6 +165,10 @@
           height: 40px;
         }
       }
+      svg {
+        width: 100%;
+        height: 100%;
+      }
     }
 
     &__header {
@@ -169,10 +181,8 @@
 
     &__description {
       display: flex;
-      gap: 32px;
-      margin-bottom: 32px;
+      gap: 16px;
       flex-wrap: wrap;
-
       @media only screen and (min-width: 992px) {
         flex-wrap: nowrap;
       }
@@ -215,9 +225,6 @@
         }
         .form-group {
           width: 100%;
-          @media only screen and (min-width: 992px) {
-            width: 30%;
-          }
         }
       }
 
@@ -226,6 +233,10 @@
         flex-direction: column;
         width: 100%;
         gap: 16px;
+
+        .form-group {
+          width: 100%;
+        }
       }
 
       &.center {
@@ -359,7 +370,6 @@
         padding-right: 0px;
 
         @media only screen and (min-width: 992px) {
-          width: 50%;
           padding-right: 8px;
         }
       }

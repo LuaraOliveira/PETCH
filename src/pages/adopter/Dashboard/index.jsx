@@ -1,11 +1,12 @@
 import { HeaderAdopter } from "../../../components/HeaderAdopter";
 import CardTinder from "../../../components/CardTinder";
+import CardTinderInfo from "../../../components/CardTinderInfo";
 import { useState, useEffect } from "react";
 import api from "../../../services/api";
 function DashboardAdopter() {
   const [pets, setPets] = useState([]);
   useEffect(() => {
-    api.get("/pets/1").then((response) => setPets([response.data]));
+    api.get("/pets/5").then((response) => setPets([response.data]));
   }, []);
 
   return (
@@ -15,12 +16,15 @@ function DashboardAdopter() {
         <div className="row">
           <div className="col-md-12">
             <div className="dashboardAdopter__container">
-              {pets &&
+              {pets.length >= 1 ? (
                 pets.map((pet) => (
                   <>
                     <CardTinder pet={pet} />
                   </>
-                ))}
+                ))
+              ) : (
+                <CardTinderInfo />
+              )}
             </div>
           </div>
         </div>

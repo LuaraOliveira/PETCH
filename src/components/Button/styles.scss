@@ -176,10 +176,10 @@
     &:disabled {
       background: $gray-200;
       color: $gray-100;
+    }
 
-      path {
-        fill: $gray-200;
-      }
+    path {
+      fill: $purple;
     }
 
     svg {
@@ -205,10 +205,10 @@
     &:disabled {
       background: $gray-200;
       color: $gray-100;
+    }
 
-      path {
-        fill: $gray-200;
-      }
+    path {
+      fill: $white;
     }
 
     svg {
@@ -235,6 +235,33 @@
 
     svg {
       font-size: 30px;
+    }
+
+    &:hover {
+      background: $pink;
+    }
+  }
+
+  &--camera {
+    color: $white;
+    background: $pink;
+    border: 5px solid $white;
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+
+    &:disabled {
+      background: $gray-200;
+      color: $gray-100;
+    }
+
+    path {
+      fill: $white;
+      transition: inherit;
+    }
+
+    svg {
+      font-size: 22px;
     }
 
     &:hover {

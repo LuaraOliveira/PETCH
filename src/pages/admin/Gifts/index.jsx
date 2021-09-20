@@ -260,7 +260,8 @@ function Gifts() {
                   gifts.map((gift) => (
                     <div key={gift.id} className="gifts__body-container">
                       <div className="gifts__body-image">
-                        <BiUserCircle />
+                        {/* <BiUserCircle /> */}
+                        <img src={gift?.image} alt="avatar" />
                       </div>
                       <div className="gifts__body-info">
                         <ul className="gifts__body-list">

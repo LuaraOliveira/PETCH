@@ -20,6 +20,7 @@
       justify-content: center;
       align-items: center;
       gap: 16px;
+      border-radius: 8px;
 
       @media only screen and (min-width: 992px) {
         justify-content: flex-start;
@@ -78,6 +79,7 @@
       align-items: center;
       width: 100%;
       padding: 16px;
+      border-radius: 8px;
 
       @media only screen and (min-width: 992px) {
         width: calc(33% - 7px);

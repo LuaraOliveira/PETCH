@@ -218,7 +218,8 @@ function Species() {
                   species.map((specie) => (
                     <div key={specie.id} className="species__body-container">
                       <div className="species__body-image">
-                        <BiUserCircle />
+                        {/* <BiUserCircle /> */}
+                        <img src={specie?.image} alt="avatar" />
                       </div>
                       <div className="species__body-info">
                         <ul className="species__body-list">

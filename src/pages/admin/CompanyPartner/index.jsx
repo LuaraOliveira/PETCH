@@ -366,7 +366,8 @@ function CompanyPartner() {
                   partners.map((partner) => (
                     <div key={partner.id} className="company__body-container">
                       <div className="company__body-image">
-                        <BiUserCircle />
+                        {/* <BiUserCircle /> */}
+                        <img src={partner?.image} alt="avatar" />
                       </div>
                       <div className="company__body-info">
                         <ul className="company__body-list">

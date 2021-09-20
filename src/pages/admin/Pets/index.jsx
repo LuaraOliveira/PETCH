@@ -8,6 +8,7 @@ import Modal from "react-modal";
 import { Input } from "../../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
+import axios from "axios";
 import { Select } from "../../../components/Select";
 import { usePetch } from "../../../context/petchcontext";
 function Pets() {
@@ -16,7 +17,8 @@ function Pets() {
     { href: "#", link: "Animais" },
   ];
 
-  const { pets } = usePetch();
+  const [radio, setRadio] = useState("not");
+  const { pets, ongs, species } = usePetch();
   const [pet, setPet] = useState(undefined);
   const [image, setImage] = useState(null);
   const preview = useMemo(() => {
@@ -28,8 +30,11 @@ function Pets() {
     weight: "",
     gender: "",
     ong: "",
-    species: "",
+    speciesId: "",
     breed: "",
+    ongId: "",
+    color: "",
+    description: "",
   });
 
   const customStyles = {
@@ -81,6 +86,36 @@ function Pets() {
     }
   }
 
+  async function registerPet(event) {
+    event.preventDefault();
+    try {
+      const instanceForm = new FormData();
+      instanceForm.append("name", register.name);
+      instanceForm.append("cut", radio === "yes" && "true");
+      instanceForm.append("age", register.age);
+      instanceForm.append("weight", register.weight);
+      instanceForm.append("gender", register.gender);
+      instanceForm.append("ong", register.ong);
+      instanceForm.append("speciesId", register.speciesId);
+      instanceForm.append("breed", register.breed);
+      instanceForm.append("color", register.color);
+      instanceForm.append("description", register.description);
+      instanceForm.append("ongId", register.ongId);
+      instanceForm.append("images", image);
+      const response = await api.post("/pets", instanceForm);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
+  function change(event) {
+    setRegister({
+      ...register,
+      [event.target.name]: event.target.value,
+    });
+  }
+
   return (
     <>
       <section className="container" id="pets">
@@ -113,7 +148,7 @@ function Pets() {
                           Adicionar Animal
                         </h2>
                       </div>
-                      <form className="forms">
+                      <form onSubmit={registerPet} className="forms">
                         <div className="modal__body">
                           <div className="modal__description">
                             <div className="modal__description-input">
@@ -121,40 +156,67 @@ function Pets() {
                                 type="text"
                                 placeholder="Nome do animal"
                                 value={register.name}
+                                onChange={change}
+                                name="name"
                               />
                               <div className="modal__description-ong">
                                 <Input
                                   type="text"
                                   placeholder="Raça"
                                   value={register.breed}
+                                  onChange={change}
+                                  name="breed"
                                 />
                                 <Input
                                   type="text"
                                   placeholder="Sexo"
                                   value={register.gender}
+                                  onChange={change}
+                                  name="gender"
                                 />
-                              </div>
-                              <Select name="status">
-                                <option value="">ONG</option>
-                                <option value="">Kapa</option>
-                                <option value="">Anjos de focinho</option>
+                              </div>{" "}
+                              <Select
+                                name="ongId"
+                                onChange={change}
+                                value={register.ongId}
+                              >
+                                <option value="" defaultChecked disabled>
+                                  Selecionar Ong
+                                </option>
+                                {ongs &&
+                                  ongs.map((ong) => (
+                                    <option value={ong.id} key={ong.id}>
+                                      {ong.name}
+                                    </option>
+                                  ))}
                               </Select>
                               <div className="modal__description-age">
-                                <Input type="text" placeholder="Idade" />
+                                <Input
+                                  type="text"
+                                  placeholder="Idade"
+                                  onChange={change}
+                                  name="age"
+                                />
                                 <p className="modal__description-castration-title">
                                   Castrado?
                                 </p>
                                 <div className="modal__description-castration-radio">
                                   <Radio
                                     id="radio-button-3"
-                                    name="radio-button-name7"
+                                    name="radio-name-7"
+                                    value="yes"
+                                    onChange={(e) => setRadio(e.target.value)}
+                                    defaultChecked={radio === "yes"}
                                   >
                                     sim
                                   </Radio>
                                   <Radio
                                     id="radio-button-4"
-                                    name="radio-button-name7"
-                                    checked
+                                    name="radio-name-7"
+                                    defaultChecked
+                                    value="not"
+                                    onChange={(e) => setRadio(e.target.value)}
+                                    defaultChecked={radio === "not"}
                                   >
                                     não
                                   </Radio>
@@ -165,17 +227,50 @@ function Pets() {
                                   type="text"
                                   placeholder="Peso(kg)"
                                   value={register.weight}
+                                  onChange={change}
+                                  name="weight"
                                 />
-                                <Select name="status">
+                                <Select name="status" onChange={change}>
                                   <option value="">Ativo</option>
                                   <option value="">Indisponível</option>
                                 </Select>
                               </div>
-                              <Select name="status">
-                                <option value="">Espécie</option>
-                                <option value="">Canina</option>
-                                <option value="">Canina</option>
+                              <Select
+                                name="speciesId"
+                                onChange={change}
+                                value={register.speciesId}
+                              >
+                                <option value="" defaultChecked disabled>
+                                  Selecionar Espécie
+                                </option>
+                                {species &&
+                                  species.map((specie) => (
+                                    <option value={specie.id} key={specie.id}>
+                                      {specie.name}
+                                    </option>
+                                  ))}
                               </Select>
+                              <Input
+                                type="text"
+                                placeholder="Cor"
+                                value={register.color}
+                                onChange={change}
+                                name="color"
+                              />
+                              <div className="modal__textarea">
+                                <label className="label" htmlFor="coverage">
+                                  Descrição
+                                </label>
+
+                                <textarea
+                                  id="description"
+                                  rows="3"
+                                  cols="20"
+                                  value={register.description}
+                                  onChange={change}
+                                  name="description"
+                                />
+                              </div>
                             </div>
                             <div className="modal__image">
                               <label
@@ -194,37 +289,6 @@ function Pets() {
                                 />
                                 <GrImage color="red" />
                               </label>
-
-                              {/* <ul className="modal__image-list">
-                                <li>
-                                  <div className="modal__image-container">
-                                    {" "}
-                                    <GrImage color="red" size="90px" />
-                                    <Button color="secondary">Remover</Button>
-                                  </div>
-                                </li>
-                                <li>
-                                  <div className="modal__image-container">
-                                    {" "}
-                                    <GrImage color="red" size="90px" />
-                                    <Button color="secondary">Remover</Button>
-                                  </div>
-                                </li>
-                                <li>
-                                  <div className="modal__image-container">
-                                    {" "}
-                                    <GrImage color="red" size="90px" />
-                                    <Button color="secondary">Remover</Button>
-                                  </div>
-                                </li>
-                                <li>
-                                  <div className="modal__image-container">
-                                    {" "}
-                                    <GrImage color="red" size="90px" />
-                                    <Button color="secondary">Remover</Button>
-                                  </div>
-                                </li>
-                              </ul> */}
                             </div>
                           </div>
 
@@ -246,9 +310,10 @@ function Pets() {
               <div className="pets__body">
                 {pets &&
                   pets.map((pet) => (
-                    <div className="pets__body-container">
+                    <div key={pet.id} className="pets__body-container">
                       <div className="pets__body-image">
-                        <BiUserCircle />
+                        {/* <BiUserCircle /> */}
+                        <img src={pet?.photos} alt="avatar" />
                       </div>
                       <div className="pets__body-info">
                         <ul className="pets__body-list">
@@ -256,11 +321,9 @@ function Pets() {
                           <li className="item">Idade: {pet.age}</li>
                           <li className="item">Sexo: {pet.gender}</li>
                           <li className="item">Espécie: {pet.species.name}</li>
-                          <li className="item">Peso(kg): {pet.weight}</li>
-                          <li className="item">Fotos(kg): Sim(5)</li>
-                          <li className="item">Ong: {pet.ong.name}</li>
-                          <li className="item">Publicado em: 04/06/2021</li>
-                          <li className="item">Status: Ativo(Sem matches)</li>
+                          <li className="item">
+                            Status: {pet?.deletedAt ? "inativo" : "ativo"}
+                          </li>
                         </ul>
                         <div className="pets__body-buttons">
                           <Button
@@ -317,34 +380,51 @@ function Pets() {
                                 defaultValue={pet?.gender}
                               />
                             </div>
-                            <Select name="status">
-                              <option defaultValue={pet?.ongId}>
-                                {pet?.ong?.name}
-                              </option>
-                            </Select>
+                            <div className="modal__description-input">
+                              <Input
+                                type="text"
+                                placeholder="ong"
+                                defaultValue={pet?.ong?.name}
+                              />
+                              <Input
+                                type="text"
+                                placeholder="espécie"
+                                defaultValue={pet?.species?.name}
+                              />
+                            </div>
+
                             <div className="modal__description-age">
-                              <Input type="text" placeholder="Idade" />
+                              <Input
+                                type="text"
+                                placeholder="Idade"
+                                defaultValue={pet?.age}
+                              />
                               <p className="modal__description-castration-title">
                                 Castrado?
                               </p>
                               <div className="modal__description-castration-radio">
                                 <Radio
                                   id="radio-button-3"
-                                  name="radio-button-name7"
+                                  name="radio-button-name-8"
+                                  defaultChecked={pet?.cut}
                                 >
                                   sim
                                 </Radio>
                                 <Radio
                                   id="radio-button-4"
-                                  name="radio-button-name7"
-                                  checked
+                                  name="radio-button-name-8"
+                                  defaultChecked={!pet?.cut}
                                 >
                                   não
                                 </Radio>
                               </div>
                             </div>
                             <div className="modal__description-weigth">
-                              <Input type="text" placeholder="Peso(kg)" />
+                              <Input
+                                type="text"
+                                placeholder="Peso(kg)"
+                                defaultValue={pet?.weight}
+                              />
                               <Select name="status">
                                 <option value="">Ativo</option>
                                 <option value="">Indisponível</option>
@@ -352,61 +432,9 @@ function Pets() {
                             </div>
                           </div>
                           <div className="modal__image">
-                            <label
-                              style={{
-                                backgroundImage: `url(${preview})`,
-                                width: 500,
-                                height: 300,
-                              }}
-                            >
-                              <input
-                                type="file"
-                                className="modal__image-file"
-                                name="myfile"
-                                onChange={(event) =>
-                                  setImage(event.target.files[0])
-                                }
-                              />
-                              <GrImage color="red" size="120px" />
-                            </label>
-
-                            <ul className="modal__image-list">
-                              <li>
-                                <div className="modal__image-container">
-                                  {" "}
-                                  <GrImage color="red" size="90px" />
-                                  <Button color="secondary">Remover</Button>
-                                </div>
-                              </li>
-                              <li>
-                                <div className="modal__image-container">
-                                  {" "}
-                                  <GrImage color="red" size="90px" />
-                                  <Button color="secondary">Remover</Button>
-                                </div>
-                              </li>
-                              <li>
-                                <div className="modal__image-container">
-                                  {" "}
-                                  <GrImage color="red" size="90px" />
-                                  <Button color="secondary">Remover</Button>
-                                </div>
-                              </li>
-                              <li>
-                                <div className="modal__image-container">
-                                  {" "}
-                                  <GrImage color="red" size="90px" />
-                                  <Button color="secondary">Remover</Button>
-                                </div>
-                              </li>
-                            </ul>
+                            <img src={pet?.photos} alt="avatar" />
                           </div>
                         </div>
-
-                        <Select
-                          name="status"
-                          defaultValue={pet?.species?.name}
-                        ></Select>
 
                         <div className="modal__buttons">
                           <Button color="light">Cancelar</Button>

@@ -1,36 +1,56 @@
 import TinderCard from "react-tinder-card";
-import photo from "../../assets/photos/photo.jpg";
-import photo2 from "../../assets/photos/photo-mini.png";
+import Modal from "react-modal";
 import { ImNext2 } from "react-icons/im";
 import { FaPaw } from "react-icons/fa";
 import { AiOutlineHeart } from "react-icons/ai";
 import { Button } from "../../components/Button";
 import { BsArrowReturnLeft } from "react-icons/bs";
 import { useState } from "react";
+import { AiFillCamera } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
+import photoBig from "../../assets/photos/photo-big.jpg";
 function CardTinder(props) {
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      borderRadius: "16px",
+      padding: "16px",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+    },
+  };
+  const [modalIsOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
+
   const [transition, setTransition] = useState(true);
 
-  const onSwipe = (direction) => {
-    console.log("You swiped: " + direction);
-  };
+  // const onSwipe = (direction) => {
+  //   console.log("You swiped: " + direction);
+  // };
 
-  const onCardLeftScreen = (myIdentifier) => {
-    console.log(myIdentifier + " left the screen");
-  };
+  // const onCardLeftScreen = (myIdentifier) => {
+  //   console.log(myIdentifier + " left the screen");
+  // };
   return (
     <>
       <section id="CardTinder">
-        <TinderCard
-          // onSwipe={onSwipe}
-          // onCardLeftScreen={() => onCardLeftScreen("fooBar")}
-          // preventSwipe={["right", "left"]}
-          className="card__container"
-        >
+        <div className="card__container">
           <div className="card__content">
             {transition ? (
               <>
                 <div className="card__content-image">
-                  <img src={props.pet.photos} alt="photo" />
+                  {/* <img src={props.pet.photos} alt="photo" /> */}
+                  <img src={photoBig} alt="image" className="image-modal" />
                 </div>
                 <div className="card__info">
                   <h2 className="card__info-title">{props.pet.name} ♂</h2>
@@ -47,7 +67,27 @@ function CardTinder(props) {
                     <p className="card__header-genre">♂ - {props.pet.age}</p>
                   </div>
                   <div className="card__header-image">
-                    <img src={props.pet.photos} alt="avatar" />
+                    {/* <img src={props.pet.photos} alt="avatar" /> */}
+                    <img src={photoBig} alt="image" className="image-modal" />
+                    <Button color="camera" onClick={openModal}>
+                      <AiFillCamera />
+                    </Button>
+                    <Modal
+                      isOpen={modalIsOpen}
+                      onRequestClose={closeModal}
+                      style={customStyles}
+                      contentLabel="Example Modal"
+                    >
+                      <Button color="camera" onClick={closeModal}>
+                        <AiOutlineClose />
+                      </Button>
+                      <img src={photoBig} alt="image" className="image-modal" />
+                      {/* <img
+                        src={props.pet.photos}
+                        alt="avatar"
+                        className="image-modal"
+                      /> */}
+                    </Modal>
                   </div>
                 </div>
                 <div className="card__info">
@@ -74,7 +114,7 @@ function CardTinder(props) {
               </>
             )}
           </div>
-        </TinderCard>
+        </div>
         <div className="card__buttons">
           <Button color="circle" onClick={() => setTransition(!transition)}>
             {transition ? <FaPaw /> : <BsArrowReturnLeft />}

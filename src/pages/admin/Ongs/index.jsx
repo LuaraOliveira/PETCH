@@ -314,7 +314,8 @@ function Ongs() {
                   ongs.map((ong) => (
                     <div key={ong.id} className="ongs__body-container">
                       <div className="ongs__body-image">
-                        <BiUserCircle />
+                        {/* <BiUserCircle /> */}
+                        <img src={ong?.image} alt="avatar" />
                       </div>
                       <div className="ongs__body-info">
                         <ul className="ongs__body-list">
