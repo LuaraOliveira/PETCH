@@ -430,6 +430,26 @@ function Pets() {
                                 <option value="">Indisponível</option>
                               </Select>
                             </div>
+                            <div className="modal__description-weigth">
+                              <Input
+                                type="text"
+                                placeholder="Peso(kg)"
+                                defaultValue={pet?.color}
+                              />
+                            </div>
+
+                            <div className="modal__textarea">
+                              <label className="label" htmlFor="description">
+                                Descrição
+                              </label>
+
+                              <textarea
+                                id="description"
+                                rows="3"
+                                cols="20"
+                                defaultValue={pet?.description}
+                              />
+                            </div>
                           </div>
                           <div className="modal__image">
                             <img src={pet?.photos} alt="avatar" />
