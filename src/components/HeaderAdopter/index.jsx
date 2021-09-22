@@ -68,7 +68,7 @@ export function HeaderAdopter() {
             <div className="headerAdopter__user">
               <div className="headerAdopter__user-image">
                 {/* <FaUserCircle className="headerAdopter__user-image-icon" /> */}
-                <button onClick={() => changePage("/adopters/Settings")}>
+                <button onClick={() => changePage("/adopter/Settings")}>
                   <img src={avatar} alt="avatar" />
                 </button>
               </div>
