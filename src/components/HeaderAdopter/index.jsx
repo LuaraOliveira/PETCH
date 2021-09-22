@@ -38,7 +38,7 @@ export function HeaderAdopter() {
                 <div className="menuAdopter__list-itens">
                   <p className="menuAdopter__list-itens-name">Olá, Luara!</p>
 
-                  <p onClick={() => changePage("/adopters/Settings")}>
+                  <p onClick={() => changePage("/adopter/Settings")}>
                     <BsGear />
                     Configurações
                   </p>
