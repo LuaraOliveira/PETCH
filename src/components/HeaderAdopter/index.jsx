@@ -38,7 +38,7 @@ export function HeaderAdopter() {
                 <div className="menuAdopter__list-itens">
                   <p className="menuAdopter__list-itens-name">Olá, Luara!</p>
 
-                  <p onClick={() => changePage()}>
+                  <p onClick={() => changePage("/adopters/Settings")}>
                     <BsGear />
                     Configurações
                   </p>
@@ -68,8 +68,9 @@ export function HeaderAdopter() {
             <div className="headerAdopter__user">
               <div className="headerAdopter__user-image">
                 {/* <FaUserCircle className="headerAdopter__user-image-icon" /> */}
-
-                <img src={avatar} alt="avatar" />
+                <button onClick={() => changePage("/adopters/Settings")}>
+                  <img src={avatar} alt="avatar" />
+                </button>
               </div>
               <p className="headerAdopter__user-title">Olá, Luara.</p>
             </div>

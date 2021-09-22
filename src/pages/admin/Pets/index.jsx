@@ -8,7 +8,6 @@ import Modal from "react-modal";
 import { Input } from "../../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
-import axios from "axios";
 import { Select } from "../../../components/Select";
 import { usePetch } from "../../../context/petchcontext";
 function Pets() {
@@ -114,6 +113,13 @@ function Pets() {
       ...register,
       [event.target.name]: event.target.value,
     });
+  }
+
+  async function statusPets(pet) {
+    const status = pet.deletedAt ? "true" : "false";
+    try {
+      await api.delete(`/pets/${pet.id}`, { params: { status } });
+    } catch (error) {}
   }
 
   return (
@@ -312,8 +318,11 @@ function Pets() {
                   pets.map((pet) => (
                     <div key={pet.id} className="pets__body-container">
                       <div className="pets__body-image">
-                        {/* <BiUserCircle /> */}
-                        <img src={pet?.photos} alt="avatar" />
+                        {!pet.image ? (
+                          <BiUserCircle />
+                        ) : (
+                          <img src={pet?.image} alt="avatar" />
+                        )}
                       </div>
                       <div className="pets__body-info">
                         <ul className="pets__body-list">
@@ -333,8 +342,12 @@ function Pets() {
                             Informações
                           </Button>
 
-                          <Button color="primary" className="btn">
-                            Desativar
+                          <Button
+                            color={pet.deletedAt ? "success" : "disabled"}
+                            className="btn"
+                            onClick={() => statusPets(pet)}
+                          >
+                            {pet.deletedAt ? "Habilitar" : "Desabilitar"}
                           </Button>
                         </div>
                       </div>
@@ -452,7 +465,7 @@ function Pets() {
                             </div>
                           </div>
                           <div className="modal__image">
-                            <img src={pet?.photos} alt="avatar" />
+                            <img src={pet?.image} alt="avatar" />
                           </div>
                         </div>
 

@@ -1,5 +1,6 @@
 import { Breadcrumb } from "../../../components/Breadcrumb";
 import { Button } from "../../../components/Button";
+import { BiUserCircle } from "react-icons/bi";
 import { useState, useEffect } from "react";
 import api from "../../../services/api";
 import Modal from "react-modal";
@@ -56,12 +57,10 @@ function Adopters() {
     }
   }
 
-  async function deleteUser(id) {
+  async function statusUser(user) {
+    const status = user.deletedAt ? "true" : "false";
     try {
-      await api.patch(`/users/${id}`);
-      api
-        .get("/users?inactives=true&role=Adotante")
-        .then((response) => setUsers(response.data));
+      await api.delete(`/users/${user.id}`, { params: { status } });
     } catch (error) {}
   }
 
@@ -81,7 +80,11 @@ function Adopters() {
                   users.map((user) => (
                     <div key={user.id} className="adopters__body-container">
                       <div className="adopters__body-image">
-                        <img src={user.avatar} alt="avatar" />
+                        {!user.image ? (
+                          <BiUserCircle />
+                        ) : (
+                          <img src={user?.image} alt="avatar" />
+                        )}
                       </div>
                       <div className="adopters__body-info">
                         <ul className="adopters__body-list">
@@ -98,8 +101,9 @@ function Adopters() {
                             Informações
                           </Button>
                           <Button
+                            className="btn"
                             color={user.deletedAt ? "success" : "disabled"}
-                            onClick={() => deleteUser(user.id)}
+                            onClick={() => statusUser(user)}
                           >
                             {user.deletedAt ? "Habilitar" : "Desativar"}
                           </Button>

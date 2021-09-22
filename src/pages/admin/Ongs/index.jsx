@@ -135,6 +135,13 @@ function Ongs() {
     });
   }
 
+  async function statusOng(ong) {
+    const status = ong.deletedAt ? "true" : "false";
+    try {
+      await api.delete(`/ongs/${ong.id}`, { params: { status } });
+    } catch (error) {}
+  }
+
   return (
     <>
       <section className="container" id="ongs">
@@ -314,8 +321,11 @@ function Ongs() {
                   ongs.map((ong) => (
                     <div key={ong.id} className="ongs__body-container">
                       <div className="ongs__body-image">
-                        {/* <BiUserCircle /> */}
-                        <img src={ong?.image} alt="avatar" />
+                        {!ong.image ? (
+                          <BiUserCircle />
+                        ) : (
+                          <img src={ong?.image} alt="avatar" />
+                        )}
                       </div>
                       <div className="ongs__body-info">
                         <ul className="ongs__body-list">
@@ -327,7 +337,10 @@ function Ongs() {
                           <li className="item">
                             Responsável: {ong.responsible}
                           </li>
-                          <li className="item">Status: Ativo</li>
+                          <li className="item">
+                            {" "}
+                            Status: {ong.deletedAt ? "inativo" : "ativo"}
+                          </li>
                         </ul>
 
                         <div className="ongs__body-buttons">
@@ -337,8 +350,12 @@ function Ongs() {
                           >
                             Informações
                           </Button>
-                          <Button color="primary" className="btn">
-                            Desativar
+                          <Button
+                            color={ong.deletedAt ? "success" : "disabled"}
+                            className="btn"
+                            onClick={() => statusOng(ong)}
+                          >
+                            {ong.deletedAt ? "Habilitar" : "Desabilitar"}
                           </Button>
                         </div>
                       </div>

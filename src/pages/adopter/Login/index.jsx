@@ -111,7 +111,10 @@ function LoginAdopter() {
                   Esqueceu a senha?
                 </Link>
 
-                <Link to="/" className="loginAdopter__link-link">
+                <Link
+                  to="/Adopter/Register"
+                  className="loginAdopter__link-link"
+                >
                   Não tem conta? <strong>Cadastre-se</strong>
                 </Link>
               </div>

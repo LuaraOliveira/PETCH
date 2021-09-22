@@ -14,8 +14,8 @@ export function PetchProvider({ children }) {
       api.get("/partners?inactives=true"),
       api.get("/gifts?inactives=true"),
       api.get("/species?inactives=true"),
-      api.get("/pets"),
-      api.get("/ongs"),
+      api.get("/pets?inactives=true"),
+      api.get("/ongs?inactives=true"),
     ]).then((response) => {
       setPartners(response[0].data);
       setGifts(response[1].data);

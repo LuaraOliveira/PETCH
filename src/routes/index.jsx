@@ -13,7 +13,8 @@ import Ongs from "../pages/admin/Ongs";
 //page adotantes
 import LoginAdopter from "../pages/adopter/Login";
 import DashboardAdopter from "../pages/adopter/Dashboard";
-
+import Settings from "../pages/adopter/Settings";
+import RegisterAdopter from "../pages/adopter/Register";
 export function Routes() {
   return (
     <>
@@ -101,6 +102,22 @@ export function Routes() {
           hasFooter={true}
           hasHeader={true}
           component={Ongs}
+        />
+
+        <Route
+          path="/adopter/Settings"
+          hasFooter={false}
+          exact
+          hasHeader={false}
+          component={Settings}
+        />
+
+        <Route
+          path="/adopter/Register"
+          hasFooter={false}
+          exact
+          hasHeader={false}
+          component={RegisterAdopter}
         />
       </Switch>
     </>

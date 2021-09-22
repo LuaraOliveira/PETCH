@@ -1,20 +1,8 @@
-// import TinderCard from "react-tinder-card";
-import photo from "../../assets/photos/photo-mini.png";
 import photoEnd from "../../assets/photos/photo-petch-end.png";
 import { ImNext2 } from "react-icons/im";
-import { FaPaw } from "react-icons/fa";
-// import { AiOutlineShareAlt } from "react-icons/ai";
 import { FaSlidersH } from "react-icons/fa";
-import { AiOutlineHeart } from "react-icons/ai";
 import { Button } from "../Button";
 function CardTinderInfo() {
-  // const onSwipe = (direction) => {
-  //   console.log("You swiped: " + direction);
-  // };
-
-  // const onCardLeftScreen = (myIdentifier) => {
-  //   console.log(myIdentifier + " left the screen");
-  // };
   return (
     <>
       <section id="CardTinderInfo">

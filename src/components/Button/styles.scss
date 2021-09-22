@@ -269,6 +269,38 @@
     }
   }
 
+  &--pink {
+    color: $white;
+    background: $pink;
+    border: 5px solid $pink;
+    height: 46px;
+    width: 100%;
+    border-radius: 6px;
+    margin-top: 20px;
+    font-family: $baloo;
+    font-weight: 600;
+    font-size: 1.2rem;
+    line-height: 2.2rem;
+
+    &:disabled {
+      background: $gray-200;
+      color: $gray-100;
+    }
+
+    path {
+      fill: $white;
+      transition: inherit;
+    }
+
+    svg {
+      font-size: 22px;
+    }
+
+    &:hover {
+      background: $pink;
+    }
+  }
+
   &__icon {
     width: 2rem;
     height: 2rem;

@@ -1,4 +1,3 @@
-import TinderCard from "react-tinder-card";
 import Modal from "react-modal";
 import { ImNext2 } from "react-icons/im";
 import { FaPaw } from "react-icons/fa";
@@ -24,23 +23,18 @@ function CardTinder(props) {
   };
   const [modalIsOpen, setIsOpen] = useState(false);
 
-  function openModal() {
+  function openModal(event) {
     setIsOpen(true);
+    event.preventDefault();
   }
 
-  function closeModal() {
+  function closeModal(event) {
     setIsOpen(false);
+    event.preventDefault();
   }
 
   const [transition, setTransition] = useState(true);
 
-  // const onSwipe = (direction) => {
-  //   console.log("You swiped: " + direction);
-  // };
-
-  // const onCardLeftScreen = (myIdentifier) => {
-  //   console.log(myIdentifier + " left the screen");
-  // };
   return (
     <>
       <section id="CardTinder">
@@ -50,6 +44,7 @@ function CardTinder(props) {
               <>
                 <div className="card__content-image">
                   {/* <img src={props.pet.photos} alt="photo" /> */}
+
                   <img src={photoBig} alt="image" className="image-modal" />
                 </div>
                 <div className="card__info">

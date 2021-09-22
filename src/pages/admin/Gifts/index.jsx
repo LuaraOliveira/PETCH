@@ -110,6 +110,13 @@ function Gifts() {
       [event.target.name]: event.target.value,
     });
   }
+
+  async function statusGifts(gift) {
+    const status = gift.deletedAt ? "true" : "false";
+    try {
+      await api.delete(`/gifts/${gift.id}`, { params: { status } });
+    } catch (error) {}
+  }
   return (
     <>
       <section className="container" id="gifts">
@@ -260,8 +267,11 @@ function Gifts() {
                   gifts.map((gift) => (
                     <div key={gift.id} className="gifts__body-container">
                       <div className="gifts__body-image">
-                        {/* <BiUserCircle /> */}
-                        <img src={gift?.image} alt="avatar" />
+                        {!gift.image ? (
+                          <BiUserCircle />
+                        ) : (
+                          <img src={gift?.image} alt="avatar" />
+                        )}
                       </div>
                       <div className="gifts__body-info">
                         <ul className="gifts__body-list">
@@ -281,8 +291,12 @@ function Gifts() {
                           <Button onClick={() => infoGift(gift.id)}>
                             Informações
                           </Button>
-                          <Button color="primary" className="btn">
-                            Desativar
+                          <Button
+                            color={gift.deletedAt ? "success" : "disabled"}
+                            className="btn"
+                            onClick={() => statusGifts(gift)}
+                          >
+                            {gift.deletedAt ? "Habilitar" : "Desabilitar"}
                           </Button>
                         </div>
                       </div>

@@ -1,7 +1,7 @@
 import { Breadcrumb } from "../../../components/Breadcrumb";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../../components/Button";
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useMemo, useRef } from "react";
 import api from "../../../services/api";
 import Modal from "react-modal";
 import { Input } from "../../../components/Input";
@@ -26,6 +26,26 @@ function CompanyPartner() {
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
+
+  const [edition, setEdition] = useState({
+    fantasyName: "",
+    companyName: "",
+    cnpj: "",
+    stateRegistration: "",
+    cep: "",
+    address: "",
+    complement: "",
+    number: "",
+    district: "",
+    city: "",
+    uf: "",
+    responsible: "",
+    phone1: "",
+    phone2: "",
+    phone3: "",
+    email: "",
+    website: "",
+  });
 
   const [register, setRegister] = useState({
     fantasyName: "",
@@ -121,6 +141,54 @@ function CompanyPartner() {
     }
   }
 
+  async function editPartner(event) {
+    event.preventDefault();
+    try {
+      const instanceForm = new FormData();
+      instanceForm.append(
+        "fantasyName",
+        edition.fantasyName || partner.fantasyName
+      );
+      instanceForm.append(
+        "companyName",
+        edition.companyName || partner.companyName
+      );
+      instanceForm.append("cnpj", edition.cnpj || partner.cnpj);
+      instanceForm.append(
+        "stateRegistration",
+        edition.stateRegistration || partner.stateRegistration
+      );
+      instanceForm.append("cep", edition.cep || partner.cep);
+      instanceForm.append(
+        "address",
+        `${edition.address || partner.address},${
+          edition.number || partner.number
+        }`
+      );
+      instanceForm.append(
+        "complement",
+        edition.complement || partner.complement
+      );
+      instanceForm.append("district", edition.district || partner.district);
+      instanceForm.append("city", edition.city || partner.city);
+      instanceForm.append("uf", edition.uf || partner.uf);
+      instanceForm.append(
+        "responsible",
+        edition.responsible || partner.responsible
+      );
+      instanceForm.append("phone1", edition.phone1 || partner.phone1);
+      instanceForm.append("phone2", edition.phone2 || partner.phone2);
+      instanceForm.append("phone3", edition.phone3 || partner.phone3);
+      instanceForm.append("email", edition.email || partner.email);
+      instanceForm.append("website", edition.website || partner.website);
+      instanceForm.append("media", image);
+      const response = await api.put(`/partners/${partner.id}`, instanceForm);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
   async function searchCep(event) {
     event.preventDefault();
     const apiCep = `https://viacep.com.br/ws/${register.cep}/json/`;
@@ -148,6 +216,21 @@ function CompanyPartner() {
       [event.target.name]: event.target.value,
     });
   }
+
+  function changeEdit(event) {
+    setEdition({
+      ...edition,
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  async function statusPartner(partner) {
+    const status = partner.deletedAt ? "true" : "false";
+    try {
+      await api.delete(`/partners/${partner.id}`, { params: { status } });
+    } catch (error) {}
+  }
+
   return (
     <>
       <section className="container" id="company">
@@ -366,8 +449,11 @@ function CompanyPartner() {
                   partners.map((partner) => (
                     <div key={partner.id} className="company__body-container">
                       <div className="company__body-image">
-                        {/* <BiUserCircle /> */}
-                        <img src={partner?.image} alt="avatar" />
+                        {!partner.image ? (
+                          <BiUserCircle />
+                        ) : (
+                          <img src={partner?.image} alt="avatar" />
+                        )}
                       </div>
                       <div className="company__body-info">
                         <ul className="company__body-list">
@@ -389,6 +475,7 @@ function CompanyPartner() {
                           <Button
                             color={partner.deletedAt ? "success" : "disabled"}
                             className="btn"
+                            onClick={() => statusPartner(partner)}
                           >
                             {partner.deletedAt ? "Habilitar" : "Desabilitar"}
                           </Button>
@@ -415,7 +502,7 @@ function CompanyPartner() {
                         Dados da Empresa Parceira
                       </h2>
                     </div>
-                    <form className="forms">
+                    <form onSubmit={editPartner} className="forms">
                       <div className="modal__body">
                         <div className="modal__description">
                           <div className="modal__description-input">
@@ -423,21 +510,29 @@ function CompanyPartner() {
                               type="text"
                               placeholder="Nome fantasia"
                               defaultValue={partner?.fantasyName}
+                              onChange={changeEdit}
+                              name="fantasyName"
                             />
                             <Input
                               type="text"
                               placeholder="Razão Social"
                               defaultValue={partner?.companyName}
+                              onChange={changeEdit}
+                              name="companyName"
                             />
                             <Input
                               type="text"
                               placeholder="CNPJ"
                               defaultValue={partner?.cnpj}
+                              onChange={changeEdit}
+                              name="cnpj"
                             />
                             <Input
                               type="text"
                               placeholder="Inscrição Estadual"
                               defaultValue={partner?.stateRegistration}
+                              onChange={changeEdit}
+                              name="stateRegistration"
                             />
                           </div>
 
@@ -451,6 +546,8 @@ function CompanyPartner() {
                             type="text"
                             placeholder="CEP"
                             defaultValue={partner?.cep}
+                            onChange={changeEdit}
+                            name="cep"
                           />
                           <Button color="light">Consultar</Button>
                         </div>
@@ -460,19 +557,25 @@ function CompanyPartner() {
                             type="text"
                             placeholder="Endereço"
                             defaultValue={partner?.address}
+                            onChange={changeEdit}
                             disabled
+                            name="address"
                           />
                           <Input
                             type="text"
                             placeholder="Complemento"
                             defaultValue={partner?.complement}
+                            onChange={changeEdit}
                             disabled
+                            name="complement"
                           />
                           <Input
                             type="text"
                             placeholder="Número"
                             defaultValue={partner?.number}
+                            onChange={changeEdit}
                             disabled
+                            name="number"
                           />
                         </div>
 
@@ -481,19 +584,25 @@ function CompanyPartner() {
                             type="text"
                             placeholder="Bairro"
                             defaultValue={partner?.district}
+                            onChange={changeEdit}
                             disabled
+                            name="district"
                           />
                           <Input
                             type="text"
                             placeholder="Cidade"
                             defaultValue={partner?.city}
+                            onChange={changeEdit}
                             disabled
+                            name="city"
                           />
                           <Input
                             type="text"
                             placeholder="Estado"
                             defaultValue={partner?.uf}
+                            onChange={changeEdit}
                             disabled
+                            name="uf"
                           />
                         </div>
 
@@ -502,31 +611,43 @@ function CompanyPartner() {
                             type="text"
                             placeholder="Responsável"
                             defaultValue={partner?.responsible}
+                            onChange={changeEdit}
+                            name="responsible"
                           />
                           <Input
                             type="text"
                             placeholder="Celular"
                             defaultValue={partner?.phone1}
+                            onChange={changeEdit}
+                            name="phone1"
                           />
                           <Input
                             type="text"
                             placeholder="Telefone"
                             defaultValue={partner?.phone2}
+                            onChange={changeEdit}
+                            name="phone2"
                           />
                           <Input
                             type="text"
                             placeholder="Telefone 2"
                             defaultValue={partner?.phone3}
+                            onChange={changeEdit}
+                            name="phone3"
                           />
                           <Input
                             type="text"
                             placeholder="E-mail"
                             defaultValue={partner?.email}
+                            onChange={changeEdit}
+                            name="email"
                           />
                           <Input
                             type="text"
                             placeholder="Site"
                             defaultValue={partner?.website}
+                            onChange={changeEdit}
+                            name="website"
                           />
                         </div>
 
