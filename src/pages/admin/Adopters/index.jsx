@@ -80,10 +80,10 @@ function Adopters() {
                   users.map((user) => (
                     <div key={user.id} className="adopters__body-container">
                       <div className="adopters__body-image">
-                        {!user.image ? (
+                        {!user.avatar ? (
                           <BiUserCircle />
                         ) : (
-                          <img src={user?.image} alt="avatar" />
+                          <img src={user?.avatar} alt="avatar" />
                         )}
                       </div>
                       <div className="adopters__body-info">
