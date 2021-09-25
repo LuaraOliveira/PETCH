@@ -12,16 +12,6 @@ function Dashboard() {
       <section className="container" id="dashboard">
         <div className="row">
           <div className="col-md-12">
-            <div className="alert alert-lighter">
-              <div className="alert-icon">
-                <GoAlert />
-              </div>
-              Há 12 propostas de adoção que ainda não foram analisadas.
-              <Button color="primary" className="btn">
-                Ver Informações
-              </Button>
-            </div>
-
             <div className="dashboard__container">
               <div className="dashboard__card">
                 <div className="dashboard__card-header">

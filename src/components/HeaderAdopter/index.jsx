@@ -2,8 +2,8 @@ import { Button } from "../../components/Button";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { isLogout } from "../../services/auth";
-import { AiOutlineClose } from "react-icons/ai";
-import { BsGear, BsBookmarks } from "react-icons/bs";
+import { AiOutlineClose, AiOutlineHome, AiOutlineUser } from "react-icons/ai";
+
 import { BiSliderAlt } from "react-icons/bi";
 
 import { RiLogoutBoxRLine } from "react-icons/ri";
@@ -36,20 +36,23 @@ export function HeaderAdopter() {
                   <AiOutlineClose onClick={() => setMenu(false)} />
                 </div>
                 <div className="menuAdopter__list-itens">
-                  <p className="menuAdopter__list-itens-name">Olá, Luara!</p>
-
-                  <p onClick={() => changePage("/adopter/Settings")}>
-                    <BsGear />
-                    Configurações
+                  <p
+                    className="menuAdopter__list-itens-name"
+                    onClick={() => changePage("/adopter/Settings")}
+                  >
+                    Olá, Luara!
                   </p>
-                  <p onClick={() => changePage()}>
+                  <p onClick={() => changePage("/adopter/Dashboard")}>
+                    <AiOutlineHome />
+                    Home
+                  </p>
+                  <p onClick={() => changePage("/adopter/Settings")}>
+                    <AiOutlineUser />
+                    Dados
+                  </p>
+                  <p onClick={() => changePage("/adopter/Search")}>
                     <BiSliderAlt />
                     Filtro de pesquisa
-                  </p>
-                  <p onClick={() => changePage()}>
-                    {" "}
-                    <BsBookmarks />
-                    Pets Curtidos
                   </p>
                   <p onClick={isLogout}>
                     <RiLogoutBoxRLine />

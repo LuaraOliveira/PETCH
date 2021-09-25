@@ -17,6 +17,8 @@ function CompanyPartner() {
 
   const address = useRef(null);
   const district = useRef(null);
+  const editAddress = useRef(null);
+  const editDistrict = useRef(null);
   const [partner, setPartner] = useState(undefined);
   const [image, setImage] = useState(null);
   const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
@@ -105,7 +107,16 @@ function CompanyPartner() {
   async function infoPartner(id) {
     try {
       const response = await api.get(`/partners/${id}`);
-      setPartner(response.data);
+      const [address, number] = response.data.address
+        .split(",")
+        .map((param) => param.trim());
+      setPartner({ ...response.data, address, number });
+      setEdition({
+        ...edition,
+        address,
+        district: response.data.district,
+        cep: response.data.cep,
+      });
       setIsOpenData(true);
       console.log(response);
     } catch (error) {
@@ -145,43 +156,33 @@ function CompanyPartner() {
     event.preventDefault();
     try {
       const instanceForm = new FormData();
-      instanceForm.append(
-        "fantasyName",
-        edition.fantasyName || partner.fantasyName
-      );
-      instanceForm.append(
-        "companyName",
-        edition.companyName || partner.companyName
-      );
-      instanceForm.append("cnpj", edition.cnpj || partner.cnpj);
-      instanceForm.append(
-        "stateRegistration",
-        edition.stateRegistration || partner.stateRegistration
-      );
-      instanceForm.append("cep", edition.cep || partner.cep);
-      instanceForm.append(
-        "address",
-        `${edition.address || partner.address},${
-          edition.number || partner.number
-        }`
-      );
-      instanceForm.append(
-        "complement",
-        edition.complement || partner.complement
-      );
-      instanceForm.append("district", edition.district || partner.district);
-      instanceForm.append("city", edition.city || partner.city);
-      instanceForm.append("uf", edition.uf || partner.uf);
-      instanceForm.append(
-        "responsible",
-        edition.responsible || partner.responsible
-      );
-      instanceForm.append("phone1", edition.phone1 || partner.phone1);
-      instanceForm.append("phone2", edition.phone2 || partner.phone2);
-      instanceForm.append("phone3", edition.phone3 || partner.phone3);
-      instanceForm.append("email", edition.email || partner.email);
-      instanceForm.append("website", edition.website || partner.website);
-      instanceForm.append("media", image);
+      if (edition.fantasyName)
+        instanceForm.append("fantasyName", edition.fantasyName);
+      if (edition.companyName)
+        instanceForm.append("companyName", edition.companyName);
+      if (edition.cnpj) instanceForm.append("cnpj", edition.cnpj);
+      if (edition.stateRegistration)
+        instanceForm.append("stateRegistration", edition.stateRegistration);
+      if (edition.cep) instanceForm.append("cep", edition.cep);
+      if (edition.complement)
+        instanceForm.append("complement", edition.complement);
+      if (edition.district) instanceForm.append("district", edition.district);
+      if (edition.city) instanceForm.append("city", edition.city);
+      if (edition.uf) instanceForm.append("uf", edition.uf);
+      if (edition.responsible)
+        instanceForm.append("responsible", edition.responsible);
+      if (edition.phone1) instanceForm.append("phone1", edition.phone1);
+      if (edition.phone2) instanceForm.append("phone2", edition.phone2);
+      if (edition.phone3) instanceForm.append("phone3", edition.phone3);
+      if (edition.email) instanceForm.append("email", edition.email);
+      if (edition.website) instanceForm.append("website", edition.website);
+      // if (image) instanceForm.append("media", image);
+
+      const address = edition.address ? edition.address : partner.address;
+
+      if (edition.number)
+        instanceForm.append("address", `${address},${edition.number}`);
+
       const response = await api.put(`/partners/${partner.id}`, instanceForm);
       console.log(response.data);
     } catch (error) {
@@ -189,25 +190,47 @@ function CompanyPartner() {
     }
   }
 
-  async function searchCep(event) {
+  async function searchCep(event, status) {
     event.preventDefault();
-    const apiCep = `https://viacep.com.br/ws/${register.cep}/json/`;
-    const response = await axios.get(apiCep);
-    const { logradouro, localidade, uf, bairro } = response.data;
-    setRegister({
-      ...register,
-      address: logradouro,
-      city: localidade,
-      district: bairro,
-      uf,
-    });
-    !address.current?.value
-      ? address.current?.removeAttribute("disabled")
-      : address.current?.setAttribute("disabled", "false");
+    if (status === "cadastro") {
+      const apiCep = `https://viacep.com.br/ws/${register.cep}/json/`;
+      const response = await axios.get(apiCep);
+      const { logradouro, localidade, uf, bairro } = response.data;
+      setRegister({
+        ...register,
+        address: logradouro,
+        city: localidade,
+        district: bairro,
+        uf,
+      });
 
-    !district.current?.value
-      ? district.current?.removeAttribute("disabled")
-      : district.current?.setAttribute("disabled", "false");
+      !address.current?.value
+        ? address.current?.removeAttribute("disabled")
+        : address.current?.setAttribute("disabled", "false");
+
+      !district.current?.value
+        ? district.current?.removeAttribute("disabled")
+        : district.current?.setAttribute("disabled", "false");
+    } else {
+      const apiCep = `https://viacep.com.br/ws/${edition.cep}/json/`;
+      const response = await axios.get(apiCep);
+      const { logradouro, localidade, uf, bairro } = response.data;
+      setEdition({
+        ...edition,
+        address: logradouro,
+        city: localidade,
+        district: bairro,
+        uf,
+      });
+
+      !editAddress.current?.value
+        ? editAddress.current?.removeAttribute("disabled")
+        : editAddress.current?.setAttribute("disabled", "false");
+
+      !editDistrict.current?.value
+        ? editDistrict.current?.removeAttribute("disabled")
+        : editDistrict.current?.setAttribute("disabled", "false");
+    }
   }
 
   function change(event) {
@@ -265,6 +288,24 @@ function CompanyPartner() {
                       </div>
                       <form onSubmit={registerPartner} className="forms">
                         <div className="modal__body">
+                          <div className="modal__image">
+                            <label
+                              className={preview ? "active" : ""}
+                              style={{
+                                backgroundImage: `url(${preview})`,
+                              }}
+                            >
+                              <input
+                                type="file"
+                                className="modal__image-file"
+                                name="myfile"
+                                onChange={(event) =>
+                                  setImage(event.target.files[0])
+                                }
+                              />
+                              <GrImage />
+                            </label>
+                          </div>
                           <div className="modal__description">
                             <div className="modal__description-input">
                               <Input
@@ -296,25 +337,6 @@ function CompanyPartner() {
                                 name="stateRegistration"
                               />
                             </div>
-
-                            <div className="modal__image">
-                              <label
-                                className={preview ? "active" : ""}
-                                style={{
-                                  backgroundImage: `url(${preview})`,
-                                }}
-                              >
-                                <input
-                                  type="file"
-                                  className="modal__image-file"
-                                  name="myfile"
-                                  onChange={(event) =>
-                                    setImage(event.target.files[0])
-                                  }
-                                />
-                                <GrImage color="red" size="120px" />
-                              </label>
-                            </div>
                           </div>
 
                           <div className="modal__cep">
@@ -324,8 +346,13 @@ function CompanyPartner() {
                               value={register.cep}
                               onChange={change}
                               name="cep"
+                              mask="cep"
+                              maxLength={9}
                             />
-                            <Button color="light" onClick={searchCep}>
+                            <Button
+                              color="light"
+                              onClick={(event) => searchCep(event, "cadastro")}
+                            >
                               Consultar
                             </Button>
                           </div>
@@ -504,6 +531,9 @@ function CompanyPartner() {
                     </div>
                     <form onSubmit={editPartner} className="forms">
                       <div className="modal__body">
+                        <div className="modal__image">
+                          <img src={partner?.image} alt="avatar" />
+                        </div>
                         <div className="modal__description">
                           <div className="modal__description-input">
                             <Input
@@ -535,29 +565,33 @@ function CompanyPartner() {
                               name="stateRegistration"
                             />
                           </div>
-
-                          <div className="modal__image">
-                            <img src={partner?.image} alt="avatar" />
-                          </div>
                         </div>
 
                         <div className="modal__cep">
                           <Input
                             type="text"
                             placeholder="CEP"
-                            defaultValue={partner?.cep}
+                            value={edition.cep}
                             onChange={changeEdit}
                             name="cep"
+                            mask="cep"
+                            maxLength={9}
                           />
-                          <Button color="light">Consultar</Button>
+                          <Button
+                            color="light"
+                            onClick={(event) => searchCep(event, "edicao")}
+                          >
+                            Consultar
+                          </Button>
                         </div>
 
                         <div className="modal__address">
                           <Input
                             type="text"
                             placeholder="Endereço"
-                            defaultValue={partner?.address}
+                            value={edition.address}
                             onChange={changeEdit}
+                            ref={editAddress}
                             disabled
                             name="address"
                           />
@@ -566,7 +600,6 @@ function CompanyPartner() {
                             placeholder="Complemento"
                             defaultValue={partner?.complement}
                             onChange={changeEdit}
-                            disabled
                             name="complement"
                           />
                           <Input
@@ -574,7 +607,6 @@ function CompanyPartner() {
                             placeholder="Número"
                             defaultValue={partner?.number}
                             onChange={changeEdit}
-                            disabled
                             name="number"
                           />
                         </div>
@@ -583,8 +615,9 @@ function CompanyPartner() {
                           <Input
                             type="text"
                             placeholder="Bairro"
-                            defaultValue={partner?.district}
+                            value={edition.district}
                             onChange={changeEdit}
+                            ref={editDistrict}
                             disabled
                             name="district"
                           />
@@ -595,6 +628,7 @@ function CompanyPartner() {
                             onChange={changeEdit}
                             disabled
                             name="city"
+                            value={edition.city}
                           />
                           <Input
                             type="text"
@@ -603,6 +637,7 @@ function CompanyPartner() {
                             onChange={changeEdit}
                             disabled
                             name="uf"
+                            value={edition.uf}
                           />
                         </div>
 

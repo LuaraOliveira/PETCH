@@ -34,6 +34,17 @@ function Gifts() {
     partnerId: "",
   });
 
+  const [edition, setEdition] = useState({
+    name: "",
+    size: "",
+    color: "",
+    weight: "",
+    taste: "",
+    description: "",
+    coverage: "",
+    partnerId: "",
+  });
+
   const customStyles = {
     content: {
       top: "50%",
@@ -92,6 +103,27 @@ function Gifts() {
       console.log(error.response);
     }
   }
+  async function editGift(event) {
+    event.preventDefault();
+    try {
+      const instanceForm = new FormData();
+      if (edition.name) instanceForm.append("name", edition.name);
+      if (edition.size) instanceForm.append("size", edition.size);
+      if (edition.color) instanceForm.append("color", edition.color);
+      if (edition.weight) instanceForm.append("weight", edition.weight);
+      if (edition.description)
+        instanceForm.append("description", edition.description);
+      if (edition.coverage) instanceForm.append("coverage", edition.coverage);
+      if (edition.taste) instanceForm.append("taste", edition.taste);
+      if (edition.partnerId)
+        instanceForm.append("partnerId", edition.partnerId);
+
+      const response = await api.put(`/gifts/${gift.id}`, instanceForm);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
 
   async function infoGift(id) {
     try {
@@ -107,6 +139,13 @@ function Gifts() {
   function change(event) {
     setRegister({
       ...register,
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  function changeEdit(event) {
+    setEdition({
+      ...edition,
       [event.target.name]: event.target.value,
     });
   }
@@ -151,6 +190,24 @@ function Gifts() {
                       </div>
                       <form onSubmit={registerGift} className="forms">
                         <div className="modal__body">
+                          <div className="modal__image">
+                            <label
+                              className={preview ? "active" : ""}
+                              style={{
+                                backgroundImage: `url(${preview})`,
+                              }}
+                            >
+                              <input
+                                type="file"
+                                className="modal__image-file"
+                                name="myfile"
+                                onChange={(event) =>
+                                  setImage(event.target.files[0])
+                                }
+                              />
+                              <GrImage />
+                            </label>
+                          </div>
                           <div className="modal__description">
                             <div className="modal__description-input">
                               <Input
@@ -181,6 +238,13 @@ function Gifts() {
                                 onChange={change}
                                 name="weight"
                               />
+                              <Input
+                                type="text"
+                                placeholder="Sabor"
+                                value={register.taste}
+                                onChange={change}
+                                name="taste"
+                              />
                               <Select
                                 name="partnerId"
                                 onChange={change}
@@ -196,25 +260,6 @@ function Gifts() {
                                     </option>
                                   ))}
                               </Select>
-                            </div>
-
-                            <div className="modal__image">
-                              <label
-                                className={preview ? "active" : ""}
-                                style={{
-                                  backgroundImage: `url(${preview})`,
-                                }}
-                              >
-                                <input
-                                  type="file"
-                                  className="modal__image-file"
-                                  name="myfile"
-                                  onChange={(event) =>
-                                    setImage(event.target.files[0])
-                                  }
-                                />
-                                <GrImage color="red" size="120px" />
-                              </label>
                             </div>
                           </div>
                           <div className="modal__textarea">
@@ -319,34 +364,48 @@ function Gifts() {
                     <div className="modal__header">
                       <h2 className="modal__header-title">Dados do Brinde</h2>
                     </div>
-                    <form className="forms">
+                    <form onSubmit={editGift} className="forms">
                       <div className="modal__body">
+                        <div className="modal__image">
+                          <img src={gift?.image} alt="avatar" />
+                        </div>
                         <div className="modal__description">
                           <div className="modal__description-input">
                             <Input
                               type="text"
                               placeholder="Nome do Brinde"
                               defaultValue={gift?.name}
+                              onChange={changeEdit}
+                              name="name"
                             />
                             <Input
                               type="text"
                               placeholder="Cor"
                               defaultValue={gift?.color}
+                              onChange={changeEdit}
+                              name="color"
                             />
                             <Input
                               type="text"
                               placeholder="Tamanho"
                               defaultValue={gift?.size}
+                              onChange={changeEdit}
+                              name="size"
                             />
                             <Input
                               type="text"
                               placeholder="Peso"
                               defaultValue={gift?.weight}
+                              onChange={changeEdit}
+                              name="weight"
                             />
-                          </div>
-
-                          <div className="modal__image">
-                            <img src={gift?.image} alt="avatar" />
+                            <Input
+                              type="text"
+                              placeholder="Sabor"
+                              defaultValue={gift?.taste}
+                              onChange={changeEdit}
+                              name="taste"
+                            />
                           </div>
                         </div>
 
@@ -360,6 +419,8 @@ function Gifts() {
                             rows="3"
                             cols="20"
                             defaultValue={gift?.description}
+                            onChange={changeEdit}
+                            name="description"
                           />
                         </div>
 
@@ -373,6 +434,8 @@ function Gifts() {
                             rows="3"
                             cols="20"
                             defaultValue={gift?.coverage}
+                            onChange={changeEdit}
+                            name="coverage"
                           />
                         </div>
 

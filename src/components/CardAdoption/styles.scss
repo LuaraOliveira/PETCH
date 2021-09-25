@@ -1,0 +1,119 @@
+#CardAdoption {
+  display: flex;
+  justify-content: center;
+  .card {
+    &__container {
+      background: $white;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.4);
+      border-radius: 12px;
+      max-width: 327px;
+      height: 400px;
+      position: relative;
+    }
+    &__content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      flex-direction: column;
+    }
+
+    &__header {
+      gap: 16px;
+      align-items: center;
+      display: flex;
+
+      &-image {
+        width: 90px;
+        position: relative;
+        height: 90px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          border-radius: 8px;
+        }
+
+        .c-button {
+          position: absolute;
+          bottom: 0;
+          right: 0;
+        }
+      }
+
+      &-title {
+        font-family: $baloo;
+        font-style: normal;
+        font-size: 2.4rem;
+        font-weight: 600;
+        line-height: 20px;
+        text-align: center;
+        color: $purple;
+        margin-bottom: 10px;
+      }
+
+      &-genre {
+        font-family: $baloo;
+        font-size: 1rem;
+        color: $purple;
+        font-weight: 500;
+      }
+
+      &-image {
+        &-end {
+          width: 100%;
+          height: 250px;
+
+          img {
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+    }
+
+    &__info {
+      &-list {
+        list-style: none;
+        padding-left: 0;
+        padding-top: 6px;
+        padding-bottom: 0px;
+        margin-bottom: 0;
+        .text {
+          text-align: center;
+          font-family: $baloo;
+          font-size: 1.2rem;
+          margin-bottom: 8px;
+          color: $purple;
+          font-weight: 500;
+        }
+      }
+
+      &-subtitle {
+        font-weight: 500;
+        font-size: 1rem;
+        line-height: 1rem;
+        color: $pink;
+        text-align: center;
+        font-family: $baloo;
+      }
+      &-title {
+        text-align: center;
+        font-family: $baloo;
+        font-size: 1rem;
+        margin-bottom: 8px;
+        color: $purple;
+        font-weight: 500;
+      }
+    }
+
+    &__buttons {
+      display: flex;
+      grid-gap: 8px;
+      gap: 8px;
+      align-items: center;
+      position: absolute;
+      bottom: 10px;
+    }
+  }
+}

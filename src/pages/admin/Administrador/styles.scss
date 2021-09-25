@@ -76,13 +76,16 @@
         @media only screen and (min-width: 992px) {
           justify-content: flex-start;
         }
-
         img {
-          height: 96px;
+          height: 200px;
+          width: 100%;
+          object-fit: cover;
         }
 
         svg {
-          height: 96px;
+          height: 200px;
+          width: 100%;
+          object-fit: cover;
         }
       }
     }
@@ -195,10 +198,6 @@
       margin-bottom: 32px;
       flex-wrap: wrap;
 
-      @media only screen and (min-width: 992px) {
-        flex-wrap: nowrap;
-      }
-
       &-input {
         display: flex;
         flex-direction: column;
@@ -214,20 +213,26 @@
     }
 
     &__image {
-      width: 700px;
+      width: 100%;
+
       &-file {
         display: none;
       }
 
       label {
         width: 100%;
-        height: 100%;
+        height: 200px;
         background-size: cover;
         &.active {
           svg {
             display: none;
           }
         }
+      }
+
+      svg {
+        width: 100%;
+        height: 200px;
       }
     }
 

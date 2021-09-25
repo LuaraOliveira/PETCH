@@ -80,10 +80,11 @@ function Administrador() {
     event.preventDefault();
     try {
       const instanceForm = new FormData();
+      const birthday = register.birthday.split("/").reverse().join("-");
       instanceForm.append("name", register.name);
       instanceForm.append("email", register.email);
       instanceForm.append("cpf", register.cpf);
-      instanceForm.append("birthday", register.birthday);
+      instanceForm.append("birthday", birthday);
       instanceForm.append("gender", register.gender);
       instanceForm.append("cep", register.cep);
       instanceForm.append("address", `${register.address},${register.number}`);
@@ -166,6 +167,24 @@ function Administrador() {
                       </div>
                       <form onSubmit={registerUser} className="forms">
                         <div className="modal__body">
+                          <div className="modal__image">
+                            <label
+                              className={preview ? "active" : ""}
+                              style={{
+                                backgroundImage: `url(${preview})`,
+                              }}
+                            >
+                              <input
+                                type="file"
+                                className="modal__image-file"
+                                name="myfile"
+                                onChange={(event) =>
+                                  setImage(event.target.files[0])
+                                }
+                              />
+                              <GrImage />
+                            </label>
+                          </div>
                           <div className="modal__description">
                             <div className="modal__description-input">
                               <Input
@@ -210,25 +229,6 @@ function Administrador() {
                                 onChange={change}
                                 name="cpf"
                               />
-                            </div>
-
-                            <div className="modal__image">
-                              <label
-                                className={preview ? "active" : ""}
-                                style={{
-                                  backgroundImage: `url(${preview})`,
-                                }}
-                              >
-                                <input
-                                  type="file"
-                                  className="modal__image-file"
-                                  name="myfile"
-                                  onChange={(event) =>
-                                    setImage(event.target.files[0])
-                                  }
-                                />
-                                <GrImage color="red" size="120px" />
-                              </label>
                             </div>
                           </div>
 

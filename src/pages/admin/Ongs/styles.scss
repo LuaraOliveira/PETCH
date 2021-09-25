@@ -60,7 +60,7 @@
           font-size: 1rem;
           font-weight: 400;
           @media only screen and (min-width: 992px) {
-            font-size: 1.1rem;
+            font-size: 0.9rem;
           }
         }
       }
@@ -81,7 +81,15 @@
         }
 
         img {
-          height: 96px;
+          height: 200px;
+          width: 100%;
+          object-fit: cover;
+        }
+
+        svg {
+          height: 200px;
+          width: 100%;
+          object-fit: cover;
         }
       }
     }
@@ -194,10 +202,6 @@
       margin-bottom: 32px;
       flex-wrap: wrap;
 
-      @media only screen and (min-width: 992px) {
-        flex-wrap: nowrap;
-      }
-
       &-input {
         display: flex;
         flex-direction: column;
@@ -213,12 +217,13 @@
     }
 
     &__image {
-      width: 700px;
+      width: 100%;
       height: 230px;
 
       img {
         width: 100%;
         height: 100%;
+        object-fit: cover;
       }
       &-file {
         display: none;
@@ -226,13 +231,18 @@
 
       label {
         width: 100%;
-        height: 100%;
+        height: 200px;
         background-size: cover;
         &.active {
           svg {
             display: none;
           }
         }
+      }
+
+      svg {
+        width: 100%;
+        height: 200px;
       }
     }
     &__cep {

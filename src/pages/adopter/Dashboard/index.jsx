@@ -1,6 +1,7 @@
 import { HeaderAdopter } from "../../../components/HeaderAdopter";
 import CardTinder from "../../../components/CardTinder";
 import CardTinderInfo from "../../../components/CardTinderInfo";
+import CardNotLike from "../../../components/CardNotLike";
 import { useState, useEffect } from "react";
 import api from "../../../services/api";
 function DashboardAdopter() {
@@ -16,7 +17,7 @@ function DashboardAdopter() {
         <div className="row">
           <div className="col-md-12">
             <div className="dashboardAdopter__container">
-              {pets.length >= 1 ? (
+              {/* {pets.length >= 1 ? (
                 pets.map((pet) => (
                   <>
                     <CardTinder pet={pet} />
@@ -24,7 +25,8 @@ function DashboardAdopter() {
                 ))
               ) : (
                 <CardTinderInfo />
-              )}
+              )} */}
+              <CardNotLike />
             </div>
           </div>
         </div>

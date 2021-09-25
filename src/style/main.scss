@@ -11,6 +11,8 @@
 @import "../components/Radio/styles";
 @import "../components/CardTinder/styles";
 @import "../components/CardTinderInfo/styles";
+@import "../components/CardNotLike/styles";
+@import "../components/CardAdoption/styles";
 //Pages
 @import "../pages/admin/Login/styles";
 @import "../pages/admin/Dashboard/styles";
@@ -25,3 +27,6 @@
 @import "../pages/adopter/Dashboard/styles";
 @import "../pages/adopter/Settings/styles";
 @import "../pages/adopter/Register/styles";
+@import "../pages/adopter/RecoveryPassword/styles";
+@import "../pages/adopter/Search/styles";
+@import "../pages/adopter/AdoptionRequest/styles";

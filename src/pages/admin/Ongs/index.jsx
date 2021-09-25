@@ -16,6 +16,8 @@ function Ongs() {
   ];
   const address = useRef(null);
   const district = useRef(null);
+  const editAddress = useRef(null);
+  const editDistrict = useRef(null);
   const { ongs } = usePetch();
   const [ong, setOng] = useState(undefined);
   const [image, setImage] = useState(null);
@@ -23,6 +25,21 @@ function Ongs() {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
   const [register, setRegister] = useState({
+    name: "",
+    email: "",
+    responsible: "",
+    phone1: "",
+    complement: "",
+    number: "",
+    cep: "",
+    address: "",
+    district: "",
+    city: "",
+    uf: "",
+    coverage: "",
+  });
+
+  const [edition, setEdition] = useState({
     name: "",
     email: "",
     responsible: "",
@@ -108,29 +125,87 @@ function Ongs() {
     }
   }
 
-  async function searchCep(event) {
+  async function editOngs(event) {
     event.preventDefault();
-    const apiCep = `https://viacep.com.br/ws/${register.cep}/json/`;
-    const response = await axios.get(apiCep);
-    const { logradouro, localidade, uf, bairro } = response.data;
-    setRegister({
-      ...register,
-      address: logradouro,
-      city: localidade,
-      district: bairro,
-      uf,
-    });
-    !address.current?.value
-      ? address.current?.removeAttribute("disabled")
-      : address.current?.setAttribute("disabled", "false");
+    try {
+      const instanceForm = new FormData();
+      if (edition.name) instanceForm.append("name", edition.name);
+      if (edition.email) instanceForm.append("email", edition.email);
+      if (edition.responsible)
+        instanceForm.append("responsible", edition.responsible);
+      if (edition.phone1) instanceForm.append("phone1", edition.phone1);
+      if (edition.cep) instanceForm.append("cep", edition.cep);
+      if (edition.address) instanceForm.append("address", edition.address);
+      if (edition.district) instanceForm.append("district", edition.district);
+      if (edition.city) instanceForm.append("city", edition.city);
+      if (edition.uf) instanceForm.append("uf", edition.uf);
+      if (edition.coverage) instanceForm.append("coverage", edition.coverage);
+      // if (image) instanceForm.append("media", image);
 
-    !district.current?.value
-      ? district.current?.removeAttribute("disabled")
-      : district.current?.setAttribute("disabled", "false");
+      const address = edition.address ? edition.address : ong.address;
+
+      if (edition.number)
+        instanceForm.append("address", `${address},${edition.number}`);
+
+      const response = await api.put(`/ongs/${ong.id}`, instanceForm);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
+  async function searchCep(event, status) {
+    event.preventDefault();
+    if (status === "cadastro") {
+      const apiCep = `https://viacep.com.br/ws/${register.cep}/json/`;
+      const response = await axios.get(apiCep);
+      const { logradouro, localidade, uf, bairro } = response.data;
+      setRegister({
+        ...register,
+        address: logradouro,
+        city: localidade,
+        district: bairro,
+        uf,
+      });
+
+      !address.current?.value
+        ? address.current?.removeAttribute("disabled")
+        : address.current?.setAttribute("disabled", "false");
+
+      !district.current?.value
+        ? district.current?.removeAttribute("disabled")
+        : district.current?.setAttribute("disabled", "false");
+    } else {
+      const apiCep = `https://viacep.com.br/ws/${edition.cep}/json/`;
+      const response = await axios.get(apiCep);
+      const { logradouro, localidade, uf, bairro } = response.data;
+      setEdition({
+        ...edition,
+        address: logradouro,
+        city: localidade,
+        district: bairro,
+        uf,
+      });
+
+      !editAddress.current?.value
+        ? editAddress.current?.removeAttribute("disabled")
+        : editAddress.current?.setAttribute("disabled", "false");
+
+      !editDistrict.current?.value
+        ? editDistrict.current?.removeAttribute("disabled")
+        : editDistrict.current?.setAttribute("disabled", "false");
+    }
   }
   function change(event) {
     setRegister({
       ...register,
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  function changeEdit(event) {
+    setEdition({
+      ...edition,
       [event.target.name]: event.target.value,
     });
   }
@@ -174,6 +249,24 @@ function Ongs() {
                       </div>
                       <form onSubmit={registerOng} className="forms">
                         <div className="modal__body">
+                          <div className="modal__image">
+                            <label
+                              className={preview ? "active" : ""}
+                              style={{
+                                backgroundImage: `url(${preview})`,
+                              }}
+                            >
+                              <input
+                                type="file"
+                                className="modal__image-file"
+                                name="myfile"
+                                onChange={(event) =>
+                                  setImage(event.target.files[0])
+                                }
+                              />
+                              <GrImage />
+                            </label>
+                          </div>
                           <div className="modal__description">
                             <div className="modal__description-input">
                               <Input
@@ -212,24 +305,6 @@ function Ongs() {
                                 value={register.coverage}
                                 onChange={change}
                               />
-                            </div>
-                            <div className="modal__image">
-                              <label
-                                className={preview ? "active" : ""}
-                                style={{
-                                  backgroundImage: `url(${preview})`,
-                                }}
-                              >
-                                <input
-                                  type="file"
-                                  className="modal__image-file"
-                                  name="myfile"
-                                  onChange={(event) =>
-                                    setImage(event.target.files[0])
-                                  }
-                                />
-                                <GrImage color="red" size="120px" />
-                              </label>
                             </div>
                           </div>
 
@@ -378,20 +453,25 @@ function Ongs() {
                     <div className="modal__header">
                       <h2 className="modal__header-title">Dados da ONG</h2>
                     </div>
-                    <form className="forms">
+                    <form onSubmit={editOngs} className="forms">
                       <div className="modal__body">
+                        <div className="modal__image">
+                          <img src={ong?.image} alt="avatar" />
+                        </div>
                         <div className="modal__description">
                           <div className="modal__description-input">
                             <Input
                               type="text"
                               placeholder="Nome"
                               name="name"
+                              onChange={changeEdit}
                               defaultValue={ong?.name}
                             />
                             <Input
                               type="text"
                               placeholder="Email"
                               name="email"
+                              onChange={changeEdit}
                               defaultValue={ong?.email}
                             />
 
@@ -399,23 +479,23 @@ function Ongs() {
                               type="text"
                               placeholder="Responsável"
                               name="responsible"
+                              onChange={changeEdit}
                               defaultValue={ong?.responsible}
                             />
                             <Input
                               type="text"
                               placeholder="Telefone"
                               name="phone1"
+                              onChange={changeEdit}
                               defaultValue={ong?.phone1}
                             />
                             <Input
                               type="text"
                               placeholder="Abrangência"
                               name="coverage"
+                              onChange={changeEdit}
                               defaultValue={ong?.coverage}
                             />
-                          </div>
-                          <div className="modal__image">
-                            <img src={ong?.image} alt="avatar" />
                           </div>
                         </div>
 
@@ -423,8 +503,11 @@ function Ongs() {
                           <Input
                             type="text"
                             placeholder="CEP"
+                            value={edition.cep}
+                            onChange={changeEdit}
                             name="cep"
-                            defaultValue={ong?.cep}
+                            mask="cep"
+                            maxLength={9}
                           />
                           <Button color="light" onClick={searchCep}>
                             Consultar
@@ -434,20 +517,26 @@ function Ongs() {
                           <Input
                             type="text"
                             placeholder="Endereço"
+                            value={edition.address}
+                            onChange={changeEdit}
+                            ref={editAddress}
                             disabled
-                            ref={address}
                             name="address"
-                            defaultValue={ong?.address}
                           />
                           <Input
                             type="text"
                             placeholder="Complemento"
+                            placeholder="Complemento"
                             defaultValue={ong?.complement}
+                            onChange={changeEdit}
+                            name="complement"
                           />
                           <Input
                             type="text"
                             placeholder="Número"
                             defaultValue={ong?.number}
+                            onChange={changeEdit}
+                            name="number"
                           />
                         </div>
 
@@ -455,24 +544,28 @@ function Ongs() {
                           <Input
                             type="text"
                             placeholder="Bairro"
+                            value={edition.district}
+                            onChange={changeEdit}
+                            ref={editDistrict}
                             disabled
                             name="district"
-                            ref={district}
-                            defaultValue={ong?.district}
                           />
                           <Input
                             type="text"
                             placeholder="Cidade"
+                            defaultValue={ong?.city}
+                            onChange={changeEdit}
                             disabled
                             name="city"
-                            defaultValue={ong?.city}
+                            value={edition.city}
                           />
                           <Input
                             type="text"
                             placeholder="Estado"
+                            onChange={changeEdit}
                             disabled
                             name="uf"
-                            defaultValue={ong?.uf}
+                            value={ong?.uf}
                           />
                         </div>
 

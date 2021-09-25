@@ -15,6 +15,9 @@ import LoginAdopter from "../pages/adopter/Login";
 import DashboardAdopter from "../pages/adopter/Dashboard";
 import Settings from "../pages/adopter/Settings";
 import RegisterAdopter from "../pages/adopter/Register";
+import RecoveryPassword from "../pages/adopter/RecoveryPassword";
+import Search from "../pages/adopter/Search";
+import AdoptionRequest from "../pages/adopter/AdoptionRequest";
 export function Routes() {
   return (
     <>
@@ -118,6 +121,29 @@ export function Routes() {
           exact
           hasHeader={false}
           component={RegisterAdopter}
+        />
+
+        <Route
+          path="/adopter/RecoveryPassword"
+          hasFooter={false}
+          exact
+          hasHeader={false}
+          component={RecoveryPassword}
+        />
+
+        <Route
+          path="/adopter/Search"
+          hasFooter={false}
+          exact
+          hasHeader={false}
+          component={Search}
+        />
+        <Route
+          path="/adopter/AdoptionRequest"
+          hasFooter={false}
+          exact
+          hasHeader={false}
+          component={AdoptionRequest}
         />
       </Switch>
     </>

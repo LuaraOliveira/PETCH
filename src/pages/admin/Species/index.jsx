@@ -27,6 +27,13 @@ function Species() {
     phone1: "",
   });
 
+  const [edition, setEdition] = useState({
+    fantasyName: "",
+    cnpj: "",
+    email: "",
+    phone1: "",
+  });
+
   const customStyles = {
     content: {
       top: "50%",
@@ -92,9 +99,34 @@ function Species() {
       console.log(error.response);
     }
   }
+
+  async function editSpecie(event) {
+    event.preventDefault();
+    try {
+      const instanceForm = new FormData();
+      if (edition.fantasyName)
+        instanceForm.append("fantasyName", edition.fantasyName);
+      if (edition.cnpj) instanceForm.append("cnpj", edition.cnpj);
+      if (edition.email) instanceForm.append("email", edition.email);
+      if (edition.phone1) instanceForm.append("phone1", edition.phone1);
+
+      const response = await api.put(`/species/${specie.id}`, instanceForm);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
   function change(event) {
     setRegister({
       ...register,
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  function changeEdit(event) {
+    setEdition({
+      ...edition,
       [event.target.name]: event.target.value,
     });
   }
@@ -265,7 +297,7 @@ function Species() {
                     <div className="modal__header">
                       <h2 className="modal__header-title">Dados da Espécie</h2>
                     </div>
-                    <form className="forms">
+                    <form onSubmit={editSpecie} lassName="forms">
                       <div className="modal__body">
                         <div className="modal__description center">
                           <div className="modal__image">
@@ -277,6 +309,8 @@ function Species() {
                           type="text"
                           placeholder="Nome da Espécie"
                           defaultValue={specie?.name}
+                          onChange={changeEdit}
+                          name="name"
                         />
 
                         <p className="modal__species-title">Portes</p>
@@ -291,16 +325,22 @@ function Species() {
                                   type="text"
                                   placeholder="Descrição"
                                   defaultValue={specie?.name}
+                                  onChange={changeEdit}
+                                  name="name"
                                 />
                                 <Input
                                   type="text"
                                   placeholder="Peso Inicial"
                                   defaultValue={specie?.initWeight}
+                                  onChange={changeEdit}
+                                  name="initWeight"
                                 />
                                 <Input
                                   type="text"
                                   placeholder="Peso Final"
                                   defaultValue={specie?.endWeight}
+                                  onChange={changeEdit}
+                                  name="endWeight"
                                 />
                                 <Button color="light">Editar</Button>
                                 <Button color="secondary">Excluir</Button>

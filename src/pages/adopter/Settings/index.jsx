@@ -45,7 +45,7 @@ function Settings() {
                   <div className="settings__header">
                     <div className="settings__image">
                       <div className="settings__image--circle">
-                        <img src={avatar} alt="avatar" />
+                        <img src={avatar} alt="avatar animal" />
                         <Button color="camera" onClick={openModal}>
                           <AiFillCamera />
                         </Button>
@@ -60,7 +60,7 @@ function Settings() {
                           </Button>
                           <img
                             src={photoBig}
-                            alt="image"
+                            alt="image animal"
                             className="image-modal"
                           />
                         </Modal>

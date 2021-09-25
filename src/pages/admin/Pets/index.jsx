@@ -25,7 +25,22 @@ function Pets() {
   }, [image]);
   const [register, setRegister] = useState({
     name: "",
+    cut: "not",
     age: "",
+    weight: "",
+    gender: "",
+    ong: "",
+    speciesId: "",
+    breed: "",
+    ongId: "",
+    color: "",
+    description: "",
+  });
+
+  const [edition, setEdition] = useState({
+    name: "",
+    age: "",
+    cut: "",
     weight: "",
     gender: "",
     ong: "",
@@ -90,7 +105,7 @@ function Pets() {
     try {
       const instanceForm = new FormData();
       instanceForm.append("name", register.name);
-      instanceForm.append("cut", radio === "yes" && "true");
+      instanceForm.append("cut", register.cut === "yes" && "true");
       instanceForm.append("age", register.age);
       instanceForm.append("weight", register.weight);
       instanceForm.append("gender", register.gender);
@@ -100,8 +115,34 @@ function Pets() {
       instanceForm.append("color", register.color);
       instanceForm.append("description", register.description);
       instanceForm.append("ongId", register.ongId);
-      instanceForm.append("images", image);
+      instanceForm.append("media", image);
       const response = await api.post("/pets", instanceForm);
+      console.log(response.data);
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
+
+  async function editPet(event) {
+    event.preventDefault();
+    try {
+      const instanceForm = new FormData();
+      if (edition.name) instanceForm.append("name", edition.name);
+      if (edition.cut)
+        instanceForm.append("cut", edition.cut === "yes" && "true");
+      if (edition.cnpj) instanceForm.append("age", edition.age);
+      if (edition.email) instanceForm.append("weight", edition.weight);
+      if (edition.gender) instanceForm.append("gender", edition.gender);
+      if (edition.ong) instanceForm.append("ong", edition.ong);
+      if (edition.speciesId)
+        instanceForm.append("speciesId", edition.speciesId);
+      if (edition.breed) instanceForm.append("breed", edition.breed);
+      if (edition.color) instanceForm.append("color", edition.color);
+      if (edition.description)
+        instanceForm.append("description", edition.description);
+      if (edition.ongId) instanceForm.append("ongId", edition.ongId);
+
+      const response = await api.put(`/pets/${pet.id}`, instanceForm);
       console.log(response.data);
     } catch (error) {
       console.log(error.response);
@@ -111,6 +152,13 @@ function Pets() {
   function change(event) {
     setRegister({
       ...register,
+      [event.target.name]: event.target.value,
+    });
+  }
+
+  function changeEdit(event) {
+    setEdition({
+      ...edition,
       [event.target.name]: event.target.value,
     });
   }
@@ -156,6 +204,24 @@ function Pets() {
                       </div>
                       <form onSubmit={registerPet} className="forms">
                         <div className="modal__body">
+                          <div className="modal__image">
+                            <label
+                              className={preview ? "active" : ""}
+                              style={{
+                                backgroundImage: `url(${preview})`,
+                              }}
+                            >
+                              <input
+                                type="file"
+                                className="modal__image-file"
+                                name="myfile"
+                                onChange={(event) =>
+                                  setImage(event.target.files[0])
+                                }
+                              />
+                              <GrImage color="red" />
+                            </label>
+                          </div>
                           <div className="modal__description">
                             <div className="modal__description-input">
                               <Input
@@ -211,8 +277,13 @@ function Pets() {
                                     id="radio-button-3"
                                     name="radio-name-7"
                                     value="yes"
-                                    onChange={(e) => setRadio(e.target.value)}
-                                    defaultChecked={radio === "yes"}
+                                    onChange={(e) =>
+                                      setRegister({
+                                        ...register,
+                                        cut: e.target.value,
+                                      })
+                                    }
+                                    checked={register.cut === "yes"}
                                   >
                                     sim
                                   </Radio>
@@ -221,8 +292,13 @@ function Pets() {
                                     name="radio-name-7"
                                     defaultChecked
                                     value="not"
-                                    onChange={(e) => setRadio(e.target.value)}
-                                    defaultChecked={radio === "not"}
+                                    onChange={(e) =>
+                                      setRegister({
+                                        ...register,
+                                        cut: e.target.value,
+                                      })
+                                    }
+                                    checked={register.cut === "not"}
                                   >
                                     não
                                   </Radio>
@@ -277,24 +353,6 @@ function Pets() {
                                   name="description"
                                 />
                               </div>
-                            </div>
-                            <div className="modal__image">
-                              <label
-                                className={preview ? "active" : ""}
-                                style={{
-                                  backgroundImage: `url(${preview})`,
-                                }}
-                              >
-                                <input
-                                  type="file"
-                                  className="modal__image-file"
-                                  name="myfile"
-                                  onChange={(event) =>
-                                    setImage(event.target.files[0])
-                                  }
-                                />
-                                <GrImage color="red" />
-                              </label>
                             </div>
                           </div>
 
@@ -372,25 +430,34 @@ function Pets() {
                         Informações do Animal
                       </h2>
                     </div>
-                    <form className="forms">
+                    <form onSubmit={editPet} className="forms">
                       <div className="modal__body">
+                        <div className="modal__image">
+                          <img src={pet?.image} alt="avatar" />
+                        </div>
                         <div className="modal__description">
                           <div className="modal__description-input">
                             <Input
                               type="text"
                               placeholder="Nome do animal"
                               defaultValue={pet?.name}
+                              onChange={changeEdit}
+                              name="name"
                             />
                             <div className="modal__description-ong">
                               <Input
                                 type="text"
                                 placeholder="Raça"
                                 defaultValue={pet?.breed}
+                                onChange={changeEdit}
+                                name="breed"
                               />
                               <Input
                                 type="text"
                                 placeholder="Sexo"
                                 defaultValue={pet?.gender}
+                                onChange={changeEdit}
+                                name="gender"
                               />
                             </div>
                             <div className="modal__description-input">
@@ -398,11 +465,15 @@ function Pets() {
                                 type="text"
                                 placeholder="ong"
                                 defaultValue={pet?.ong?.name}
+                                onChange={changeEdit}
+                                name="name"
                               />
                               <Input
                                 type="text"
                                 placeholder="espécie"
                                 defaultValue={pet?.species?.name}
+                                onChange={changeEdit}
+                                name="name"
                               />
                             </div>
 
@@ -411,6 +482,8 @@ function Pets() {
                                 type="text"
                                 placeholder="Idade"
                                 defaultValue={pet?.age}
+                                onChange={changeEdit}
+                                name="age"
                               />
                               <p className="modal__description-castration-title">
                                 Castrado?
@@ -420,6 +493,13 @@ function Pets() {
                                   id="radio-button-3"
                                   name="radio-button-name-8"
                                   defaultChecked={pet?.cut}
+                                  value="yes"
+                                  onChange={(e) =>
+                                    setEdition({
+                                      ...edition,
+                                      cut: e.target.value,
+                                    })
+                                  }
                                 >
                                   sim
                                 </Radio>
@@ -427,6 +507,13 @@ function Pets() {
                                   id="radio-button-4"
                                   name="radio-button-name-8"
                                   defaultChecked={!pet?.cut}
+                                  value="not"
+                                  onChange={(e) =>
+                                    setEdition({
+                                      ...edition,
+                                      cut: e.target.value,
+                                    })
+                                  }
                                 >
                                   não
                                 </Radio>
@@ -437,6 +524,8 @@ function Pets() {
                                 type="text"
                                 placeholder="Peso(kg)"
                                 defaultValue={pet?.weight}
+                                onChange={changeEdit}
+                                name="weight"
                               />
                               <Select name="status">
                                 <option value="">Ativo</option>
@@ -448,6 +537,8 @@ function Pets() {
                                 type="text"
                                 placeholder="Peso(kg)"
                                 defaultValue={pet?.color}
+                                onChange={changeEdit}
+                                name="color"
                               />
                             </div>
 
@@ -461,11 +552,10 @@ function Pets() {
                                 rows="3"
                                 cols="20"
                                 defaultValue={pet?.description}
+                                onChange={changeEdit}
+                                name="breed"
                               />
                             </div>
-                          </div>
-                          <div className="modal__image">
-                            <img src={pet?.image} alt="avatar" />
                           </div>
                         </div>
 
