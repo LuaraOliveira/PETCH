@@ -2,10 +2,8 @@ import logo from "../../../assets/logo/logo-white.png";
 import { Input } from "../../../components/Input";
 import { Button } from "../../../components/Button";
 import api from "../../../services/api";
-import { Link } from "react-router-dom";
 import { useState } from "react";
 function RegisterAdopter() {
-  const [cep, setCep] = useState("");
   const [register, setRegister] = useState({
     name: "",
     email: "",
@@ -99,6 +97,8 @@ function RegisterAdopter() {
                   name="phone"
                   onChange={change}
                   value={register.phone}
+                  maxLength={15}
+                  mask="phone"
                 />
 
                 <Input

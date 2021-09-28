@@ -9,6 +9,27 @@ import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import axios from "axios";
 import { usePetch } from "../../../context/petchcontext";
+
+const initialState = {
+  fantasyName: "",
+  companyName: "",
+  cnpj: "",
+  stateRegistration: "",
+  cep: "",
+  address: "",
+  complement: "",
+  number: "",
+  district: "",
+  city: "",
+  uf: "",
+  responsible: "",
+  phone1: "",
+  phone2: "",
+  phone3: "",
+  email: "",
+  website: "",
+};
+
 function CompanyPartner() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
@@ -29,45 +50,9 @@ function CompanyPartner() {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
 
-  const [edition, setEdition] = useState({
-    fantasyName: "",
-    companyName: "",
-    cnpj: "",
-    stateRegistration: "",
-    cep: "",
-    address: "",
-    complement: "",
-    number: "",
-    district: "",
-    city: "",
-    uf: "",
-    responsible: "",
-    phone1: "",
-    phone2: "",
-    phone3: "",
-    email: "",
-    website: "",
-  });
+  const [edition, setEdition] = useState(initialState);
 
-  const [register, setRegister] = useState({
-    fantasyName: "",
-    companyName: "",
-    cnpj: "",
-    stateRegistration: "",
-    cep: "",
-    address: "",
-    complement: "",
-    number: "",
-    district: "",
-    city: "",
-    uf: "",
-    responsible: "",
-    phone1: "",
-    phone2: "",
-    phone3: "",
-    email: "",
-    website: "",
-  });
+  const [register, setRegister] = useState(initialState);
 
   const customStyles = {
     content: {
@@ -104,6 +89,19 @@ function CompanyPartner() {
     setPartner(undefined);
     setImage(null);
   }
+
+  function cancelButton(event) {
+    event.preventDefault();
+    setRegister(initialState);
+    closeModalRegister(event);
+  }
+
+  function cancelButtonEdition(event) {
+    event.preventDefault();
+    setEdition(initialState);
+    closeModalData(event);
+  }
+
   async function infoPartner(id) {
     try {
       const response = await api.get(`/partners/${id}`);
@@ -328,6 +326,8 @@ function CompanyPartner() {
                                 value={register.cnpj}
                                 onChange={change}
                                 name="cnpj"
+                                maxLength={18}
+                                mask="cnpj"
                               />
                               <Input
                                 type="text"
@@ -425,6 +425,8 @@ function CompanyPartner() {
                               value={register.phone1}
                               onChange={change}
                               name="phone1"
+                              maxLength={15}
+                              mask="phone"
                             />
                             <Input
                               type="text"
@@ -432,6 +434,8 @@ function CompanyPartner() {
                               value={register.phone2}
                               onChange={change}
                               name="phone2"
+                              maxLength={15}
+                              mask="phone"
                             />
                             <Input
                               type="text"
@@ -439,6 +443,8 @@ function CompanyPartner() {
                               value={register.phone3}
                               onChange={change}
                               name="phone3"
+                              maxLength={15}
+                              mask="phone"
                             />
                             <Input
                               type="text"
@@ -457,7 +463,9 @@ function CompanyPartner() {
                           </div>
 
                           <div className="modal__buttons">
-                            <Button color="light">Cancelar</Button>
+                            <Button color="light" onClick={cancelButton}>
+                              Cancelar
+                            </Button>
                             <Button color="primary">Cadastrar Parceiro</Button>
                           </div>
                         </div>
@@ -556,6 +564,8 @@ function CompanyPartner() {
                               defaultValue={partner?.cnpj}
                               onChange={changeEdit}
                               name="cnpj"
+                              maxLength={18}
+                              mask="cnpj"
                             />
                             <Input
                               type="text"
@@ -628,7 +638,6 @@ function CompanyPartner() {
                             onChange={changeEdit}
                             disabled
                             name="city"
-                            value={edition.city}
                           />
                           <Input
                             type="text"
@@ -637,7 +646,6 @@ function CompanyPartner() {
                             onChange={changeEdit}
                             disabled
                             name="uf"
-                            value={edition.uf}
                           />
                         </div>
 
@@ -655,6 +663,8 @@ function CompanyPartner() {
                             defaultValue={partner?.phone1}
                             onChange={changeEdit}
                             name="phone1"
+                            maxLength={15}
+                            mask="phone"
                           />
                           <Input
                             type="text"
@@ -662,6 +672,8 @@ function CompanyPartner() {
                             defaultValue={partner?.phone2}
                             onChange={changeEdit}
                             name="phone2"
+                            maxLength={15}
+                            mask="phone"
                           />
                           <Input
                             type="text"
@@ -669,6 +681,8 @@ function CompanyPartner() {
                             defaultValue={partner?.phone3}
                             onChange={changeEdit}
                             name="phone3"
+                            maxLength={15}
+                            mask="phone"
                           />
                           <Input
                             type="text"
@@ -687,7 +701,9 @@ function CompanyPartner() {
                         </div>
 
                         <div className="modal__buttons">
-                          <Button color="light">Cancelar</Button>
+                          <Button color="light" onClick={cancelButtonEdition}>
+                            Cancelar
+                          </Button>
                           <Button color="primary">Cadastrar Parceiro</Button>
                         </div>
                       </div>

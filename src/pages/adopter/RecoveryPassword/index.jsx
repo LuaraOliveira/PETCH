@@ -1,7 +1,6 @@
 import logo from "../../../assets/logo/logo-white.png";
 import { Input } from "../../../components/Input";
 import { Button } from "../../../components/Button";
-import { Link } from "react-router-dom";
 function RecoveryPassword() {
   return (
     <>

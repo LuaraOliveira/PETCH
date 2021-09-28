@@ -1,15 +1,12 @@
 import photoNotFound from "../../assets/photos/photo-petch-not.png";
 import { AiOutlineSearch } from "react-icons/ai";
 import { Button } from "../Button";
-import { useState } from "react";
 import { useHistory } from "react-router-dom";
 function CardNotLike() {
-  const [menu, setMenu] = useState(false);
   const history = useHistory();
 
   function changePage(name) {
     history.push(name);
-    setMenu(false);
   }
   return (
     <>
@@ -29,7 +26,7 @@ function CardNotLike() {
             <div className="card__buttons">
               <Button
                 color="gradient"
-                onClick={() => changePage("/adopter/AdoptionRequest")}
+                onClick={() => changePage("/adopter/Dashboard")}
               >
                 <AiOutlineSearch />
               </Button>

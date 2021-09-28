@@ -8,6 +8,23 @@ import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import axios from "axios";
+
+const initialState = {
+  name: "",
+  email: "",
+  cpf: "",
+  birthday: "",
+  gender: "",
+  cep: "",
+  address: "",
+  district: "",
+  complement: "",
+  city: "",
+  uf: "",
+  phone: "",
+  number: "",
+};
+
 function Administrador() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
@@ -20,26 +37,12 @@ function Administrador() {
   const [user, setUser] = useState(undefined);
   const [image, setImage] = useState(null);
   const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
-
+  const [modalIsOpenData, setIsOpenData] = useState(false);
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
 
-  const [register, setRegister] = useState({
-    name: "",
-    email: "",
-    cpf: "",
-    birthday: "",
-    gender: "",
-    cep: "",
-    address: "",
-    district: "",
-    complement: "",
-    city: "",
-    uf: "",
-    phone: "",
-    number: "",
-  });
+  const [register, setRegister] = useState(initialState);
 
   useEffect(() => {
     api
@@ -65,6 +68,12 @@ function Administrador() {
     },
   };
 
+  function closeModalData(event) {
+    event.preventDefault();
+    setIsOpenData(false);
+    setUser(undefined);
+  }
+
   function openModalRegister(event) {
     event.preventDefault();
     setIsOpenRegister(true);
@@ -74,6 +83,12 @@ function Administrador() {
     event.preventDefault();
     setIsOpenRegister(false);
     setUser(undefined);
+  }
+
+  function cancelButton(event) {
+    event.preventDefault();
+    setRegister(initialState);
+    closeModalRegister(event);
   }
 
   async function registerUser(event) {
@@ -120,6 +135,17 @@ function Administrador() {
     !district.current?.value
       ? district.current?.removeAttribute("disabled")
       : district.current?.setAttribute("disabled", "false");
+  }
+
+  async function infoAdmin(id) {
+    try {
+      const response = await api.get(`/users/${id}`);
+      setUser(response.data);
+      setIsOpenData(true);
+      console.log(response);
+    } catch (error) {
+      console.log(error.response);
+    }
   }
 
   function change(event) {
@@ -207,6 +233,8 @@ function Administrador() {
                                 value={register.phone}
                                 onChange={change}
                                 name="phone"
+                                mask="phone"
+                                maxLength="15"
                               />
                               <Input
                                 type="text"
@@ -214,6 +242,8 @@ function Administrador() {
                                 value={register.birthday}
                                 onChange={change}
                                 name="birthday"
+                                mask="birthday"
+                                maxLength={10}
                               />
                               <Input
                                 type="text"
@@ -228,6 +258,8 @@ function Administrador() {
                                 value={register.cpf}
                                 onChange={change}
                                 name="cpf"
+                                mask="cpf"
+                                maxLength={14}
                               />
                             </div>
                           </div>
@@ -239,6 +271,8 @@ function Administrador() {
                               value={register.cep}
                               onChange={change}
                               name="cep"
+                              mask="cep"
+                              maxLength={9}
                             />
                             <Button color="light" onClick={searchCep}>
                               Consultar
@@ -299,7 +333,9 @@ function Administrador() {
                           </div>
 
                           <div className="modal__buttons">
-                            <Button color="light">Cancelar</Button>
+                            <Button color="light" onClick={cancelButton}>
+                              Cancelar
+                            </Button>
                             <Button color="primary">Cadastrar</Button>
                           </div>
                         </div>
@@ -336,6 +372,9 @@ function Administrador() {
                           <li className="item">Status: Ativo</li>
                         </ul>
                         <div className="administrador__body-buttons">
+                          <Button onClick={() => infoAdmin(user.id)}>
+                            Informações
+                          </Button>
                           <Button
                             color={user.deletedAt ? "success" : "disabled"}
                             className="btn"
@@ -346,6 +385,45 @@ function Administrador() {
                       </div>
                     </div>
                   ))}
+                <Modal
+                  isOpen={modalIsOpenData}
+                  onRequestClose={closeModalData}
+                  style={customStyles}
+                  contentLabel="Example Modal"
+                  ariaHideApp={false}
+                  portalClassName="adopter"
+                >
+                  <div className="modal__container">
+                    <div className="modal__container-close">
+                      <button onClick={closeModalData}>
+                        <GrClose />
+                      </button>
+                    </div>
+                    <div className="modal__header">
+                      <h2 className="modal__header-title">Mais informações</h2>
+                    </div>
+                    <form onSubmit={infoAdmin} className="forms">
+                      <div className="modal__body">
+                        <ul className="modal__body-list">
+                          <li className="item">Nome: {user?.name}</li>
+                          <li className="item">CPF: {user?.cpf}</li>
+                          <li className="item">E-mail {user?.email}</li>
+                          <li className="item">Gênero: {user?.gender}</li>
+                          <li className="item">Telefone: {user?.phone}</li>
+                          <li className="item">CEP: {user?.cep}</li>
+                          <li className="item">Endereço: {user?.address}</li>
+                          <li className="item">Bairro:{user?.district}</li>
+                          <li className="item">Cidade: {user?.city}</li>
+                          <li className="item">UF: {user?.uf}</li>
+                          <li className="item">
+                            {" "}
+                            Status: {user?.deletedAt ? "inativo" : "ativo"}
+                          </li>
+                        </ul>
+                      </div>
+                    </form>
+                  </div>
+                </Modal>
               </div>
             </div>
           </div>

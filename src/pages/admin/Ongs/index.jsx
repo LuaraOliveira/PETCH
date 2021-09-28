@@ -9,6 +9,22 @@ import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import axios from "axios";
 import { usePetch } from "../../../context/petchcontext";
+
+const initialState = {
+  name: "",
+  email: "",
+  responsible: "",
+  phone1: "",
+  complement: "",
+  number: "",
+  cep: "",
+  address: "",
+  district: "",
+  city: "",
+  uf: "",
+  coverage: "",
+};
+
 function Ongs() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
@@ -24,35 +40,9 @@ function Ongs() {
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
-  const [register, setRegister] = useState({
-    name: "",
-    email: "",
-    responsible: "",
-    phone1: "",
-    complement: "",
-    number: "",
-    cep: "",
-    address: "",
-    district: "",
-    city: "",
-    uf: "",
-    coverage: "",
-  });
+  const [register, setRegister] = useState(initialState);
 
-  const [edition, setEdition] = useState({
-    name: "",
-    email: "",
-    responsible: "",
-    phone1: "",
-    complement: "",
-    number: "",
-    cep: "",
-    address: "",
-    district: "",
-    city: "",
-    uf: "",
-    coverage: "",
-  });
+  const [edition, setEdition] = useState(initialState);
 
   const customStyles = {
     content: {
@@ -92,10 +82,31 @@ function Ongs() {
     setOng(undefined);
   }
 
+  function cancelButton(event) {
+    event.preventDefault();
+    setRegister(initialState);
+    closeModalRegister(event);
+  }
+
+  function cancelButtonEdition(event) {
+    event.preventDefault();
+    setEdition(initialState);
+    closeModalData(event);
+  }
+
   async function infoOng(id) {
     try {
       const response = await api.get(`/ongs/${id}`);
-      setOng(response.data);
+      const [address, number] = response.data.address
+        .split(",")
+        .map((param) => param.trim());
+      setOng({ ...response.data, address, number });
+      setEdition({
+        ...edition,
+        address,
+        district: response.data.district,
+        cep: response.data.cep,
+      });
       setIsOpenData(true);
       console.log(response);
     } catch (error) {
@@ -297,6 +308,8 @@ function Ongs() {
                                 name="phone1"
                                 value={register.phone1}
                                 onChange={change}
+                                maxLength={15}
+                                mask="phone"
                               />
                               <Input
                                 type="text"
@@ -315,6 +328,8 @@ function Ongs() {
                               name="cep"
                               value={register.cep}
                               onChange={change}
+                              mask="cep"
+                              maxLength={9}
                             />
                             <Button color="light" onClick={searchCep}>
                               Consultar
@@ -375,7 +390,7 @@ function Ongs() {
                           </div>
 
                           <div className="modal__buttons">
-                            <Button color="light" onClick={closeModalRegister}>
+                            <Button color="light" onClick={cancelButton}>
                               Cancelar
                             </Button>
                             <Button color="primary">Cadastrar</Button>
@@ -408,7 +423,7 @@ function Ongs() {
                           <li className="item">Cidade: {ong.city}</li>
                           <li className="item">E-mail:{ong.email}</li>
                           <li className="item">Telefone: {ong.phone1}</li>
-                          <li className="item">CEP: 1{ong.cep}</li>
+                          <li className="item">CEP: {ong.cep}</li>
                           <li className="item">
                             Responsável: {ong.responsible}
                           </li>
@@ -526,7 +541,6 @@ function Ongs() {
                           <Input
                             type="text"
                             placeholder="Complemento"
-                            placeholder="Complemento"
                             defaultValue={ong?.complement}
                             onChange={changeEdit}
                             name="complement"
@@ -557,7 +571,6 @@ function Ongs() {
                             onChange={changeEdit}
                             disabled
                             name="city"
-                            value={edition.city}
                           />
                           <Input
                             type="text"
@@ -565,12 +578,14 @@ function Ongs() {
                             onChange={changeEdit}
                             disabled
                             name="uf"
-                            value={ong?.uf}
+                            defaultValue={ong?.uf}
                           />
                         </div>
 
                         <div className="modal__buttons">
-                          <Button color="light">Cancelar</Button>
+                          <Button color="light" onClick={cancelButtonEdition}>
+                            Cancelar
+                          </Button>
                           <Button color="primary">Editar</Button>
                         </div>
                       </div>

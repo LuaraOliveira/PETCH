@@ -10,46 +10,36 @@ import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import { Select } from "../../../components/Select";
 import { usePetch } from "../../../context/petchcontext";
+
+const initialState = {
+  name: "",
+  cut: "not",
+  age: "",
+  weight: "",
+  gender: "",
+  ong: "",
+  speciesId: "",
+  breed: "",
+  ongId: "",
+  color: "",
+  description: "",
+};
+
 function Pets() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Animais" },
   ];
 
-  const [radio, setRadio] = useState("not");
   const { pets, ongs, species } = usePetch();
   const [pet, setPet] = useState(undefined);
   const [image, setImage] = useState(null);
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
-  const [register, setRegister] = useState({
-    name: "",
-    cut: "not",
-    age: "",
-    weight: "",
-    gender: "",
-    ong: "",
-    speciesId: "",
-    breed: "",
-    ongId: "",
-    color: "",
-    description: "",
-  });
+  const [register, setRegister] = useState(initialState);
 
-  const [edition, setEdition] = useState({
-    name: "",
-    age: "",
-    cut: "",
-    weight: "",
-    gender: "",
-    ong: "",
-    speciesId: "",
-    breed: "",
-    ongId: "",
-    color: "",
-    description: "",
-  });
+  const [edition, setEdition] = useState(initialState);
 
   const customStyles = {
     content: {
@@ -87,6 +77,18 @@ function Pets() {
     event.preventDefault();
     setIsOpenData(false);
     setPet(undefined);
+  }
+
+  function cancelButton(event) {
+    event.preventDefault();
+    setRegister(initialState);
+    closeModalRegister(event);
+  }
+
+  function cancelButtonEdition(event) {
+    event.preventDefault();
+    setEdition(initialState);
+    closeModalData(event);
   }
 
   async function infoPet(id) {
@@ -290,7 +292,6 @@ function Pets() {
                                   <Radio
                                     id="radio-button-4"
                                     name="radio-name-7"
-                                    defaultChecked
                                     value="not"
                                     onChange={(e) =>
                                       setRegister({
@@ -357,7 +358,9 @@ function Pets() {
                           </div>
 
                           <div className="modal__buttons">
-                            <Button color="light">Cancelar</Button>
+                            <Button color="light" onClick={cancelButton}>
+                              Cancelar
+                            </Button>
                             <Button color="primary">Criar Cadastro</Button>
                           </div>
                         </div>
@@ -560,7 +563,9 @@ function Pets() {
                         </div>
 
                         <div className="modal__buttons">
-                          <Button color="light">Cancelar</Button>
+                          <Button color="light" onClick={cancelButtonEdition}>
+                            Cancelar
+                          </Button>
                           <Button color="primary">Criar Cadastro</Button>
                         </div>
                       </div>

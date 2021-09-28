@@ -10,6 +10,18 @@ import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import Permission from "../../../utils/Permission";
 import { usePetch } from "../../../context/petchcontext";
+
+const initialState = {
+  name: "",
+  size: "",
+  color: "",
+  weight: "",
+  taste: "",
+  description: "",
+  coverage: "",
+  partnerId: "",
+};
+
 function Gifts() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
@@ -23,27 +35,9 @@ function Gifts() {
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
-  const [register, setRegister] = useState({
-    name: "",
-    size: "",
-    color: "",
-    weight: "",
-    taste: "",
-    description: "",
-    coverage: "",
-    partnerId: "",
-  });
+  const [register, setRegister] = useState(initialState);
 
-  const [edition, setEdition] = useState({
-    name: "",
-    size: "",
-    color: "",
-    weight: "",
-    taste: "",
-    description: "",
-    coverage: "",
-    partnerId: "",
-  });
+  const [edition, setEdition] = useState(initialState);
 
   const customStyles = {
     content: {
@@ -82,6 +76,18 @@ function Gifts() {
     setIsOpenData(false);
     setGift(undefined);
     setImage(null);
+  }
+
+  function cancelButton(event) {
+    event.preventDefault();
+    setRegister(initialState);
+    closeModalRegister(event);
+  }
+
+  function cancelButtonEdition(event) {
+    event.preventDefault();
+    setEdition(initialState);
+    closeModalData(event);
   }
 
   async function registerGift(event) {
@@ -293,7 +299,9 @@ function Gifts() {
                           </div>
 
                           <div className="modal__buttons">
-                            <Button color="light">Cancelar</Button>
+                            <Button color="light" onClick={cancelButton}>
+                              Cancelar
+                            </Button>
                             <Button color="primary">Cadastrar Brinde</Button>
                           </div>
                         </div>
@@ -440,7 +448,9 @@ function Gifts() {
                         </div>
 
                         <div className="modal__buttons">
-                          <Button color="light">Cancelar</Button>
+                          <Button color="light" onClick={cancelButtonEdition}>
+                            Cancelar
+                          </Button>
                           <Button color="primary">Cadastrar Brinde</Button>
                         </div>
                       </div>

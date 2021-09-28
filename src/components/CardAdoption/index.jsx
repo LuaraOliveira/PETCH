@@ -1,5 +1,3 @@
-import photoNotFound from "../../assets/photos/photo-petch-not.png";
-import { AiOutlineSearch } from "react-icons/ai";
 import { Button } from "../Button";
 import { AiFillCamera } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
@@ -43,7 +41,7 @@ function CardAdoption() {
               </div>
               <div className="card__header-image">
                 {/* <img src={props.pet.photos} alt="avatar" /> */}
-                <img src={photoBig} alt="image" className="image-modal" />
+                <img src={photoBig} alt="avatar" className="image-modal" />
                 <Button color="camera" onClick={openModal}>
                   <AiFillCamera />
                 </Button>
@@ -56,7 +54,7 @@ function CardAdoption() {
                   <Button color="camera" onClick={closeModal}>
                     <AiOutlineClose />
                   </Button>
-                  <img src={photoBig} alt="image" className="image-modal" />
+                  <img src={photoBig} alt="avatar" className="image-modal" />
                   {/* <img
                         src={props.pet.photos}
                         alt="avatar"

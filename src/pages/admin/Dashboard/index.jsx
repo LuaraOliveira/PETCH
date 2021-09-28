@@ -1,4 +1,3 @@
-import { GoAlert } from "react-icons/go";
 import iconVaccine from "../../../assets/icons/icon_vaccine.svg";
 import iconMedication from "../../../assets/icons/icon_medication.svg";
 import iconStar from "../../../assets/icons/icon_star.svg";

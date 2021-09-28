@@ -60,7 +60,7 @@ function Settings() {
                           </Button>
                           <img
                             src={photoBig}
-                            alt="image animal"
+                            alt="usuario"
                             className="image-modal"
                           />
                         </Modal>
@@ -73,7 +73,13 @@ function Settings() {
                   </div>
                   <div className="settings__body">
                     <label htmlFor="Phone">Telefone</label>
-                    <Input type="text" placeholder="" id="Phone" />
+                    <Input
+                      type="text"
+                      placeholder=""
+                      id="Phone"
+                      maxLength={15}
+                      mask="phone"
+                    />
 
                     <label htmlFor="Email">Email</label>
                     <Input type="text" placeholder="" id="Email" />

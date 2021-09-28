@@ -146,11 +146,6 @@ function Adopters() {
                             Status: {user?.deletedAt ? "inativo" : "ativo"}
                           </li>
                         </ul>
-
-                        <div className="modal__buttons">
-                          <Button color="light">Cancelar</Button>
-                          <Button color="primary">Desabilitar</Button>
-                        </div>
                       </div>
                     </form>
                   </div>

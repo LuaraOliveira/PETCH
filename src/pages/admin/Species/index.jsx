@@ -8,6 +8,13 @@ import { Input } from "../../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import { usePetch } from "../../../context/petchcontext";
+
+const initialState = {
+  name: "",
+  cnpj: "",
+  email: "",
+  phone1: "",
+};
 function Species() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
@@ -20,19 +27,9 @@ function Species() {
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
-  const [register, setRegister] = useState({
-    fantasyName: "",
-    cnpj: "",
-    email: "",
-    phone1: "",
-  });
+  const [register, setRegister] = useState(initialState);
 
-  const [edition, setEdition] = useState({
-    fantasyName: "",
-    cnpj: "",
-    email: "",
-    phone1: "",
-  });
+  const [edition, setEdition] = useState(initialState);
 
   const customStyles = {
     content: {
@@ -71,6 +68,18 @@ function Species() {
     setIsOpenData(false);
     setSpecie(undefined);
     setImage(null);
+  }
+
+  function cancelButton(event) {
+    event.preventDefault();
+    setRegister(initialState);
+    closeModalRegister(event);
+  }
+
+  function cancelButtonEdition(event) {
+    event.preventDefault();
+    setEdition(initialState);
+    closeModalData(event);
   }
 
   async function infoSpecies(id) {
@@ -231,7 +240,9 @@ function Species() {
                           </div>
 
                           <div className="modal__buttons">
-                            <Button color="light">Cancelar</Button>
+                            <Button color="light" onClick={cancelButton}>
+                              Cancelar
+                            </Button>
                             <Button color="primary">Criar Espécie</Button>
                           </div>
                         </div>
@@ -297,7 +308,7 @@ function Species() {
                     <div className="modal__header">
                       <h2 className="modal__header-title">Dados da Espécie</h2>
                     </div>
-                    <form onSubmit={editSpecie} lassName="forms">
+                    <form onSubmit={editSpecie} className="forms">
                       <div className="modal__body">
                         <div className="modal__description center">
                           <div className="modal__image">
@@ -349,7 +360,9 @@ function Species() {
                         </div>
 
                         <div className="modal__buttons">
-                          <Button color="light">Cancelar</Button>
+                          <Button color="light" onClick={cancelButton}>
+                            Cancelar
+                          </Button>
                           <Button color="primary">Criar Espécie</Button>
                         </div>
                       </div>
