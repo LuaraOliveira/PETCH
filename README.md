@@ -1,6 +1,19 @@
-# petch-test
+# projeto petch
 
-Após o clone do projeto, para instalar as dependências do mesmo é preciso utilizar
-o yarn install
+## Projeto de conclusão do curso de pós graduação - Desenvolvimento Web Full Stack - Puc Minas.
 
-após isso, dar o yarn dev.
+---
+
+### **Configuração do Projeto**
+
+**Instalando as dependências**
+
+```
+yarn install
+```
+
+**Rodar a aplicação**
+
+```
+yarn dev.
+```
