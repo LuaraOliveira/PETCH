@@ -139,7 +139,8 @@ function Administrador() {
 
   async function infoAdmin(id) {
     try {
-      const response = await api.get(`/users/${id}`);
+      const response = await api.get(`/users/${id}?inactives=true`);
+
       setUser(response.data);
       setIsOpenData(true);
       console.log(response);
@@ -153,6 +154,13 @@ function Administrador() {
       ...register,
       [event.target.name]: event.target.value,
     });
+  }
+
+  async function statusUser(user) {
+    const status = user.deletedAt ? "true" : "false";
+    try {
+      await api.delete(`/users/${user.id}`, { params: { status } });
+    } catch (error) {}
   }
 
   return (
@@ -369,17 +377,21 @@ function Administrador() {
                         <ul className="administrador__body-list">
                           <li className="item">Nome: {user.name}</li>
                           <li className="item">Email: {user.email}</li>
-                          <li className="item">Status: Ativo</li>
+                          <li className="item">
+                            {" "}
+                            Status: {user.deletedAt ? "inativo" : "ativo"}
+                          </li>
                         </ul>
                         <div className="administrador__body-buttons">
                           <Button onClick={() => infoAdmin(user.id)}>
                             Informações
                           </Button>
                           <Button
-                            color={user.deletedAt ? "success" : "disabled"}
                             className="btn"
+                            color={user.deletedAt ? "success" : "disabled"}
+                            onClick={() => statusUser(user)}
                           >
-                            Desabilitar Conta
+                            {user.deletedAt ? "Habilitar" : "Desativar"}
                           </Button>
                         </div>
                       </div>

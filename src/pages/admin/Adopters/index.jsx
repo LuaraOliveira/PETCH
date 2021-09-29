@@ -48,7 +48,7 @@ function Adopters() {
 
   async function infoUser(id) {
     try {
-      const response = await api.get(`/users/${id}`);
+      const response = await api.get(`/users/${id}?inactives=true`);
       setUser(response.data);
       setIsOpenData(true);
       console.log(response);

@@ -6,8 +6,7 @@
 }
 
 #CardTinder {
-  position: relative;
-  width: 100%;
+  position: absolute;
   .card {
     &__container {
       background: $white;
@@ -28,6 +27,7 @@
       flex-direction: column;
       @media only screen and (min-width: 992px) {
         padding: 16px;
+        width: 330px;
       }
       &-image {
         width: 270px;
@@ -154,15 +154,15 @@
   }
 }
 
-.ReactModal__Content.ReactModal__Content--after-open
+.ReactModal__Content.ReactModal__Content--after-open {
   button.c-button.c-button--camera {
-  position: absolute;
-  top: 0px;
-  right: 0;
+    position: absolute;
+    top: 0px;
+    right: 0;
+  }
 
   .image-modal {
-    width: 301px;
-    height: 446px;
+    max-width: 500px;
 
     img {
       width: 100%;

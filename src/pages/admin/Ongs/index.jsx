@@ -96,7 +96,7 @@ function Ongs() {
 
   async function infoOng(id) {
     try {
-      const response = await api.get(`/ongs/${id}`);
+      const response = await api.get(`/ongs/${id}?inactives=true`);
       const [address, number] = response.data.address
         .split(",")
         .map((param) => param.trim());
@@ -331,7 +331,10 @@ function Ongs() {
                               mask="cep"
                               maxLength={9}
                             />
-                            <Button color="light" onClick={searchCep}>
+                            <Button
+                              color="light"
+                              onClick={(event) => searchCep(event, "cadastro")}
+                            >
                               Consultar
                             </Button>
                           </div>

@@ -107,7 +107,10 @@ function LoginAdopter() {
                 </Button>
               </div>
               <div className="loginAdopter__link">
-                <Link to="/" className="loginAdopter__link-link">
+                <Link
+                  to="/Adopter/RecoveryPassword"
+                  className="loginAdopter__link-link"
+                >
                   Esqueceu a senha?
                 </Link>
 

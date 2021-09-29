@@ -104,7 +104,7 @@ function CompanyPartner() {
 
   async function infoPartner(id) {
     try {
-      const response = await api.get(`/partners/${id}`);
+      const response = await api.get(`/partners/${id}?inactives=true`);
       const [address, number] = response.data.address
         .split(",")
         .map((param) => param.trim());

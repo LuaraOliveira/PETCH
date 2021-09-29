@@ -2,8 +2,11 @@ import logo from "../../../assets/logo/logo-white.png";
 import { Input } from "../../../components/Input";
 import { Button } from "../../../components/Button";
 import api from "../../../services/api";
+import { useHistory } from "react-router-dom";
 import { useState } from "react";
+
 function RegisterAdopter() {
+  const history = useHistory();
   const [register, setRegister] = useState({
     name: "",
     email: "",
@@ -214,7 +217,11 @@ function RegisterAdopter() {
 
               <div className="RegisterAdopter__buttons">
                 <Button color="third">Cadastrar</Button>
-                <Button color="third" to="/">
+                <Button
+                  color="third"
+                  onClick={() => history.push("/")}
+                  type="button"
+                >
                   Voltar
                 </Button>
               </div>

@@ -18,7 +18,7 @@
     &__body {
       display: flex;
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 26px;
 
       &-container {
         display: flex;
@@ -60,7 +60,11 @@
           font-size: 1rem;
           font-weight: 400;
           @media only screen and (min-width: 992px) {
-            font-size: 0.9rem;
+            font-size: 1rem;
+            white-space: nowrap;
+            width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
       }

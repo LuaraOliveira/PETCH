@@ -43,9 +43,13 @@ function CardTinder(props) {
             {transition ? (
               <>
                 <div className="card__content-image">
-                  {/* <img src={props.pet.photos} alt="animal" /> */}
+                  <img
+                    src={props.pet.image}
+                    alt="animal"
+                    className="image-modal"
+                  />
 
-                  <img src={photoBig} alt="animal" className="image-modal" />
+                  {/* <img src={photoBig} alt="animal" className="image-modal" /> */}
                 </div>
                 <div className="card__info">
                   <h2 className="card__info-title">{props.pet.name} ♂</h2>
@@ -62,8 +66,12 @@ function CardTinder(props) {
                     <p className="card__header-genre">♂ - {props.pet.age}</p>
                   </div>
                   <div className="card__header-image">
-                    {/* <img src={props.pet.photos} alt="avatar" /> */}
-                    <img src={photoBig} alt="animal" className="image-modal" />
+                    <img
+                      src={props.pet.image}
+                      alt="avatar"
+                      className="image-modal"
+                    />
+                    {/* <img src={photoBig} alt="animal" className="image-modal" /> */}
                     <Button color="camera" onClick={openModal}>
                       <AiFillCamera />
                     </Button>
@@ -77,16 +85,16 @@ function CardTinder(props) {
                       <Button color="camera" onClick={closeModal}>
                         <AiOutlineClose />
                       </Button>
-                      <img
+                      {/* <img
                         src={photoBig}
                         alt="animal"
                         className="image-modal"
-                      />
-                      {/* <img
-                        src={props.pet.photos}
+                      /> */}
+                      <img
+                        src={props.pet.image}
                         alt="animal"
                         className="image-modal"
-                      /> */}
+                      />
                     </Modal>
                   </div>
                 </div>

@@ -1,7 +1,19 @@
 import logo from "../../../assets/logo/logo-white.png";
 import { Input } from "../../../components/Input";
 import { Button } from "../../../components/Button";
+import { useState } from "react";
+import api from "../../../services/api";
 function RecoveryPassword() {
+  const [email, setEmail] = useState("");
+
+  async function sendEmail(event) {
+    event.preventDefault();
+    try {
+      await api.post("/auth/forgot", { email });
+    } catch (error) {
+      console.log(error.response);
+    }
+  }
   return (
     <>
       <section className="RecoveryPassword">
@@ -14,12 +26,17 @@ function RecoveryPassword() {
                 Dê match no seu novo amigo de quatro patas.
               </p>
             </div>
-            <form className="RecoveryPassword__forms">
+            <form onSubmit={sendEmail} className="RecoveryPassword__forms">
               <h2 className="RecoveryPassword__forms--title">
                 Recuperar Senha
               </h2>
 
-              <Input type="text" placeholder="Email" />
+              <Input
+                type="text"
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
+              />
 
               <div className="RecoveryPassword__buttons">
                 <Button color="third">Redefinir Senha</Button>

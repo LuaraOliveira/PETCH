@@ -133,7 +133,7 @@ function Gifts() {
 
   async function infoGift(id) {
     try {
-      const response = await api.get(`/gifts/${id}`);
+      const response = await api.get(`/gifts/${id}?inactives=true`);
       setGift(response.data);
       setIsOpenData(true);
       console.log(response);

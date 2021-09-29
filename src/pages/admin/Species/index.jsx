@@ -11,10 +11,8 @@ import { usePetch } from "../../../context/petchcontext";
 
 const initialState = {
   name: "",
-  cnpj: "",
-  email: "",
-  phone1: "",
 };
+
 function Species() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
@@ -28,7 +26,6 @@ function Species() {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
   const [register, setRegister] = useState(initialState);
-
   const [edition, setEdition] = useState(initialState);
 
   const customStyles = {
@@ -84,7 +81,7 @@ function Species() {
 
   async function infoSpecies(id) {
     try {
-      const response = await api.get(`/species/${id}`);
+      const response = await api.get(`/species/${id}?inactives=true`);
       setSpecie(response.data);
       setIsOpenData(true);
       console.log(response);
@@ -97,10 +94,7 @@ function Species() {
     event.preventDefault();
     try {
       const instanceForm = new FormData();
-      instanceForm.append("fantasyName", register.fantasyName);
-      instanceForm.append("cnpj", register.cnpj);
-      instanceForm.append("email", register.email);
-      instanceForm.append("phone1", register.phone1);
+      instanceForm.append("name", register.name);
       instanceForm.append("media", image);
       const response = await api.post("/species", instanceForm);
       console.log(response.data);
@@ -113,12 +107,7 @@ function Species() {
     event.preventDefault();
     try {
       const instanceForm = new FormData();
-      if (edition.fantasyName)
-        instanceForm.append("fantasyName", edition.fantasyName);
-      if (edition.cnpj) instanceForm.append("cnpj", edition.cnpj);
-      if (edition.email) instanceForm.append("email", edition.email);
-      if (edition.phone1) instanceForm.append("phone1", edition.phone1);
-
+      if (edition.name) instanceForm.append("name", edition.name);
       const response = await api.put(`/species/${specie.id}`, instanceForm);
       console.log(response.data);
     } catch (error) {
@@ -138,6 +127,13 @@ function Species() {
       ...edition,
       [event.target.name]: event.target.value,
     });
+  }
+
+  async function statusSpecies(specie) {
+    const status = specie.deletedAt ? "true" : "false";
+    try {
+      await api.delete(`/species/${specie.id}`, { params: { status } });
+    } catch (error) {}
   }
 
   return (
@@ -200,44 +196,8 @@ function Species() {
                             placeholder="Nome da Espécie"
                             value={register.name}
                             onChange={change}
+                            name="name"
                           />
-
-                          <p className="modal__species-title">Portes</p>
-                          <div className="modal__species">
-                            <div className="modal__species-container">
-                              <Input type="text" placeholder="Descrição" />
-                              <Input
-                                type="text"
-                                placeholder="Peso Inicial"
-                                value={register.initWeight}
-                                onChange={change}
-                              />
-                              <Input
-                                type="text"
-                                placeholder="Peso Final"
-                                value={register.endWeight}
-                                onChange={change}
-                              />
-                              <Button color="light">Editar</Button>
-                              <Button color="secondary">Excluir</Button>
-                            </div>
-                            <div className="modal__species-description">
-                              <Input type="text" placeholder="Descrição" />
-                              <Input
-                                type="text"
-                                placeholder="Peso Inicial"
-                                value={register.initWeight}
-                                onChange={change}
-                              />
-                              <Input
-                                type="text"
-                                placeholder="Peso Final"
-                                value={register.endWeight}
-                                onChange={change}
-                              />
-                              <Button color="primary">Adicionar Porte</Button>
-                            </div>
-                          </div>
 
                           <div className="modal__buttons">
                             <Button color="light" onClick={cancelButton}>
@@ -271,10 +231,6 @@ function Species() {
                         <ul className="species__body-list">
                           <li className="item">Espécie: {specie.name}</li>
                           <li className="item">
-                            Avatar Cadastrado: {specie.cnpj}
-                          </li>
-                          <li className="item">Portes: {specie.initWeight}</li>
-                          <li className="item">
                             {" "}
                             Status: {specie.deletedAt ? "inativo" : "ativo"}
                           </li>
@@ -284,8 +240,12 @@ function Species() {
                             Informações
                           </Button>
 
-                          <Button color="primary" className="btn">
-                            Desativar
+                          <Button
+                            color={specie.deletedAt ? "success" : "disabled"}
+                            className="btn"
+                            onClick={() => statusSpecies(specie)}
+                          >
+                            {specie.deletedAt ? "Habilitar" : "Desabilitar"}
                           </Button>
                         </div>
                       </div>
@@ -323,44 +283,8 @@ function Species() {
                           onChange={changeEdit}
                           name="name"
                         />
-
-                        <p className="modal__species-title">Portes</p>
-                        <div className="modal__species">
-                          {specie?.sizes &&
-                            specie?.sizes.map((specie) => (
-                              <div
-                                key={specie.id}
-                                className="modal__species-container"
-                              >
-                                <Input
-                                  type="text"
-                                  placeholder="Descrição"
-                                  defaultValue={specie?.name}
-                                  onChange={changeEdit}
-                                  name="name"
-                                />
-                                <Input
-                                  type="text"
-                                  placeholder="Peso Inicial"
-                                  defaultValue={specie?.initWeight}
-                                  onChange={changeEdit}
-                                  name="initWeight"
-                                />
-                                <Input
-                                  type="text"
-                                  placeholder="Peso Final"
-                                  defaultValue={specie?.endWeight}
-                                  onChange={changeEdit}
-                                  name="endWeight"
-                                />
-                                <Button color="light">Editar</Button>
-                                <Button color="secondary">Excluir</Button>
-                              </div>
-                            ))}
-                        </div>
-
                         <div className="modal__buttons">
-                          <Button color="light" onClick={cancelButton}>
+                          <Button color="light" onClick={cancelButtonEdition}>
                             Cancelar
                           </Button>
                           <Button color="primary">Criar Espécie</Button>

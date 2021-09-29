@@ -93,7 +93,7 @@ function Pets() {
 
   async function infoPet(id) {
     try {
-      const response = await api.get(`/pets/${id}`);
+      const response = await api.get(`/pets/${id}?inactives=true`);
       setPet(response.data);
       setIsOpenData(true);
       console.log(response);
@@ -313,10 +313,6 @@ function Pets() {
                                   onChange={change}
                                   name="weight"
                                 />
-                                <Select name="status" onChange={change}>
-                                  <option value="">Ativo</option>
-                                  <option value="">Indisponível</option>
-                                </Select>
                               </div>
                               <Select
                                 name="speciesId"
@@ -464,20 +460,31 @@ function Pets() {
                               />
                             </div>
                             <div className="modal__description-input">
-                              <Input
-                                type="text"
-                                placeholder="ong"
-                                defaultValue={pet?.ong?.name}
+                              <Select
+                                name="ongId"
                                 onChange={changeEdit}
-                                name="name"
-                              />
-                              <Input
-                                type="text"
-                                placeholder="espécie"
-                                defaultValue={pet?.species?.name}
+                                defaultValue={pet?.ongId}
+                              >
+                                {ongs &&
+                                  ongs.map((ong) => (
+                                    <option value={ong.id} key={ong.id}>
+                                      {ong.name}
+                                    </option>
+                                  ))}
+                              </Select>
+
+                              <Select
+                                name="speciesId"
                                 onChange={changeEdit}
-                                name="name"
-                              />
+                                defaultValue={pet?.speciesId}
+                              >
+                                {species &&
+                                  species.map((specie) => (
+                                    <option value={specie.id} key={specie.id}>
+                                      {specie.name}
+                                    </option>
+                                  ))}
+                              </Select>
                             </div>
 
                             <div className="modal__description-age">
@@ -530,10 +537,6 @@ function Pets() {
                                 onChange={changeEdit}
                                 name="weight"
                               />
-                              <Select name="status">
-                                <option value="">Ativo</option>
-                                <option value="">Indisponível</option>
-                              </Select>
                             </div>
                             <div className="modal__description-weigth">
                               <Input
