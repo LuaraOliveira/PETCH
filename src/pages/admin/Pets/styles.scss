@@ -59,10 +59,13 @@
           color: $black;
           font-size: 1rem;
           font-weight: 400;
-          white-space: nowrap;
-          width: 300px;
-          overflow: hidden;
-          text-overflow: ellipsis;
+
+          @media only screen and (min-width: 992px) {
+            max-width: 300px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
         }
       }
 

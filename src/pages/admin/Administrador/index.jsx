@@ -2,13 +2,14 @@ import { Breadcrumb } from "../../../components/Breadcrumb";
 import { Input } from "../../../components/Input";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../../components/Button";
-import { useState, useEffect, useMemo, useRef } from "react";
+import { useState, useMemo, useRef } from "react";
 import api from "../../../services/api";
 import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import axios from "axios";
-
+import { usePetch } from "../../../context/petchcontext";
+import Permission from "../../../utils/Permission";
 const initialState = {
   name: "",
   email: "",
@@ -30,11 +31,10 @@ function Administrador() {
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Administrador" },
   ];
-
+  const { admins, DataAdmins } = usePetch();
   const address = useRef(null);
   const district = useRef(null);
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState(undefined);
+  const [admin, setAdmin] = useState(undefined);
   const [image, setImage] = useState(null);
   const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
   const [modalIsOpenData, setIsOpenData] = useState(false);
@@ -43,12 +43,6 @@ function Administrador() {
   }, [image]);
 
   const [register, setRegister] = useState(initialState);
-
-  useEffect(() => {
-    api
-      .get("/users?inactives=true&role=Admin")
-      .then((response) => setUsers(response.data));
-  }, []);
 
   const customStyles = {
     content: {
@@ -71,7 +65,7 @@ function Administrador() {
   function closeModalData(event) {
     event.preventDefault();
     setIsOpenData(false);
-    setUser(undefined);
+    setAdmin(undefined);
   }
 
   function openModalRegister(event) {
@@ -82,7 +76,7 @@ function Administrador() {
   function closeModalRegister(event) {
     event.preventDefault();
     setIsOpenRegister(false);
-    setUser(undefined);
+    setAdmin(undefined);
   }
 
   function cancelButton(event) {
@@ -111,6 +105,8 @@ function Administrador() {
       instanceForm.append("media", image);
       const response = await api.post("/users", instanceForm);
       console.log(response.data);
+      closeModalRegister(event);
+      DataAdmins();
     } catch (error) {
       console.log(error.response);
     }
@@ -140,8 +136,10 @@ function Administrador() {
   async function infoAdmin(id) {
     try {
       const response = await api.get(`/users/${id}?inactives=true`);
+      const cep =
+        response.data.cep.slice(0, 5) + "-" + response.data.cep.slice(5);
 
-      setUser(response.data);
+      setAdmin({ ...response.data, cep });
       setIsOpenData(true);
       console.log(response);
     } catch (error) {
@@ -156,10 +154,11 @@ function Administrador() {
     });
   }
 
-  async function statusUser(user) {
+  async function statusAdmin(user) {
     const status = user.deletedAt ? "true" : "false";
     try {
       await api.delete(`/users/${user.id}`, { params: { status } });
+      DataAdmins();
     } catch (error) {}
   }
 
@@ -360,38 +359,38 @@ function Administrador() {
                 Lista de Administradores
               </p>
               <div className="administrador__body">
-                {users &&
-                  users.map((user) => (
+                {admins &&
+                  admins.map((admin) => (
                     <div
-                      key={user.id}
+                      key={admin.id}
                       className="administrador__body-container"
                     >
                       <div className="administrador__body-image">
-                        {user.avatar ? (
-                          <img src={user.avatar} alt={user.name} />
+                        {admin.avatar ? (
+                          <img src={admin.avatar} alt={admin.name} />
                         ) : (
                           <BiUserCircle />
                         )}
                       </div>
                       <div className="administrador__body-info">
                         <ul className="administrador__body-list">
-                          <li className="item">Nome: {user.name}</li>
-                          <li className="item">Email: {user.email}</li>
+                          <li className="item">Nome: {admin.name}</li>
+                          <li className="item">Email: {admin.email}</li>
                           <li className="item">
                             {" "}
-                            Status: {user.deletedAt ? "inativo" : "ativo"}
+                            Status: {admin.deletedAt ? "inativo" : "ativo"}
                           </li>
                         </ul>
                         <div className="administrador__body-buttons">
-                          <Button onClick={() => infoAdmin(user.id)}>
+                          <Button onClick={() => infoAdmin(admin.id)}>
                             Informações
                           </Button>
                           <Button
                             className="btn"
-                            color={user.deletedAt ? "success" : "disabled"}
-                            onClick={() => statusUser(user)}
+                            color={admin.deletedAt ? "success" : "disabled"}
+                            onClick={() => statusAdmin(admin)}
                           >
-                            {user.deletedAt ? "Habilitar" : "Desativar"}
+                            {admin.deletedAt ? "Habilitar" : "Desabilitar"}
                           </Button>
                         </div>
                       </div>
@@ -417,19 +416,19 @@ function Administrador() {
                     <form onSubmit={infoAdmin} className="forms">
                       <div className="modal__body">
                         <ul className="modal__body-list">
-                          <li className="item">Nome: {user?.name}</li>
-                          <li className="item">CPF: {user?.cpf}</li>
-                          <li className="item">E-mail {user?.email}</li>
-                          <li className="item">Gênero: {user?.gender}</li>
-                          <li className="item">Telefone: {user?.phone}</li>
-                          <li className="item">CEP: {user?.cep}</li>
-                          <li className="item">Endereço: {user?.address}</li>
-                          <li className="item">Bairro:{user?.district}</li>
-                          <li className="item">Cidade: {user?.city}</li>
-                          <li className="item">UF: {user?.uf}</li>
+                          <li className="item">Nome: {admin?.name}</li>
+                          <li className="item">CPF: {admin?.cpf}</li>
+                          <li className="item">E-mail {admin?.email}</li>
+                          <li className="item">Gênero: {admin?.gender}</li>
+                          <li className="item">Telefone: {admin?.phone}</li>
+                          <li className="item">CEP: {admin?.cep}</li>
+                          <li className="item">Endereço: {admin?.address}</li>
+                          <li className="item">Bairro:{admin?.district}</li>
+                          <li className="item">Cidade: {admin?.city}</li>
+                          <li className="item">UF: {admin?.uf}</li>
                           <li className="item">
                             {" "}
-                            Status: {user?.deletedAt ? "inativo" : "ativo"}
+                            Status: {admin?.deletedAt ? "inativo" : "ativo"}
                           </li>
                         </ul>
                       </div>
@@ -445,4 +444,4 @@ function Administrador() {
   );
 }
 
-export default Administrador;
+export default Permission(["admin"])(Administrador);

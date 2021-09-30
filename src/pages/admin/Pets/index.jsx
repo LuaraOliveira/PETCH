@@ -10,7 +10,7 @@ import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import { Select } from "../../../components/Select";
 import { usePetch } from "../../../context/petchcontext";
-
+import Permission from "../../../utils/Permission";
 const initialState = {
   name: "",
   cut: "not",
@@ -31,7 +31,7 @@ function Pets() {
     { href: "#", link: "Animais" },
   ];
 
-  const { pets, ongs, species } = usePetch();
+  const { pets, ongs, species, DataPets } = usePetch();
   const [pet, setPet] = useState(undefined);
   const [image, setImage] = useState(null);
   const preview = useMemo(() => {
@@ -120,6 +120,8 @@ function Pets() {
       instanceForm.append("media", image);
       const response = await api.post("/pets", instanceForm);
       console.log(response.data);
+      closeModalRegister(event);
+      DataPets();
     } catch (error) {
       console.log(error.response);
     }
@@ -146,6 +148,8 @@ function Pets() {
 
       const response = await api.put(`/pets/${pet.id}`, instanceForm);
       console.log(response.data);
+      closeModalData(event);
+      DataPets();
     } catch (error) {
       console.log(error.response);
     }
@@ -169,6 +173,7 @@ function Pets() {
     const status = pet.deletedAt ? "true" : "false";
     try {
       await api.delete(`/pets/${pet.id}`, { params: { status } });
+      DataPets();
     } catch (error) {}
   }
 
@@ -584,4 +589,4 @@ function Pets() {
   );
 }
 
-export default Pets;
+export default Permission(["admin"])(Pets);

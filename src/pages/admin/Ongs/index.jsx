@@ -9,7 +9,7 @@ import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import axios from "axios";
 import { usePetch } from "../../../context/petchcontext";
-
+import Permission from "../../../utils/Permission";
 const initialState = {
   name: "",
   email: "",
@@ -34,7 +34,7 @@ function Ongs() {
   const district = useRef(null);
   const editAddress = useRef(null);
   const editDistrict = useRef(null);
-  const { ongs } = usePetch();
+  const { ongs, DataOngs } = usePetch();
   const [ong, setOng] = useState(undefined);
   const [image, setImage] = useState(null);
   const preview = useMemo(() => {
@@ -100,12 +100,14 @@ function Ongs() {
       const [address, number] = response.data.address
         .split(",")
         .map((param) => param.trim());
+      const cep =
+        response.data.cep.slice(0, 5) + "-" + response.data.cep.slice(5);
       setOng({ ...response.data, address, number });
       setEdition({
         ...edition,
         address,
         district: response.data.district,
-        cep: response.data.cep,
+        cep,
       });
       setIsOpenData(true);
       console.log(response);
@@ -131,6 +133,8 @@ function Ongs() {
       instanceForm.append("media", image);
       const response = await api.post("/ongs", instanceForm);
       console.log(response.data);
+      closeModalRegister(event);
+      DataOngs();
     } catch (error) {
       console.log(error.response);
     }
@@ -160,6 +164,8 @@ function Ongs() {
 
       const response = await api.put(`/ongs/${ong.id}`, instanceForm);
       console.log(response.data);
+      closeModalData(event);
+      DataOngs();
     } catch (error) {
       console.log(error.response);
     }
@@ -225,6 +231,7 @@ function Ongs() {
     const status = ong.deletedAt ? "true" : "false";
     try {
       await api.delete(`/ongs/${ong.id}`, { params: { status } });
+      DataOngs();
     } catch (error) {}
   }
 
@@ -604,4 +611,4 @@ function Ongs() {
   );
 }
 
-export default Ongs;
+export default Permission(["admin"])(Ongs);

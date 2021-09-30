@@ -1,6 +1,5 @@
 import { Switch } from "react-router-dom";
 import { Route } from "./Route";
-import Login from "../pages/admin/Login";
 import Dashboard from "../pages/admin/Dashboard";
 import Administrador from "../pages/admin/Administrador";
 import CompanyPartner from "../pages/admin/CompanyPartner";
@@ -35,13 +34,6 @@ export function Routes() {
           exact
           hasHeader={false}
           component={DashboardAdopter}
-        />
-        <Route
-          path="/admin/Login"
-          hasFooter={false}
-          exact
-          hasHeader={false}
-          component={Login}
         />
         <Route
           path="/admin/Dashboard"

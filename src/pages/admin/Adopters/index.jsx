@@ -1,25 +1,20 @@
 import { Breadcrumb } from "../../../components/Breadcrumb";
 import { Button } from "../../../components/Button";
 import { BiUserCircle } from "react-icons/bi";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import api from "../../../services/api";
 import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
-
+import { usePetch } from "../../../context/petchcontext";
+import Permission from "../../../utils/Permission";
 function Adopters() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Adotantes" },
   ];
 
-  const [users, setUsers] = useState([]);
-  const [user, setUser] = useState(undefined);
-
-  useEffect(() => {
-    api
-      .get("/users?inactives=true&role=Adotante")
-      .then((response) => setUsers(response.data));
-  }, []);
+  const { adopters, DataAdopters } = usePetch();
+  const [adopter, setAdopter] = useState(undefined);
 
   const customStyles = {
     content: {
@@ -43,13 +38,13 @@ function Adopters() {
   function closeModalData(event) {
     event.preventDefault();
     setIsOpenData(false);
-    setUser(undefined);
+    setAdopter(undefined);
   }
 
-  async function infoUser(id) {
+  async function infoAdopter(id) {
     try {
       const response = await api.get(`/users/${id}?inactives=true`);
-      setUser(response.data);
+      setAdopter(response.data);
       setIsOpenData(true);
       console.log(response);
     } catch (error) {
@@ -57,10 +52,11 @@ function Adopters() {
     }
   }
 
-  async function statusUser(user) {
-    const status = user.deletedAt ? "true" : "false";
+  async function statusAdopter(adopter) {
+    const status = adopter.deletedAt ? "true" : "false";
     try {
-      await api.delete(`/users/${user.id}`, { params: { status } });
+      await api.delete(`/users/${adopter.id}`, { params: { status } });
+      DataAdopters();
     } catch (error) {}
   }
 
@@ -76,36 +72,36 @@ function Adopters() {
             <div className="adopters__create">
               <p className="adopters__create-title">Lista de adotantes</p>
               <div className="adopters__body">
-                {users &&
-                  users.map((user) => (
-                    <div key={user.id} className="adopters__body-container">
+                {adopters &&
+                  adopters.map((adopter) => (
+                    <div key={adopter.id} className="adopters__body-container">
                       <div className="adopters__body-image">
-                        {!user.avatar ? (
+                        {!adopter.avatar ? (
                           <BiUserCircle />
                         ) : (
-                          <img src={user?.avatar} alt="avatar" />
+                          <img src={adopter?.avatar} alt="avatar" />
                         )}
                       </div>
                       <div className="adopters__body-info">
                         <ul className="adopters__body-list">
-                          <li className="item">Nome: {user.name}</li>
-                          <li className="item">CPF: {user.cpf}</li>
-                          <li className="item">E-mail: {user.email}</li>
+                          <li className="item">Nome: {adopter.name}</li>
+                          <li className="item">CPF: {adopter.cpf}</li>
+                          <li className="item">E-mail: {adopter.email}</li>
                           <li className="item">
                             {" "}
-                            Status: {user.deletedAt ? "inativo" : "ativo"}
+                            Status: {adopter.deletedAt ? "inativo" : "ativo"}
                           </li>
                         </ul>
                         <div className="adopters__body-buttons">
-                          <Button onClick={() => infoUser(user.id)}>
+                          <Button onClick={() => infoAdopter(adopter.id)}>
                             Informações
                           </Button>
                           <Button
                             className="btn"
-                            color={user.deletedAt ? "success" : "disabled"}
-                            onClick={() => statusUser(user)}
+                            color={adopter.deletedAt ? "success" : "disabled"}
+                            onClick={() => statusAdopter(adopter)}
                           >
-                            {user.deletedAt ? "Habilitar" : "Desativar"}
+                            {adopter.deletedAt ? "Habilitar" : "Desativar"}
                           </Button>
                         </div>
                       </div>
@@ -131,19 +127,19 @@ function Adopters() {
                     <form className="forms">
                       <div className="modal__body">
                         <ul className="modal__body-list">
-                          <li className="item">Nome: {user?.name}</li>
-                          <li className="item">CPF: {user?.cpf}</li>
-                          <li className="item">E-mail {user?.email}</li>
-                          <li className="item">Gênero: {user?.gender}</li>
-                          <li className="item">Telefone: {user?.phone}</li>
-                          <li className="item">CEP: {user?.cep}</li>
-                          <li className="item">Endereço: {user?.address}</li>
-                          <li className="item">Bairro:{user?.district}</li>
-                          <li className="item">Cidade: {user?.city}</li>
-                          <li className="item">UF: {user?.uf}</li>
+                          <li className="item">Nome: {adopter?.name}</li>
+                          <li className="item">CPF: {adopter?.cpf}</li>
+                          <li className="item">E-mail {adopter?.email}</li>
+                          <li className="item">Gênero: {adopter?.gender}</li>
+                          <li className="item">Telefone: {adopter?.phone}</li>
+                          <li className="item">CEP: {adopter?.cep}</li>
+                          <li className="item">Endereço: {adopter?.address}</li>
+                          <li className="item">Bairro:{adopter?.district}</li>
+                          <li className="item">Cidade: {adopter?.city}</li>
+                          <li className="item">UF: {adopter?.uf}</li>
                           <li className="item">
                             {" "}
-                            Status: {user?.deletedAt ? "inativo" : "ativo"}
+                            Status: {adopter?.deletedAt ? "inativo" : "ativo"}
                           </li>
                         </ul>
                       </div>
@@ -159,4 +155,4 @@ function Adopters() {
   );
 }
 
-export default Adopters;
+export default Permission(["admin"])(Adopters);

@@ -30,7 +30,7 @@ function Gifts() {
 
   const [gift, setGift] = useState(undefined);
   const [image, setImage] = useState(null);
-  const { gifts, partners } = usePetch();
+  const { gifts, partners, DataGifts } = usePetch();
 
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
@@ -105,6 +105,8 @@ function Gifts() {
       instanceForm.append("partnerId", register.partnerId);
       const response = await api.post("/gifts", instanceForm);
       console.log(response.data);
+      closeModalRegister(event);
+      DataGifts();
     } catch (error) {
       console.log(error.response);
     }
@@ -126,6 +128,8 @@ function Gifts() {
 
       const response = await api.put(`/gifts/${gift.id}`, instanceForm);
       console.log(response.data);
+      closeModalData(event);
+      DataGifts();
     } catch (error) {
       console.log(error.response);
     }
@@ -160,6 +164,7 @@ function Gifts() {
     const status = gift.deletedAt ? "true" : "false";
     try {
       await api.delete(`/gifts/${gift.id}`, { params: { status } });
+      DataGifts();
     } catch (error) {}
   }
   return (
@@ -467,5 +472,3 @@ function Gifts() {
 }
 
 export default Permission(["admin"])(Gifts);
-
-// export default Gifts;

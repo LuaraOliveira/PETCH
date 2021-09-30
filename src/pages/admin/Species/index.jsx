@@ -8,7 +8,7 @@ import { Input } from "../../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import { usePetch } from "../../../context/petchcontext";
-
+import Permission from "../../../utils/Permission";
 const initialState = {
   name: "",
 };
@@ -19,7 +19,7 @@ function Species() {
     { href: "#", link: "Espécies" },
   ];
 
-  const { species } = usePetch();
+  const { species, DataSpecies } = usePetch();
   const [specie, setSpecie] = useState(undefined);
   const [image, setImage] = useState(null);
   const preview = useMemo(() => {
@@ -98,6 +98,8 @@ function Species() {
       instanceForm.append("media", image);
       const response = await api.post("/species", instanceForm);
       console.log(response.data);
+      closeModalRegister(event);
+      DataSpecies();
     } catch (error) {
       console.log(error.response);
     }
@@ -110,6 +112,8 @@ function Species() {
       if (edition.name) instanceForm.append("name", edition.name);
       const response = await api.put(`/species/${specie.id}`, instanceForm);
       console.log(response.data);
+      closeModalData(event);
+      DataSpecies();
     } catch (error) {
       console.log(error.response);
     }
@@ -133,6 +137,7 @@ function Species() {
     const status = specie.deletedAt ? "true" : "false";
     try {
       await api.delete(`/species/${specie.id}`, { params: { status } });
+      DataSpecies();
     } catch (error) {}
   }
 
@@ -301,4 +306,5 @@ function Species() {
     </>
   );
 }
-export default Species;
+
+export default Permission(["admin"])(Species);

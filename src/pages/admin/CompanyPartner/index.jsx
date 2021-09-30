@@ -8,6 +8,7 @@ import { Input } from "../../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import axios from "axios";
+import Permission from "../../../utils/Permission";
 import { usePetch } from "../../../context/petchcontext";
 
 const initialState = {
@@ -44,7 +45,7 @@ function CompanyPartner() {
   const [image, setImage] = useState(null);
   const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
   const [modalIsOpenData, setIsOpenData] = useState(false);
-  const { partners } = usePetch();
+  const { partners, DataPartners } = usePetch();
 
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
@@ -108,12 +109,14 @@ function CompanyPartner() {
       const [address, number] = response.data.address
         .split(",")
         .map((param) => param.trim());
+      const cep =
+        response.data.cep.slice(0, 5) + "-" + response.data.cep.slice(5);
       setPartner({ ...response.data, address, number });
       setEdition({
         ...edition,
         address,
         district: response.data.district,
-        cep: response.data.cep,
+        cep,
       });
       setIsOpenData(true);
       console.log(response);
@@ -145,6 +148,8 @@ function CompanyPartner() {
       instanceForm.append("media", image);
       const response = await api.post("/partners", instanceForm);
       console.log(response.data);
+      closeModalRegister(event);
+      DataPartners();
     } catch (error) {
       console.log(error.response);
     }
@@ -183,6 +188,8 @@ function CompanyPartner() {
 
       const response = await api.put(`/partners/${partner.id}`, instanceForm);
       console.log(response.data);
+      closeModalData(event);
+      DataPartners();
     } catch (error) {
       console.log(error.response);
     }
@@ -249,6 +256,7 @@ function CompanyPartner() {
     const status = partner.deletedAt ? "true" : "false";
     try {
       await api.delete(`/partners/${partner.id}`, { params: { status } });
+      DataPartners();
     } catch (error) {}
   }
 
@@ -718,4 +726,5 @@ function CompanyPartner() {
     </>
   );
 }
-export default CompanyPartner;
+
+export default Permission(["admin"])(CompanyPartner);

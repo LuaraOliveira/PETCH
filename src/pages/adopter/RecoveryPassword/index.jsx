@@ -3,13 +3,15 @@ import { Input } from "../../../components/Input";
 import { Button } from "../../../components/Button";
 import { useState } from "react";
 import api from "../../../services/api";
+import { useHistory } from "react-router-dom";
 function RecoveryPassword() {
   const [email, setEmail] = useState("");
-
+  const history = useHistory();
   async function sendEmail(event) {
     event.preventDefault();
     try {
       await api.post("/auth/forgot", { email });
+      history.push("/");
     } catch (error) {
       console.log(error.response);
     }

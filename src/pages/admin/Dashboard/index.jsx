@@ -5,6 +5,7 @@ import iconSad from "../../../assets/icons/icon_sad.svg";
 import iconDog from "../../../assets/icons/icon_dog.svg";
 import iconHouse from "../../../assets/icons/icon_home.svg";
 import { Button } from "../../../components/Button";
+import Permission from "../../../utils/Permission";
 function Dashboard() {
   return (
     <>
@@ -183,4 +184,5 @@ function Dashboard() {
     </>
   );
 }
-export default Dashboard;
+
+export default Permission(["admin"])(Dashboard);

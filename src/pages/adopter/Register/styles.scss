@@ -83,7 +83,7 @@
       justify-content: center;
 
       @media only screen and (min-width: 992px) {
-        width: 91%;
+        width: 100%;
       }
     }
 
@@ -104,7 +104,7 @@
     .form-group {
       width: 100%;
       @media only screen and (min-width: 992px) {
-        max-width: 425px;
+        max-width: 100%;
       }
 
       &__input {
