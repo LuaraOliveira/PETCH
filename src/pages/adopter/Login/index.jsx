@@ -57,6 +57,13 @@ function LoginAdopter() {
         : history.push("/adopter/dashboard");
     } catch (error) {
       console.log(error.response);
+      if (error.response.data.status === 404) {
+        localStorage.setItem(
+          "dados",
+          JSON.stringify({ name, email, googleId, avatar })
+        );
+        history.push("/adopter/Register");
+      }
     }
   }
 

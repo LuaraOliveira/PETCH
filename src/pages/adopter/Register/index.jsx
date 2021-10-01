@@ -3,13 +3,18 @@ import { Input } from "../../../components/Input";
 import { Button } from "../../../components/Button";
 import api from "../../../services/api";
 import { useHistory } from "react-router-dom";
-import { useState } from "react";
-
+import { useState, useRef } from "react";
+import axios from "axios";
 function RegisterAdopter() {
+  console.log(localStorage.getItem("dados"));
+  const address = useRef(null);
+  const district = useRef(null);
+  const data = JSON.parse(localStorage.getItem("dados"));
+  console.log(data);
   const history = useHistory();
   const [register, setRegister] = useState({
-    name: "",
-    email: "",
+    name: data?.name || "",
+    email: data?.email || "",
     cpf: "",
     birthday: "",
     gender: "",
@@ -32,28 +37,39 @@ function RegisterAdopter() {
     });
   }
 
+  async function searchCep(event) {
+    event.preventDefault();
+    const apiCep = `https://viacep.com.br/ws/${register.cep}/json/`;
+    const response = await axios.get(apiCep);
+    const { logradouro, localidade, uf, bairro } = response.data;
+    setRegister({
+      ...register,
+      address: logradouro,
+      city: localidade,
+      district: bairro,
+      uf,
+    });
+    !address.current?.value
+      ? address.current?.removeAttribute("disabled")
+      : address.current?.setAttribute("disabled", "false");
+
+    !district.current?.value
+      ? district.current?.removeAttribute("disabled")
+      : district.current?.setAttribute("disabled", "false");
+  }
+
   async function CadastrarUsuario(event) {
     event.preventDefault();
     try {
-      const instanceForm = new FormData();
-      const birthday = register.birthday.split("/").reverse().join("-");
-      instanceForm.append("name", register.name);
-      instanceForm.append("email", register.email);
-      instanceForm.append("cpf", register.cpf);
-      instanceForm.append("birthday", birthday);
-      instanceForm.append("gender", register.gender);
-      instanceForm.append("cep", register.cep);
-      instanceForm.append("address", `${register.address},${register.number}`);
-      instanceForm.append("district", register.district);
-      instanceForm.append("complement", register.complement);
-      instanceForm.append("city", register.city);
-      instanceForm.append("uf", register.uf);
-      instanceForm.append("phone", register.phone);
-      instanceForm.append("password", register.password);
-      instanceForm.append("confirmPassword", register.confirmPassword);
-      // instanceForm.append("media", image);
-      const response = await api.post("/auth/register", instanceForm);
-      console.log(response.data);
+      const response = await api.post("/auth/register", {
+        ...register,
+        googleId: data.googleId,
+        address: `${register.address},${register.number}`,
+        birthday: register.birthday.split("/").reverse().join("-"),
+      });
+      console.log(response);
+      localStorage.removeItem("dados");
+      window.location.href = "/";
     } catch (error) {
       console.log(error.response);
     }
@@ -70,11 +86,11 @@ function RegisterAdopter() {
                 Dê match no seu novo amigo de quatro patas.
               </p>
             </div>
+            <h2 className="RegisterAdopter__forms--title">Cadastro</h2>
             <form
               onSubmit={CadastrarUsuario}
               className="RegisterAdopter__forms"
             >
-              <h2 className="RegisterAdopter__forms--title">Cadastro</h2>
               <div className="RegisterAdopter__forms--double">
                 <Input
                   type="text"
@@ -135,25 +151,41 @@ function RegisterAdopter() {
                 />
               </div>
 
-              <div className="RegisterAdopter__forms--address">
+              <div className="RegisterAdopter__forms--adresscep">
                 <Input
                   type="text"
                   placeholder="CEP"
-                  mask="cep"
-                  name="cep"
-                  onChange={change}
                   value={register.cep}
+                  onChange={change}
+                  name="cep"
+                  mask="cep"
                   maxLength={9}
                 />
+                <Button color="light" onClick={searchCep}>
+                  Consultar
+                </Button>
+              </div>
 
+              <div className="RegisterAdopter__forms--address">
                 <Input
                   type="text"
                   placeholder="Endereço"
                   name="address"
                   onChange={change}
                   value={register.address}
+                  ref={address}
                 />
+              </div>
 
+              <div className="RegisterAdopter__forms--double">
+                <Input
+                  type="text"
+                  placeholder="Bairro"
+                  name="district"
+                  onChange={change}
+                  ref={district}
+                  value={register.district}
+                />
                 <Input
                   type="text"
                   placeholder="Complemento"
@@ -161,16 +193,7 @@ function RegisterAdopter() {
                   onChange={change}
                   value={register.complement}
                 />
-
-                <Input
-                  type="text"
-                  placeholder="Bairro"
-                  name="district"
-                  onChange={change}
-                  value={register.district}
-                />
               </div>
-
               <div className="RegisterAdopter__forms--three">
                 <Input
                   type="text"
@@ -216,7 +239,9 @@ function RegisterAdopter() {
               </div>
 
               <div className="RegisterAdopter__buttons">
-                <Button color="third">Cadastrar</Button>
+                <Button color="third" type="submit">
+                  Cadastrar
+                </Button>
                 <Button
                   color="third"
                   onClick={() => history.push("/")}
