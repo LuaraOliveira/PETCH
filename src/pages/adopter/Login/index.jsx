@@ -31,8 +31,8 @@ function LoginAdopter() {
     try {
       const response = await api.post("/auth/login", { email, password });
       isLogin(response.data.token);
-      setRole(response.data.role);
-      response.data.role === "Admin"
+      setRole(response.data.user.role);
+      response.data.user.role === "Admin"
         ? history.push("/admin/dashboard")
         : history.push("/adopter/dashboard");
     } catch (error) {
@@ -51,8 +51,8 @@ function LoginAdopter() {
         avatar,
       });
       isLogin(response.data.token);
-      setRole(response.data.role);
-      response.data.role === "Admin"
+      setRole(response.data.user.role);
+      response.data.user.role === "Admin"
         ? history.push("/admin/dashboard")
         : history.push("/adopter/dashboard");
     } catch (error) {
