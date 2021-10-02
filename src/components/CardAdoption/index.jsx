@@ -40,7 +40,6 @@ function CardAdoption() {
                 <p className="card__header-genre">♂ - 2 anos e 3 meses</p>
               </div>
               <div className="card__header-image">
-                {/* <img src={props.pet.photos} alt="avatar" /> */}
                 <img src={photoBig} alt="avatar" className="image-modal" />
                 <Button color="camera" onClick={openModal}>
                   <AiFillCamera />
@@ -55,11 +54,6 @@ function CardAdoption() {
                     <AiOutlineClose />
                   </Button>
                   <img src={photoBig} alt="avatar" className="image-modal" />
-                  {/* <img
-                        src={props.pet.photos}
-                        alt="avatar"
-                        className="image-modal"
-                      /> */}
                 </Modal>
               </div>
             </div>

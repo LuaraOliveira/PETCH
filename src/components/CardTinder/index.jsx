@@ -7,7 +7,7 @@ import { BsArrowReturnLeft } from "react-icons/bs";
 import { useState } from "react";
 import { AiFillCamera } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
-import photoBig from "../../assets/photos/photo-big.jpg";
+
 function CardTinder(props) {
   const customStyles = {
     content: {
@@ -48,8 +48,6 @@ function CardTinder(props) {
                     alt="animal"
                     className="image-modal"
                   />
-
-                  {/* <img src={photoBig} alt="animal" className="image-modal" /> */}
                 </div>
                 <div className="card__info">
                   <h2 className="card__info-title">{props.pet.name} ♂</h2>
@@ -71,7 +69,6 @@ function CardTinder(props) {
                       alt="avatar"
                       className="image-modal"
                     />
-                    {/* <img src={photoBig} alt="animal" className="image-modal" /> */}
                     <Button color="camera" onClick={openModal}>
                       <AiFillCamera />
                     </Button>
@@ -85,11 +82,7 @@ function CardTinder(props) {
                       <Button color="camera" onClick={closeModal}>
                         <AiOutlineClose />
                       </Button>
-                      {/* <img
-                        src={photoBig}
-                        alt="animal"
-                        className="image-modal"
-                      /> */}
+
                       <img
                         src={props.pet.image}
                         alt="animal"

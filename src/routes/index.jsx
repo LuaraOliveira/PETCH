@@ -17,6 +17,7 @@ import RegisterAdopter from "../pages/adopter/Register";
 import RecoveryPassword from "../pages/adopter/RecoveryPassword";
 import Search from "../pages/adopter/Search";
 import AdoptionRequest from "../pages/adopter/AdoptionRequest";
+import RegisterConfirmation from "../pages/adopter/RegisterConfirmation";
 export function Routes() {
   return (
     <>
@@ -136,6 +137,14 @@ export function Routes() {
           exact
           hasHeader={false}
           component={AdoptionRequest}
+        />
+
+        <Route
+          path="/adopter/RegisterConfirmation"
+          hasFooter={false}
+          exact
+          hasHeader={false}
+          component={RegisterConfirmation}
         />
       </Switch>
     </>
