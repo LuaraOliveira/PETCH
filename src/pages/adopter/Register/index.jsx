@@ -6,11 +6,9 @@ import { useHistory } from "react-router-dom";
 import { useState, useRef } from "react";
 import axios from "axios";
 function RegisterAdopter() {
-  console.log(localStorage.getItem("dados"));
   const address = useRef(null);
   const district = useRef(null);
   const data = JSON.parse(localStorage.getItem("dados"));
-  console.log(data);
   const history = useHistory();
   const [register, setRegister] = useState({
     name: data?.name || "",
@@ -63,11 +61,10 @@ function RegisterAdopter() {
     try {
       const response = await api.post("/auth/register", {
         ...register,
-        googleId: data.googleId,
+        googleId: data?.googleId,
         address: `${register.address},${register.number}`,
         birthday: register.birthday.split("/").reverse().join("-"),
       });
-      console.log(response);
       localStorage.removeItem("dados");
       window.location.href = "/";
     } catch (error) {
@@ -174,6 +171,7 @@ function RegisterAdopter() {
                   onChange={change}
                   value={register.address}
                   ref={address}
+                  disabled
                 />
               </div>
 
@@ -209,6 +207,7 @@ function RegisterAdopter() {
                   name="city"
                   onChange={change}
                   value={register.city}
+                  disabled
                 />
 
                 <Input
@@ -216,6 +215,7 @@ function RegisterAdopter() {
                   placeholder="Estado"
                   name="uf"
                   onChange={change}
+                  disabled
                   value={register.uf}
                 />
               </div>
