@@ -136,10 +136,7 @@ function Administrador() {
   async function infoAdmin(id) {
     try {
       const response = await api.get(`/users/${id}?inactives=true`);
-      const cep =
-        response.data.cep.slice(0, 5) + "-" + response.data.cep.slice(5);
-
-      setAdmin({ ...response.data, cep });
+      setAdmin({ ...response.data });
       setIsOpenData(true);
       console.log(response);
     } catch (error) {

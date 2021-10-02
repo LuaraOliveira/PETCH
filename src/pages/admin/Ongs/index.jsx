@@ -100,14 +100,11 @@ function Ongs() {
       const [address, number] = response.data.address
         .split(",")
         .map((param) => param.trim());
-      const cep =
-        response.data.cep.slice(0, 5) + "-" + response.data.cep.slice(5);
       setOng({ ...response.data, address, number });
       setEdition({
         ...edition,
         address,
         district: response.data.district,
-        cep,
       });
       setIsOpenData(true);
       console.log(response);
