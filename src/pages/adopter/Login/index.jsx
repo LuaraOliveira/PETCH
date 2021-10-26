@@ -1,17 +1,25 @@
 import logo from "../../../assets/logo/logo-white.png";
 import { Input } from "../../../components/Input";
 import api from "../../../services/api";
-import { isLogin, setRole, getRole } from "../../../services/auth";
+import { isLogin, setRole, getRole, isUserLogin } from "../../../services/auth";
 import { Button } from "../../../components/Button";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useGoogleLogin } from "react-google-login";
 import { FaGoogle } from "react-icons/fa";
+import { Alert } from "../../../components/Alert";
+
 function LoginAdopter() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [alert, setAlert] = useState({
+    message: "",
+    status: "",
+    background: "",
+  });
   const history = useHistory();
+
   const { signIn } = useGoogleLogin({
     clientId: process.env.REACT_APP_GOOGLE_CLOUD_SECURITY_ID,
     onSuccess: AccessLogin,
@@ -32,11 +40,17 @@ function LoginAdopter() {
       const response = await api.post("/auth/login", { email, password });
       isLogin(response.data.token);
       setRole(response.data.user.role);
+      isUserLogin(response.data.user);
       response.data.user.role === "Admin"
         ? history.push("/admin/dashboard")
         : history.push("/adopter/dashboard");
     } catch (error) {
-      console.log(error.response);
+      // const { data } = error.response;
+      // setAlert({
+      //   message: data.message,
+      //   status: String(data.status || data.statusCode),
+      //   background: "error",
+      // });
     }
   }
 
@@ -67,9 +81,15 @@ function LoginAdopter() {
     }
   }
 
+  function closeAlert() {
+    setAlert({ message: "", status: "", background: "" });
+  }
   return (
     <>
       <section className="loginAdopter">
+        <Alert background={alert.background} onClick={closeAlert}>
+          {alert.message}
+        </Alert>
         <div className="loginAdopter__image"></div>
         <div className="loginAdopter__container">
           <div className="loginAdopter__content">

@@ -5,9 +5,11 @@ import { useState } from "react";
 import { isLogout } from "../../services/auth";
 import { AiOutlineClose } from "react-icons/ai";
 import logo from "../../assets/logo/logo.svg";
+import Cookie from "js-cookie";
 export function Header() {
   const [menu, setMenu] = useState(false);
   const history = useHistory();
+  const user = Cookie.getJSON(process.env.REACT_APP_USER);
 
   function changePage(name) {
     history.push(name);
@@ -57,7 +59,9 @@ export function Header() {
               <div className="header__user-image">
                 <FaUserCircle className="header__user-image-icon" />
               </div>
-              <p className="header__user-title">Olá, Luara.</p>
+              <p className="header__user-title">
+                Olá, {user.name.split(" ").shift()}.
+              </p>
             </div>
             <div className="header__info-exit">
               <Button color="primary" className="btn" onClick={isLogout}>

@@ -3,6 +3,7 @@ import { Input } from "../../../components/Input";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../../components/Button";
 import { useState, useMemo, useRef } from "react";
+import { Alert } from "../../../components/Alert";
 import api from "../../../services/api";
 import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
@@ -41,6 +42,11 @@ function Administrador() {
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
+  const [alert, setAlert] = useState({
+    message: "",
+    status: "",
+    background: "",
+  });
 
   const [register, setRegister] = useState(initialState);
 
@@ -108,7 +114,12 @@ function Administrador() {
       closeModalRegister(event);
       DataAdmins();
     } catch (error) {
-      console.log(error.response);
+      const { data } = error.response;
+      setAlert({
+        message: data.message,
+        status: String(data.status || data.statusCode),
+        background: "error",
+      });
     }
   }
 
@@ -140,7 +151,12 @@ function Administrador() {
       setIsOpenData(true);
       console.log(response);
     } catch (error) {
-      console.log(error.response);
+      const { data } = error.response;
+      setAlert({
+        message: data.message,
+        status: String(data.status || data.statusCode),
+        background: "error",
+      });
     }
   }
 
@@ -159,8 +175,15 @@ function Administrador() {
     } catch (error) {}
   }
 
+  function closeAlert() {
+    setAlert({ message: "", status: "", background: "" });
+  }
+
   return (
     <>
+      <Alert background={alert.background} onClick={closeAlert}>
+        {alert.message}
+      </Alert>
       <section className="container" id="administrador">
         <div className="row">
           <div className="col-md-12">

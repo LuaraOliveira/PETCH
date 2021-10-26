@@ -4,12 +4,18 @@ import { Button } from "../../../components/Button";
 import api from "../../../services/api";
 import { useHistory } from "react-router-dom";
 import { useState, useRef } from "react";
+import { Alert } from "../../../components/Alert";
 import axios from "axios";
 function RegisterAdopter() {
   const address = useRef(null);
   const district = useRef(null);
   const data = JSON.parse(localStorage.getItem("dados"));
   const history = useHistory();
+  const [alert, setAlert] = useState({
+    message: "",
+    status: "",
+    background: "",
+  });
   const [register, setRegister] = useState({
     name: data?.name || "",
     email: data?.email || "",
@@ -68,11 +74,24 @@ function RegisterAdopter() {
       localStorage.removeItem("dados");
       window.location.href = "/";
     } catch (error) {
-      console.log(error.response);
+      const { data } = error.response;
+      setAlert({
+        message: data.message,
+        status: String(data.status || data.statusCode),
+        background: "error",
+      });
     }
   }
+
+  function closeAlert() {
+    setAlert({ message: "", status: "", background: "" });
+  }
+
   return (
     <>
+      <Alert background={alert.background} onClick={closeAlert}>
+        {alert.message}
+      </Alert>
       <section className="RegisterAdopter">
         <div className="RegisterAdopter__image"></div>
         <div className="RegisterAdopter__container">

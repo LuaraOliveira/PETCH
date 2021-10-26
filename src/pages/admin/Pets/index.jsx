@@ -52,6 +52,8 @@ function Pets() {
       maxWidth: "900px",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
+      height: "550px",
+      overflowY: "scroll",
     },
 
     overlay: {

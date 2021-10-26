@@ -10,6 +10,7 @@ import { GrImage } from "react-icons/gr";
 import axios from "axios";
 import { usePetch } from "../../../context/petchcontext";
 import Permission from "../../../utils/Permission";
+import { Alert } from "../../../components/Alert";
 const initialState = {
   name: "",
   email: "",
@@ -43,7 +44,11 @@ function Ongs() {
   const [register, setRegister] = useState(initialState);
 
   const [edition, setEdition] = useState(initialState);
-
+  const [alert, setAlert] = useState({
+    message: "",
+    status: "",
+    background: "",
+  });
   const customStyles = {
     content: {
       top: "50%",
@@ -55,6 +60,8 @@ function Ongs() {
       maxWidth: "800px",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
+      height: "550px",
+      overflowY: "scroll",
     },
 
     overlay: {
@@ -109,7 +116,12 @@ function Ongs() {
       setIsOpenData(true);
       console.log(response);
     } catch (error) {
-      console.log(error.response);
+      const { data } = error.response;
+      setAlert({
+        message: data.message,
+        status: String(data.status || data.statusCode),
+        background: "error",
+      });
     }
   }
 
@@ -133,7 +145,12 @@ function Ongs() {
       closeModalRegister(event);
       DataOngs();
     } catch (error) {
-      console.log(error.response);
+      const { data } = error.response;
+      setAlert({
+        message: data.message,
+        status: String(data.status || data.statusCode),
+        background: "error",
+      });
     }
   }
 
@@ -232,8 +249,15 @@ function Ongs() {
     } catch (error) {}
   }
 
+  function closeAlert() {
+    setAlert({ message: "", status: "", background: "" });
+  }
+
   return (
     <>
+      <Alert background={alert.background} onClick={closeAlert}>
+        {alert.message}
+      </Alert>
       <section className="container" id="ongs">
         <div className="row">
           <div className="col-md-12">

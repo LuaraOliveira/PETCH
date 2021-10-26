@@ -10,7 +10,7 @@ import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import Permission from "../../../utils/Permission";
 import { usePetch } from "../../../context/petchcontext";
-
+import { Alert } from "../../../components/Alert";
 const initialState = {
   name: "",
   size: "",
@@ -36,7 +36,11 @@ function Gifts() {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
   const [register, setRegister] = useState(initialState);
-
+  const [alert, setAlert] = useState({
+    message: "",
+    status: "",
+    background: "",
+  });
   const [edition, setEdition] = useState(initialState);
 
   const customStyles = {
@@ -50,6 +54,8 @@ function Gifts() {
       maxWidth: "800px",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
+      height: "550px",
+      overflowY: "scroll",
     },
 
     overlay: {
@@ -108,7 +114,12 @@ function Gifts() {
       closeModalRegister(event);
       DataGifts();
     } catch (error) {
-      console.log(error.response);
+      const { data } = error.response;
+      setAlert({
+        message: data.message,
+        status: String(data.status || data.statusCode),
+        background: "error",
+      });
     }
   }
   async function editGift(event) {
@@ -167,8 +178,15 @@ function Gifts() {
       DataGifts();
     } catch (error) {}
   }
+
+  function closeAlert() {
+    setAlert({ message: "", status: "", background: "" });
+  }
   return (
     <>
+      <Alert background={alert.background} onClick={closeAlert}>
+        {alert.message}
+      </Alert>
       <section className="container" id="gifts">
         <div className="row">
           <div className="col-md-12">

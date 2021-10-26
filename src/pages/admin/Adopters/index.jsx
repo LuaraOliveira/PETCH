@@ -7,6 +7,7 @@ import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
 import { usePetch } from "../../../context/petchcontext";
 import Permission from "../../../utils/Permission";
+import { Alert } from "../../../components/Alert";
 function Adopters() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
@@ -15,7 +16,11 @@ function Adopters() {
 
   const { adopters, DataAdopters } = usePetch();
   const [adopter, setAdopter] = useState(undefined);
-
+  const [alert, setAlert] = useState({
+    message: "",
+    status: "",
+    background: "",
+  });
   const customStyles = {
     content: {
       top: "50%",
@@ -48,7 +53,12 @@ function Adopters() {
       setIsOpenData(true);
       console.log(response);
     } catch (error) {
-      console.log(error.response);
+      const { data } = error.response;
+      setAlert({
+        message: data.message,
+        status: String(data.status || data.statusCode),
+        background: "error",
+      });
     }
   }
 
@@ -60,8 +70,15 @@ function Adopters() {
     } catch (error) {}
   }
 
+  function closeAlert() {
+    setAlert({ message: "", status: "", background: "" });
+  }
+
   return (
     <>
+      <Alert background={alert.background} onClick={closeAlert}>
+        {alert.message}
+      </Alert>
       <section className="container" id="adopters">
         <div className="row">
           <div className="col-md-12">

@@ -4,6 +4,7 @@ import { Button } from "../../../components/Button";
 import { useState, useMemo, useRef } from "react";
 import api from "../../../services/api";
 import Modal from "react-modal";
+import { Alert } from "../../../components/Alert";
 import { Input } from "../../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
@@ -46,7 +47,11 @@ function CompanyPartner() {
   const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
   const [modalIsOpenData, setIsOpenData] = useState(false);
   const { partners, DataPartners } = usePetch();
-
+  const [alert, setAlert] = useState({
+    message: "",
+    status: "",
+    background: "",
+  });
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
@@ -66,6 +71,8 @@ function CompanyPartner() {
       maxWidth: "800px",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
+      height: "550px",
+      overflowY: "scroll",
     },
 
     overlay: {
@@ -118,7 +125,12 @@ function CompanyPartner() {
       setIsOpenData(true);
       console.log(response);
     } catch (error) {
-      console.log(error.response);
+      const { data } = error.response;
+      setAlert({
+        message: data.message,
+        status: String(data.status || data.statusCode),
+        background: "error",
+      });
     }
   }
 
@@ -148,7 +160,12 @@ function CompanyPartner() {
       closeModalRegister(event);
       DataPartners();
     } catch (error) {
-      console.log(error.response);
+      const { data } = error.response;
+      setAlert({
+        message: data.message,
+        status: String(data.status || data.statusCode),
+        background: "error",
+      });
     }
   }
 
@@ -257,8 +274,15 @@ function CompanyPartner() {
     } catch (error) {}
   }
 
+  function closeAlert() {
+    setAlert({ message: "", status: "", background: "" });
+  }
+
   return (
     <>
+      <Alert background={alert.background} onClick={closeAlert}>
+        {alert.message}
+      </Alert>
       <section className="container" id="company">
         <div className="row">
           <div className="col-md-12">
