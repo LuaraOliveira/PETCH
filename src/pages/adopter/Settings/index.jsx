@@ -6,6 +6,7 @@ import { Button } from "../../../components/Button";
 import { useState } from "react";
 import { AiFillCamera } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
+import Permission from "../../../utils/Permission";
 import Modal from "react-modal";
 function Settings() {
   const customStyles = {
@@ -101,4 +102,5 @@ function Settings() {
     </>
   );
 }
-export default Settings;
+
+export default Permission(["adotante"])(Settings);

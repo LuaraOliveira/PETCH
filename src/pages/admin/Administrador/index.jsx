@@ -2,6 +2,8 @@ import { Breadcrumb } from "../../../components/Breadcrumb";
 import { Input } from "../../../components/Input";
 import { BiUserCircle } from "react-icons/bi";
 import { Button } from "../../../components/Button";
+import { Header } from "../../../components/Header";
+import { Footer } from "../../../components/Footer";
 import { useState, useMemo, useRef } from "react";
 import { Alert } from "../../../components/Alert";
 import api from "../../../services/api";
@@ -11,6 +13,8 @@ import { GrImage } from "react-icons/gr";
 import axios from "axios";
 import { usePetch } from "../../../context/petchcontext";
 import Permission from "../../../utils/Permission";
+import Cookie from "js-cookie";
+
 const initialState = {
   name: "",
   email: "",
@@ -47,7 +51,7 @@ function Administrador() {
     status: "",
     background: "",
   });
-
+  const user = Cookie.getJSON(process.env.REACT_APP_USER);
   const [register, setRegister] = useState(initialState);
 
   const customStyles = {
@@ -114,7 +118,7 @@ function Administrador() {
       closeModalRegister(event);
       DataAdmins();
     } catch (error) {
-      const { data } = error.response;
+      const data = error.response.data;
       setAlert({
         message: data.message,
         status: String(data.status || data.statusCode),
@@ -151,7 +155,7 @@ function Administrador() {
       setIsOpenData(true);
       console.log(response);
     } catch (error) {
-      const { data } = error.response;
+      const data = error.response.data;
       setAlert({
         message: data.message,
         status: String(data.status || data.statusCode),
@@ -184,6 +188,7 @@ function Administrador() {
       <Alert background={alert.background} onClick={closeAlert}>
         {alert.message}
       </Alert>
+      <Header />
       <section className="container" id="administrador">
         <div className="row">
           <div className="col-md-12">
@@ -406,9 +411,10 @@ function Administrador() {
                             Informações
                           </Button>
                           <Button
-                            className="btn"
+                            className="btn btn--primary"
                             color={admin.deletedAt ? "success" : "disabled"}
                             onClick={() => statusAdmin(admin)}
+                            disabled={admin.id === user.id}
                           >
                             {admin.deletedAt ? "Habilitar" : "Desabilitar"}
                           </Button>
@@ -460,6 +466,8 @@ function Administrador() {
           </div>
         </div>
       </section>
+
+      <Footer />
     </>
   );
 }

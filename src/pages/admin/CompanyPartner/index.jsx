@@ -11,7 +11,8 @@ import { GrImage } from "react-icons/gr";
 import axios from "axios";
 import Permission from "../../../utils/Permission";
 import { usePetch } from "../../../context/petchcontext";
-
+import { Header } from "../../../components/Header";
+import { Footer } from "../../../components/Footer";
 const initialState = {
   fantasyName: "",
   companyName: "",
@@ -125,7 +126,7 @@ function CompanyPartner() {
       setIsOpenData(true);
       console.log(response);
     } catch (error) {
-      const { data } = error.response;
+      const data = error.response.data;
       setAlert({
         message: data.message,
         status: String(data.status || data.statusCode),
@@ -160,7 +161,7 @@ function CompanyPartner() {
       closeModalRegister(event);
       DataPartners();
     } catch (error) {
-      const { data } = error.response;
+      const data = error.response.data;
       setAlert({
         message: data.message,
         status: String(data.status || data.statusCode),
@@ -283,6 +284,7 @@ function CompanyPartner() {
       <Alert background={alert.background} onClick={closeAlert}>
         {alert.message}
       </Alert>
+      <Header />
       <section className="container" id="company">
         <div className="row">
           <div className="col-md-12">
@@ -744,6 +746,7 @@ function CompanyPartner() {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 }

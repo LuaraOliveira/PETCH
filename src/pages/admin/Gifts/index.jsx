@@ -11,6 +11,8 @@ import { GrImage } from "react-icons/gr";
 import Permission from "../../../utils/Permission";
 import { usePetch } from "../../../context/petchcontext";
 import { Alert } from "../../../components/Alert";
+import { Header } from "../../../components/Header";
+import { Footer } from "../../../components/Footer";
 const initialState = {
   name: "",
   size: "",
@@ -114,7 +116,7 @@ function Gifts() {
       closeModalRegister(event);
       DataGifts();
     } catch (error) {
-      const { data } = error.response;
+      const data = error.response.data;
       setAlert({
         message: data.message,
         status: String(data.status || data.statusCode),
@@ -187,6 +189,7 @@ function Gifts() {
       <Alert background={alert.background} onClick={closeAlert}>
         {alert.message}
       </Alert>
+      <Header />
       <section className="container" id="gifts">
         <div className="row">
           <div className="col-md-12">
@@ -485,6 +488,7 @@ function Gifts() {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 }

@@ -11,6 +11,8 @@ import axios from "axios";
 import { usePetch } from "../../../context/petchcontext";
 import Permission from "../../../utils/Permission";
 import { Alert } from "../../../components/Alert";
+import { Footer } from "../../../components/Footer";
+import { Header } from "../../../components/Header";
 const initialState = {
   name: "",
   email: "",
@@ -116,7 +118,7 @@ function Ongs() {
       setIsOpenData(true);
       console.log(response);
     } catch (error) {
-      const { data } = error.response;
+      const data = error.response.data;
       setAlert({
         message: data.message,
         status: String(data.status || data.statusCode),
@@ -145,7 +147,7 @@ function Ongs() {
       closeModalRegister(event);
       DataOngs();
     } catch (error) {
-      const { data } = error.response;
+      const data = error.response.data;
       setAlert({
         message: data.message,
         status: String(data.status || data.statusCode),
@@ -258,6 +260,7 @@ function Ongs() {
       <Alert background={alert.background} onClick={closeAlert}>
         {alert.message}
       </Alert>
+      <Header />
       <section className="container" id="ongs">
         <div className="row">
           <div className="col-md-12">
@@ -628,6 +631,7 @@ function Ongs() {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 }

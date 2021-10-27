@@ -8,6 +8,8 @@ import { GrClose } from "react-icons/gr";
 import { usePetch } from "../../../context/petchcontext";
 import Permission from "../../../utils/Permission";
 import { Alert } from "../../../components/Alert";
+import { Header } from "../../../components/Header";
+import { Footer } from "../../../components/Footer";
 function Adopters() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
@@ -53,7 +55,7 @@ function Adopters() {
       setIsOpenData(true);
       console.log(response);
     } catch (error) {
-      const { data } = error.response;
+      const data = error.response.data;
       setAlert({
         message: data.message,
         status: String(data.status || data.statusCode),
@@ -79,6 +81,7 @@ function Adopters() {
       <Alert background={alert.background} onClick={closeAlert}>
         {alert.message}
       </Alert>
+      <Header />
       <section className="container" id="adopters">
         <div className="row">
           <div className="col-md-12">
@@ -168,6 +171,7 @@ function Adopters() {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 }

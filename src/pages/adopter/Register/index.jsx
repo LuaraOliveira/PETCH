@@ -30,8 +30,6 @@ function RegisterAdopter() {
     uf: "",
     phone: "",
     number: "",
-    password: "",
-    confirmPassword: "",
   });
 
   function change(event) {
@@ -74,7 +72,7 @@ function RegisterAdopter() {
       localStorage.removeItem("dados");
       window.location.href = "/";
     } catch (error) {
-      const { data } = error.response;
+      const data = error.response.data;
       setAlert({
         message: data.message,
         status: String(data.status || data.statusCode),
@@ -236,24 +234,6 @@ function RegisterAdopter() {
                   onChange={change}
                   disabled
                   value={register.uf}
-                />
-              </div>
-
-              <div className="RegisterAdopter__forms--double">
-                <Input
-                  password
-                  placeholder="Senha"
-                  name="password"
-                  onChange={change}
-                  value={register.password}
-                />
-
-                <Input
-                  password
-                  placeholder="Confirmar Senha"
-                  name="confirmPassword"
-                  onChange={change}
-                  value={register.confirmPassword}
                 />
               </div>
 

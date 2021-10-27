@@ -6,9 +6,12 @@ import iconDog from "../../../assets/icons/icon_dog.svg";
 import iconHouse from "../../../assets/icons/icon_home.svg";
 import { Button } from "../../../components/Button";
 import Permission from "../../../utils/Permission";
+import { Header } from "../../../components/Header";
+import { Footer } from "../../../components/Footer";
 function Dashboard() {
   return (
     <>
+      <Header />
       <section className="container" id="dashboard">
         <div className="row">
           <div className="col-md-12">
@@ -181,6 +184,7 @@ function Dashboard() {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 }

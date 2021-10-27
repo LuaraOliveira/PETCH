@@ -5,7 +5,7 @@ import { isLogout } from "../../services/auth";
 import { AiOutlineClose, AiOutlineHome, AiOutlineUser } from "react-icons/ai";
 import Cookie from "js-cookie";
 import { BiSliderAlt } from "react-icons/bi";
-
+import { FaUserCircle } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import logo from "../../assets/logo/logo-color.svg";
 import avatar from "../../assets/avatar/avatar.png";
@@ -71,10 +71,13 @@ export function HeaderAdopter() {
           <div className="headerAdopter__info">
             <div className="headerAdopter__user">
               <div className="headerAdopter__user-image">
-                {/* <FaUserCircle className="headerAdopter__user-image-icon" /> */}
-                <button onClick={() => changePage("/adopter/Settings")}>
-                  <img src={user.avatar} alt="avatar" />
-                </button>
+                {!user.avatar ? (
+                  <FaUserCircle className="header__user-image-icon" />
+                ) : (
+                  <button onClick={() => changePage("/adopter/Settings")}>
+                    <img src={user.avatar} alt="avatar" />
+                  </button>
+                )}
               </div>
               <p className="headerAdopter__user-title">Olá, Luara.</p>
             </div>

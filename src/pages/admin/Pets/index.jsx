@@ -10,7 +10,10 @@ import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import { Select } from "../../../components/Select";
 import { usePetch } from "../../../context/petchcontext";
+import { Alert } from "../../../components/Alert";
 import Permission from "../../../utils/Permission";
+import { Header } from "../../../components/Header";
+import { Footer } from "../../../components/Footer";
 const initialState = {
   name: "",
   cut: "not",
@@ -38,7 +41,11 @@ function Pets() {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
   const [register, setRegister] = useState(initialState);
-
+  const [alert, setAlert] = useState({
+    message: "",
+    status: "",
+    background: "",
+  });
   const [edition, setEdition] = useState(initialState);
 
   const customStyles = {
@@ -125,7 +132,12 @@ function Pets() {
       closeModalRegister(event);
       DataPets();
     } catch (error) {
-      console.log(error.response);
+      const data = error.response.data;
+      setAlert({
+        message: data.message,
+        status: String(data.status || data.statusCode),
+        background: "error",
+      });
     }
   }
 
@@ -178,9 +190,15 @@ function Pets() {
       DataPets();
     } catch (error) {}
   }
-
+  function closeAlert() {
+    setAlert({ message: "", status: "", background: "" });
+  }
   return (
     <>
+      <Alert background={alert.background} onClick={closeAlert}>
+        {alert.message}
+      </Alert>
+      <Header />
       <section className="container" id="pets">
         <div className="row">
           <div className="col-md-12">
@@ -587,6 +605,7 @@ function Pets() {
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 }

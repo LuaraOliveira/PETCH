@@ -45,12 +45,12 @@ function LoginAdopter() {
         ? history.push("/admin/dashboard")
         : history.push("/adopter/dashboard");
     } catch (error) {
-      // const { data } = error.response;
-      // setAlert({
-      //   message: data.message,
-      //   status: String(data.status || data.statusCode),
-      //   background: "error",
-      // });
+      const data = error.response.data;
+      setAlert({
+        message: data.message,
+        status: String(data.status || data.statusCode),
+        background: "error",
+      });
     }
   }
 

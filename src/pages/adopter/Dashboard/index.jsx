@@ -2,6 +2,7 @@ import { HeaderAdopter } from "../../../components/HeaderAdopter";
 import CardTinder from "../../../components/CardTinder";
 import CardTinderInfo from "../../../components/CardTinderInfo";
 import { usePetch } from "../../../context/petchcontext";
+import Permission from "../../../utils/Permission";
 function DashboardAdopter() {
   const { pets } = usePetch();
 
@@ -24,4 +25,4 @@ function DashboardAdopter() {
     </>
   );
 }
-export default DashboardAdopter;
+export default Permission(["adotante"])(DashboardAdopter);

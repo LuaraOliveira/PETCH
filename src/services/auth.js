@@ -14,6 +14,7 @@ export const setRole = (role) =>
 export const isLogout = () => {
   Cookie.remove(process.env.REACT_APP_COOKIE_TOKEN);
   Cookie.remove(process.env.REACT_APP_COOKIE_ROLE);
+  Cookie.remove(process.env.REACT_APP_USER);
   window.location.href = "/";
 };
 

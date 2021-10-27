@@ -1,10 +1,8 @@
 import logo from "../../../assets/logo/logo-white.png";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import api from "../../../services/api";
-import { useHistory } from "react-router-dom";
 
 function RegisterConfirmation() {
-  const history = useHistory();
   useEffect(() => {
     async function confirmationEmail() {
       const query = window.location.search;

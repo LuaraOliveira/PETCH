@@ -57,7 +57,11 @@ export function Header() {
           <div className="header__info">
             <div className="header__user">
               <div className="header__user-image">
-                <FaUserCircle className="header__user-image-icon" />
+                {!user.avatar ? (
+                  <FaUserCircle className="header__user-image-icon" />
+                ) : (
+                  <img src={user.avatar} alt="avatar" />
+                )}
               </div>
               <p className="header__user-title">
                 Olá, {user.name.split(" ").shift()}.

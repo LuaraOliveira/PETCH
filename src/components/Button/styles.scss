@@ -132,7 +132,7 @@
     &:disabled {
       background: $gray-200;
       color: $gray-100;
-
+      border: 1px solid $gray-100 !important;
       path {
         fill: $gray-200;
       }
@@ -152,6 +152,7 @@
     &:disabled {
       background: $gray-200;
       color: $gray-100;
+      border: 1px solid $gray-200;
 
       path {
         fill: $gray-200;

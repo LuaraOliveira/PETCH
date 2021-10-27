@@ -19,7 +19,7 @@ function RecoveryPassword() {
       await api.post("/auth/forgot", { email });
       history.push("/");
     } catch (error) {
-      const { data } = error.response;
+      const data = error.response.data;
       setAlert({
         message: data.message,
         status: String(data.status || data.statusCode),
