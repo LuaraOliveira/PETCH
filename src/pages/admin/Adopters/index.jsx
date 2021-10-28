@@ -7,7 +7,7 @@ import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
 import { usePetch } from "../../../context/petchcontext";
 import Permission from "../../../utils/Permission";
-import { Alert } from "../../../components/Alert";
+import { AlertMessage } from "../../../components/Alert";
 import { Header } from "../../../components/Header";
 import { Footer } from "../../../components/Footer";
 function Adopters() {
@@ -18,11 +18,7 @@ function Adopters() {
 
   const { adopters, DataAdopters } = usePetch();
   const [adopter, setAdopter] = useState(undefined);
-  const [alert, setAlert] = useState({
-    message: "",
-    status: "",
-    background: "",
-  });
+
   const customStyles = {
     content: {
       top: "50%",
@@ -56,11 +52,7 @@ function Adopters() {
       console.log(response);
     } catch (error) {
       const data = error.response.data;
-      setAlert({
-        message: data.message,
-        status: String(data.status || data.statusCode),
-        background: "error",
-      });
+      AlertMessage(data.message, data.background);
     }
   }
 
@@ -72,15 +64,8 @@ function Adopters() {
     } catch (error) {}
   }
 
-  function closeAlert() {
-    setAlert({ message: "", status: "", background: "" });
-  }
-
   return (
     <>
-      <Alert background={alert.background} onClick={closeAlert}>
-        {alert.message}
-      </Alert>
       <Header />
       <section className="container" id="adopters">
         <div className="row">

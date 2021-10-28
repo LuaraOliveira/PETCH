@@ -11,24 +11,10 @@ import Permission from "../../../utils/Permission";
 import Modal from "react-modal";
 import api from "../../../services/api";
 import axios from "axios";
-const initialState = {
-  name: "",
-  email: "",
-  cpf: "",
-  address: "",
-  cep: "",
-  district: "",
-  number: "",
-  complement: "",
-  phone: "",
-  city: "",
-  uf: "",
-  avatar: "",
-};
 
 function Settings() {
-  const [user, setUser] = useState(initialState);
-  const [edition, setEdition] = useState(initialState);
+  const [user, setUser] = useState(undefined);
+
   const address = useRef(null);
   const district = useRef(null);
 
@@ -61,19 +47,19 @@ function Settings() {
   }
 
   function changeEdit(event) {
-    setEdition({
-      ...edition,
+    setUser({
+      ...user,
       [event.target.name]: event.target.value,
     });
   }
 
   async function searchCep(event) {
     event.preventDefault();
-    const apiCep = `https://viacep.com.br/ws/${edition.cep}/json/`;
+    const apiCep = `https://viacep.com.br/ws/${user.cep}/json/`;
     const response = await axios.get(apiCep);
     const { logradouro, localidade, uf, bairro } = response.data;
-    setEdition({
-      ...edition,
+    setUser({
+      ...user,
       address: logradouro,
       city: localidade,
       district: bairro,
@@ -101,7 +87,7 @@ function Settings() {
                   <div className="settings__header">
                     <div className="settings__image">
                       <div className="settings__image--circle">
-                        {!user.avatar ? (
+                        {!user?.avatar ? (
                           <FaUserCircle />
                         ) : (
                           <img src={user.avatar} alt="avatar" />
@@ -133,8 +119,8 @@ function Settings() {
                         type="text"
                         placeholder=""
                         id="name"
-                        defaultValue={user.name}
-                        // onChange={changeEdit}
+                        value={user?.name}
+                        onChange={changeEdit}
                         name="name"
                       />
                     </div>
@@ -145,9 +131,10 @@ function Settings() {
                       type="text"
                       mask="cpf"
                       name="cpf"
-                      defaultValue={user?.cpf}
+                      value={user?.cpf}
                       onChange={changeEdit}
                       maxLength={14}
+                      id="cpf"
                     />
                     <label htmlFor="Phone">Telefone</label>
                     <Input
@@ -156,7 +143,7 @@ function Settings() {
                       id="Phone"
                       maxLength={15}
                       mask="phone"
-                      defaultValue={user?.phone}
+                      value={user?.phone}
                       onChange={changeEdit}
                       name="phone"
                     />
@@ -166,7 +153,7 @@ function Settings() {
                       type="text"
                       placeholder=""
                       id="Email"
-                      defaultValue={user?.email}
+                      value={user?.email}
                       onChange={changeEdit}
                       name="email"
                     />
@@ -176,7 +163,7 @@ function Settings() {
                       type="text"
                       placeholder=""
                       id="Cep"
-                      defaultValue={user?.cep}
+                      value={user?.cep}
                       onChange={changeEdit}
                       name="cep"
                       mask="cep"
@@ -188,7 +175,7 @@ function Settings() {
                       type="text"
                       placeholder=""
                       id="Address"
-                      defaultValue={user?.address}
+                      value={user?.address}
                       onChange={changeEdit}
                       name="address"
                       ref={address}
@@ -199,7 +186,7 @@ function Settings() {
                       type="text"
                       placeholder=""
                       id="District"
-                      defaultValue={user?.district}
+                      value={user?.district}
                       onChange={changeEdit}
                       name="district"
                       ref={district}
@@ -210,7 +197,7 @@ function Settings() {
                       type="text"
                       placeholder=""
                       id="Number"
-                      defaultValue={user?.number}
+                      value={user?.number}
                       onChange={changeEdit}
                       name="number"
                     />
@@ -220,7 +207,7 @@ function Settings() {
                       type="text"
                       placeholder=""
                       id="Complement"
-                      defaultValue={user?.complement}
+                      value={user?.complement}
                       onChange={changeEdit}
                       name="complement"
                     />
@@ -230,7 +217,7 @@ function Settings() {
                       type="text"
                       placeholder=""
                       id="uf"
-                      defaultValue={user?.uf}
+                      value={user?.uf}
                       onChange={changeEdit}
                       name="uf"
                       disabled
@@ -241,7 +228,7 @@ function Settings() {
                       type="text"
                       placeholder=""
                       id="City"
-                      defaultValue={user?.city}
+                      value={user?.city}
                       onChange={changeEdit}
                       name="city"
                       disabled

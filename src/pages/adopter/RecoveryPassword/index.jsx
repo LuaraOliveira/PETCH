@@ -4,38 +4,25 @@ import { Button } from "../../../components/Button";
 import { useState } from "react";
 import api from "../../../services/api";
 import { useHistory } from "react-router-dom";
-import { Alert } from "../../../components/Alert";
+import { AlertMessage } from "../../../components/Alert";
 function RecoveryPassword() {
   const [email, setEmail] = useState("");
   const history = useHistory();
-  const [alert, setAlert] = useState({
-    message: "",
-    status: "",
-    background: "",
-  });
+
   async function sendEmail(event) {
     event.preventDefault();
     try {
-      await api.post("/auth/forgot", { email });
+      const response = await api.post("/auth/forgot", { email });
+      AlertMessage(response.data.message, response.data.background);
       history.push("/");
     } catch (error) {
       const data = error.response.data;
-      setAlert({
-        message: data.message,
-        status: String(data.status || data.statusCode),
-        background: "error",
-      });
+      AlertMessage(data.message, data.background);
     }
   }
 
-  function closeAlert() {
-    setAlert({ message: "", status: "", background: "" });
-  }
   return (
     <>
-      <Alert background={alert.background} onClick={closeAlert}>
-        {alert.message}
-      </Alert>
       <section className="RecoveryPassword">
         <div className="RecoveryPassword__image"></div>
         <div className="RecoveryPassword__container">

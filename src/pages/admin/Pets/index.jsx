@@ -10,7 +10,7 @@ import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import { Select } from "../../../components/Select";
 import { usePetch } from "../../../context/petchcontext";
-import { Alert } from "../../../components/Alert";
+import { AlertMessage } from "../../../components/Alert";
 import Permission from "../../../utils/Permission";
 import { Header } from "../../../components/Header";
 import { Footer } from "../../../components/Footer";
@@ -41,11 +41,7 @@ function Pets() {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
   const [register, setRegister] = useState(initialState);
-  const [alert, setAlert] = useState({
-    message: "",
-    status: "",
-    background: "",
-  });
+
   const [edition, setEdition] = useState(initialState);
 
   const customStyles = {
@@ -129,15 +125,12 @@ function Pets() {
       instanceForm.append("media", image);
       const response = await api.post("/pets", instanceForm);
       console.log(response.data);
+      AlertMessage(response.data.message, response.data.background);
       closeModalRegister(event);
       DataPets();
     } catch (error) {
       const data = error.response.data;
-      setAlert({
-        message: data.message,
-        status: String(data.status || data.statusCode),
-        background: "error",
-      });
+      AlertMessage(data.message, data.background);
     }
   }
 
@@ -163,9 +156,11 @@ function Pets() {
       const response = await api.put(`/pets/${pet.id}`, instanceForm);
       console.log(response.data);
       closeModalData(event);
+      AlertMessage(response.data.message, response.data.background);
       DataPets();
     } catch (error) {
-      console.log(error.response);
+      const data = error.response.data;
+      AlertMessage(data.message, data.background);
     }
   }
 
@@ -190,14 +185,9 @@ function Pets() {
       DataPets();
     } catch (error) {}
   }
-  function closeAlert() {
-    setAlert({ message: "", status: "", background: "" });
-  }
+
   return (
     <>
-      <Alert background={alert.background} onClick={closeAlert}>
-        {alert.message}
-      </Alert>
       <Header />
       <section className="container" id="pets">
         <div className="row">

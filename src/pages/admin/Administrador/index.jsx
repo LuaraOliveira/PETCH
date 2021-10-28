@@ -5,7 +5,7 @@ import { Button } from "../../../components/Button";
 import { Header } from "../../../components/Header";
 import { Footer } from "../../../components/Footer";
 import { useState, useMemo, useRef } from "react";
-import { Alert } from "../../../components/Alert";
+import { AlertMessage } from "../../../components/Alert";
 import api from "../../../services/api";
 import Modal from "react-modal";
 import { GrClose } from "react-icons/gr";
@@ -46,11 +46,7 @@ function Administrador() {
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
-  const [alert, setAlert] = useState({
-    message: "",
-    status: "",
-    background: "",
-  });
+
   const user = Cookie.getJSON(process.env.REACT_APP_USER);
   const [register, setRegister] = useState(initialState);
 
@@ -114,16 +110,12 @@ function Administrador() {
       instanceForm.append("phone", register.phone);
       instanceForm.append("media", image);
       const response = await api.post("/users", instanceForm);
-      console.log(response.data);
+      AlertMessage(response.data.message, response.data.background);
       closeModalRegister(event);
       DataAdmins();
     } catch (error) {
       const data = error.response.data;
-      setAlert({
-        message: data.message,
-        status: String(data.status || data.statusCode),
-        background: "error",
-      });
+      AlertMessage(data.message, data.background);
     }
   }
 
@@ -156,11 +148,7 @@ function Administrador() {
       console.log(response);
     } catch (error) {
       const data = error.response.data;
-      setAlert({
-        message: data.message,
-        status: String(data.status || data.statusCode),
-        background: "error",
-      });
+      AlertMessage(data.message, data.background);
     }
   }
 
@@ -179,15 +167,8 @@ function Administrador() {
     } catch (error) {}
   }
 
-  function closeAlert() {
-    setAlert({ message: "", status: "", background: "" });
-  }
-
   return (
     <>
-      <Alert background={alert.background} onClick={closeAlert}>
-        {alert.message}
-      </Alert>
       <Header />
       <section className="container" id="administrador">
         <div className="row">

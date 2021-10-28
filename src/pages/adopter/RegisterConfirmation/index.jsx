@@ -33,7 +33,9 @@ function RegisterConfirmation() {
               </p>
             </div>
             <div className="RegisterConfirmation__forms">
-              <h2 className="RegisterConfirmation__forms--title"></h2>
+              <h2 className="RegisterConfirmation__forms--title">
+                E-mail confirmado com sucesso!
+              </h2>
             </div>
           </div>
         </div>

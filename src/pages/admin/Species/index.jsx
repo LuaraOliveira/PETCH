@@ -9,7 +9,7 @@ import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
 import { usePetch } from "../../../context/petchcontext";
 import Permission from "../../../utils/Permission";
-import { Alert } from "../../../components/Alert";
+import { AlertMessage } from "../../../components/Alert";
 import { Header } from "../../../components/Header";
 import { Footer } from "../../../components/Footer";
 const initialState = {
@@ -30,11 +30,7 @@ function Species() {
   }, [image]);
   const [register, setRegister] = useState(initialState);
   const [edition, setEdition] = useState(initialState);
-  const [alert, setAlert] = useState({
-    message: "",
-    status: "",
-    background: "",
-  });
+
   const customStyles = {
     content: {
       top: "50%",
@@ -94,11 +90,7 @@ function Species() {
       console.log(response);
     } catch (error) {
       const data = error.response.data;
-      setAlert({
-        message: data.message,
-        status: String(data.status || data.statusCode),
-        background: "error",
-      });
+      AlertMessage(data.message, data.background);
     }
   }
 
@@ -110,15 +102,12 @@ function Species() {
       instanceForm.append("media", image);
       const response = await api.post("/species", instanceForm);
       console.log(response.data);
+      AlertMessage(response.data.message, response.data.background);
       closeModalRegister(event);
       DataSpecies();
     } catch (error) {
       const data = error.response.data;
-      setAlert({
-        message: data.message,
-        status: String(data.status || data.statusCode),
-        background: "error",
-      });
+      AlertMessage(data.message, data.background);
     }
   }
 
@@ -129,10 +118,12 @@ function Species() {
       if (edition.name) instanceForm.append("name", edition.name);
       const response = await api.put(`/species/${specie.id}`, instanceForm);
       console.log(response.data);
+      AlertMessage(response.data.message, response.data.background);
       closeModalData(event);
       DataSpecies();
     } catch (error) {
-      console.log(error.response);
+      const data = error.response.data;
+      AlertMessage(data.message, data.background);
     }
   }
 
@@ -158,15 +149,8 @@ function Species() {
     } catch (error) {}
   }
 
-  function closeAlert() {
-    setAlert({ message: "", status: "", background: "" });
-  }
-
   return (
     <>
-      <Alert background={alert.background} onClick={closeAlert}>
-        {alert.message}
-      </Alert>
       <Header />
       <section className="container" id="species">
         <div className="row">

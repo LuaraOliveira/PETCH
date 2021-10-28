@@ -10,7 +10,7 @@ import { GrImage } from "react-icons/gr";
 import axios from "axios";
 import { usePetch } from "../../../context/petchcontext";
 import Permission from "../../../utils/Permission";
-import { Alert } from "../../../components/Alert";
+import { AlertMessage } from "../../../components/Alert";
 import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
 const initialState = {
@@ -46,11 +46,7 @@ function Ongs() {
   const [register, setRegister] = useState(initialState);
 
   const [edition, setEdition] = useState(initialState);
-  const [alert, setAlert] = useState({
-    message: "",
-    status: "",
-    background: "",
-  });
+
   const customStyles = {
     content: {
       top: "50%",
@@ -119,11 +115,7 @@ function Ongs() {
       console.log(response);
     } catch (error) {
       const data = error.response.data;
-      setAlert({
-        message: data.message,
-        status: String(data.status || data.statusCode),
-        background: "error",
-      });
+      AlertMessage(data.message, data.background);
     }
   }
 
@@ -144,15 +136,12 @@ function Ongs() {
       instanceForm.append("media", image);
       const response = await api.post("/ongs", instanceForm);
       console.log(response.data);
+      AlertMessage(response.data.message, response.data.background);
       closeModalRegister(event);
       DataOngs();
     } catch (error) {
       const data = error.response.data;
-      setAlert({
-        message: data.message,
-        status: String(data.status || data.statusCode),
-        background: "error",
-      });
+      AlertMessage(data.message, data.background);
     }
   }
 
@@ -179,11 +168,13 @@ function Ongs() {
         instanceForm.append("address", `${address},${edition.number}`);
 
       const response = await api.put(`/ongs/${ong.id}`, instanceForm);
+      AlertMessage(response.data.message, response.data.background);
       console.log(response.data);
       closeModalData(event);
       DataOngs();
     } catch (error) {
-      console.log(error.response);
+      const data = error.response.data;
+      AlertMessage(data.message, data.background);
     }
   }
 
@@ -251,15 +242,8 @@ function Ongs() {
     } catch (error) {}
   }
 
-  function closeAlert() {
-    setAlert({ message: "", status: "", background: "" });
-  }
-
   return (
     <>
-      <Alert background={alert.background} onClick={closeAlert}>
-        {alert.message}
-      </Alert>
       <Header />
       <section className="container" id="ongs">
         <div className="row">
