@@ -4,22 +4,29 @@ import photoBig from "../../../assets/avatar/avatar-big.jpg";
 import { Input } from "../../../components/Input";
 import { HeaderAdopter } from "../../../components/HeaderAdopter";
 import { Button } from "../../../components/Button";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { AiFillCamera } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
 import Permission from "../../../utils/Permission";
+import { AlertMessage } from "../../../components/Alert";
 import Modal from "react-modal";
 import api from "../../../services/api";
 import axios from "axios";
-
+import { isLogout } from "../../../services/auth";
 function Settings() {
   const [user, setUser] = useState(undefined);
-
+  const [alter, setAlter] = useState({
+    cpf: "",
+    email: "",
+  });
   const address = useRef(null);
   const district = useRef(null);
-
+  const [image, setImage] = useState(null);
   useEffect(() => {
-    api.get("/users/profile").then((response) => setUser(response.data));
+    api.get("/users/profile").then((response) => {
+      setUser(response.data);
+      setAlter({ cpf: response.data.cpf, email: response.data.email });
+    });
   }, []);
 
   const customStyles = {
@@ -53,6 +60,10 @@ function Settings() {
     });
   }
 
+  const preview = useMemo(() => {
+    return image ? URL.createObjectURL(image) : null;
+  }, [image]);
+
   async function searchCep(event) {
     event.preventDefault();
     const apiCep = `https://viacep.com.br/ws/${user.cep}/json/`;
@@ -74,6 +85,38 @@ function Settings() {
       : district.current?.setAttribute("disabled", "false");
   }
 
+  async function EditUser(event) {
+    event.preventDefault();
+
+    try {
+      const instanceForm = new FormData();
+      instanceForm.append("name", user.name);
+      instanceForm.append("email", user.email);
+      instanceForm.append("cpf", user.cpf);
+      instanceForm.append("phone", user.phone);
+      instanceForm.append("cep", user.cep);
+      instanceForm.append("address", `${user.address},${user.number}`);
+      instanceForm.append("city", user.city);
+      instanceForm.append("uf", user.uf);
+      instanceForm.append("district", user.district);
+      if (image) instanceForm.append("media", image);
+      if (user.password) instanceForm.append("password", user.password);
+      if (user.oldPassword)
+        instanceForm.append("oldPassword", user.oldPassword);
+      if (user.confirmPassword)
+        instanceForm.append("confirmPassword", user.confirmPassword);
+      const response = await api.put("/users", instanceForm);
+      if (user.email != alter.email || user.cpf != alter.cpf || user.password) {
+        return isLogout();
+      }
+
+      AlertMessage(response.data.message, response.data.background);
+    } catch (error) {
+      const data = error.response.data;
+      AlertMessage(data.message, data.background);
+    }
+  }
+
   return (
     <>
       <HeaderAdopter />
@@ -83,19 +126,29 @@ function Settings() {
             <div className="settings__container">
               <h1 className="settings__container--title">Configurações</h1>
               <div className="settings__content">
-                <form>
+                <form autoComplete="off" onSubmit={EditUser}>
                   <div className="settings__header">
                     <div className="settings__image">
                       <div className="settings__image--circle">
-                        {!user?.avatar ? (
+                        {image ? (
+                          <img src={preview} />
+                        ) : !user?.avatar ? (
                           <FaUserCircle />
                         ) : (
                           <img src={user.avatar} alt="avatar" />
                         )}
 
-                        <Button color="camera" onClick={openModal}>
+                        <label className="label--camera">
+                          <input
+                            type="file"
+                            name="myfile"
+                            onChange={(event) =>
+                              setImage(event.target.files[0])
+                            }
+                          />
                           <AiFillCamera />
-                        </Button>
+                        </label>
+
                         <Modal
                           isOpen={modalIsOpen}
                           onRequestClose={closeModal}
@@ -158,17 +211,29 @@ function Settings() {
                       name="email"
                     />
 
-                    <label htmlFor="Cep">CEP</label>
-                    <Input
-                      type="text"
-                      placeholder=""
-                      id="Cep"
-                      value={user?.cep}
-                      onChange={changeEdit}
-                      name="cep"
-                      mask="cep"
-                      maxLength={9}
-                    />
+                    <div className="settings__cep">
+                      <div className="settings__cep--container">
+                        <label htmlFor="Cep">CEP</label>
+                        <Input
+                          type="text"
+                          placeholder=""
+                          id="Cep"
+                          value={user?.cep}
+                          onChange={changeEdit}
+                          name="cep"
+                          mask="cep"
+                          maxLength={9}
+                        />
+                      </div>
+
+                      <Button
+                        class="c-button c-button--pink"
+                        type="button"
+                        onClick={searchCep}
+                      >
+                        Buscar
+                      </Button>
+                    </div>
 
                     <label htmlFor="Address">Endereço</label>
                     <Input
@@ -232,6 +297,37 @@ function Settings() {
                       onChange={changeEdit}
                       name="city"
                       disabled
+                    />
+
+                    <label htmlFor="PasswordCurrent">Senha Atual</label>
+                    <Input
+                      password
+                      placeholder=""
+                      id="PasswordCurrent"
+                      value={user?.oldPassword}
+                      onChange={changeEdit}
+                      name="oldPassword"
+                      autoComplete="new-password"
+                    />
+                    <label htmlFor="NewPassword">Nova Senha</label>
+                    <Input
+                      password
+                      placeholder=""
+                      id="NewPassword"
+                      value={user?.password}
+                      onChange={changeEdit}
+                      name="password"
+                    />
+                    <label htmlFor="ConfirmationPassword">
+                      Confirmar Senha
+                    </label>
+                    <Input
+                      password
+                      placeholder=""
+                      id="ConfirmationPassword"
+                      value={user?.confirmPassword}
+                      onChange={changeEdit}
+                      name="confirmPassword"
                     />
                   </div>
 
