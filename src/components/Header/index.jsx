@@ -60,7 +60,9 @@ export function Header() {
                 {!user.avatar ? (
                   <FaUserCircle className="header__user-image-icon" />
                 ) : (
-                  <img src={user.avatar} alt="avatar" />
+                  <button onClick={() => changePage("/admin/SettingsAdmin")}>
+                    <img src={user.avatar} alt="avatar" />
+                  </button>
                 )}
               </div>
               <p className="header__user-title">

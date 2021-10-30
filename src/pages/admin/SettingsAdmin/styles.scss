@@ -1,4 +1,4 @@
-.settings {
+.settingsAdmin {
   &__container {
     width: 100%;
     height: auto;
@@ -8,11 +8,9 @@
     align-items: center;
     flex-direction: column;
     margin-bottom: 100px;
-
     &--title {
-      color: $purple;
+      color: $blue;
       font-size: 2.4rem;
-      font-family: $baloo;
       text-align: center;
       line-height: 3.4rem;
     }
@@ -26,13 +24,11 @@
       width: 100%;
     }
 
-    .c-button--pink {
+    .c-button--primary {
       align-self: center;
-      margin-top: 0 !important;
-      border: 2px solid $pink;
-      &:hover {
-        filter: brightness(85%);
-      }
+      margin-top: 11px;
+      align-items: center;
+      height: 50px;
     }
   }
 
@@ -54,7 +50,7 @@
     height: 100px;
 
     &--circle {
-      border: 3px solid $pink;
+      border: 3px solid $blue;
       border-radius: 100%;
       width: 100px;
       height: 100px;
@@ -88,7 +84,7 @@
 
     .label--camera {
       color: $white;
-      background: $pink;
+      background: $blue;
       border: 5px solid $white;
       height: 40px;
       width: 40px;
@@ -129,32 +125,26 @@
         background: $white;
         border: 1px solid $gray-100;
         box-sizing: border-box;
-        border-radius: 18px;
         color: $black;
         height: 50px;
-        font-family: $baloo;
         font-size: 1rem;
         line-height: 2rem;
         margin-top: 0px;
         &::-webkit-input-placeholder {
           color: $black;
-          font-family: $baloo;
         }
 
         &:-ms-input-placeholder {
           color: $black;
-          font-family: $baloo;
         }
 
         &::placeholder {
           color: $black;
-          font-family: $baloo;
         }
       }
     }
     label {
-      color: $purple;
-      font-family: $baloo;
+      color: $gray1;
       font-size: 1rem;
       line-height: 1.8rem;
     }
@@ -166,31 +156,26 @@
         background: $white;
         border: 1px solid $gray-100;
         box-sizing: border-box;
-        border-radius: 18px;
         color: $black;
-        font-family: $baloo;
         height: 50px;
         font-size: 1rem;
         line-height: 2rem;
         margin-top: 0px;
         &::-webkit-input-placeholder {
           color: $black;
-          font-family: $baloo;
         }
 
         &:-ms-input-placeholder {
           color: $black;
-          font-family: $baloo;
         }
 
         &::placeholder {
           color: $black;
-          font-family: $baloo;
         }
       }
     }
     label {
-      color: $purple;
+      color: $gray1;
       font-family: $baloo;
       font-size: 1rem;
       line-height: 1.8rem;

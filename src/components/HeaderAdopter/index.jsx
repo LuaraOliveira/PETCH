@@ -4,7 +4,6 @@ import { useState } from "react";
 import { isLogout } from "../../services/auth";
 import { AiOutlineClose, AiOutlineHome, AiOutlineUser } from "react-icons/ai";
 import Cookie from "js-cookie";
-import { BiSliderAlt } from "react-icons/bi";
 import { FaUserCircle } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
 import logo from "../../assets/logo/logo-color.svg";
@@ -51,10 +50,6 @@ export function HeaderAdopter() {
                     <AiOutlineUser />
                     Dados
                   </p>
-                  <p onClick={() => changePage("/adopter/Search")}>
-                    <BiSliderAlt />
-                    Filtro de pesquisa
-                  </p>
                   <p onClick={isLogout}>
                     <RiLogoutBoxRLine />
                     Sair
@@ -82,7 +77,7 @@ export function HeaderAdopter() {
               <p className="headerAdopter__user-title">Olá, Luara.</p>
             </div>
             <div className="headerAdopter__info-exit">
-              <Button color="primary" className="btn" onClick={isLogout}>
+              <Button color="pink" className="btn" onClick={isLogout}>
                 Sair
               </Button>
             </div>

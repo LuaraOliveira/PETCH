@@ -2,8 +2,8 @@ import avatar from "../../../assets/avatar/avatar-big.jpg";
 import { FaUserCircle } from "react-icons/fa";
 import photoBig from "../../../assets/avatar/avatar-big.jpg";
 import { Input } from "../../../components/Input";
-import { HeaderAdopter } from "../../../components/HeaderAdopter";
-import { FooterAdopter } from "../../../components/FooterAdopter";
+import { Header } from "../../../components/Header";
+import { Footer } from "../../../components/Footer";
 import { Button } from "../../../components/Button";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { AiFillCamera } from "react-icons/ai";
@@ -14,7 +14,7 @@ import Modal from "react-modal";
 import api from "../../../services/api";
 import axios from "axios";
 import { isLogout } from "../../../services/auth";
-function Settings() {
+function SettingsAdminAdmin() {
   const [user, setUser] = useState(undefined);
   const [alter, setAlter] = useState({
     cpf: "",
@@ -120,17 +120,17 @@ function Settings() {
 
   return (
     <>
-      <HeaderAdopter />
-      <section className="container" id="settings">
+      <Header />
+      <section className="container" id="settingsAdmin">
         <div className="row">
           <div className="col-md-12">
-            <div className="settings__container">
-              <h1 className="settings__container--title">Configurações</h1>
-              <div className="settings__content">
+            <div className="settingsAdmin__container">
+              <h1 className="settingsAdmin__container--title">Configurações</h1>
+              <div className="settingsAdmin__content">
                 <form autoComplete="off" onSubmit={EditUser}>
-                  <div className="settings__header">
-                    <div className="settings__image">
-                      <div className="settings__image--circle">
+                  <div className="settingsAdmin__header">
+                    <div className="settingsAdmin__image">
+                      <div className="settingsAdmin__image--circle">
                         {image ? (
                           <img src={preview} />
                         ) : !user?.avatar ? (
@@ -167,7 +167,7 @@ function Settings() {
                         </Modal>
                       </div>
                     </div>
-                    <div className="settings__name">
+                    <div className="settingsAdmin__name">
                       <label htmlFor="name">Nome</label>
                       <Input
                         type="text"
@@ -179,7 +179,7 @@ function Settings() {
                       />
                     </div>
                   </div>
-                  <div className="settings__body">
+                  <div className="settingsAdmin__body">
                     <label htmlFor="cpf">CPF</label>
                     <Input
                       type="text"
@@ -212,8 +212,8 @@ function Settings() {
                       name="email"
                     />
 
-                    <div className="settings__cep">
-                      <div className="settings__cep--container">
+                    <div className="settingsAdmin__cep">
+                      <div className="settingsAdmin__cep--container">
                         <label htmlFor="Cep">CEP</label>
                         <Input
                           type="text"
@@ -228,7 +228,7 @@ function Settings() {
                       </div>
 
                       <Button
-                        class="c-button c-button--pink"
+                        class="c-button c-button--primary"
                         type="button"
                         onClick={searchCep}
                       >
@@ -332,7 +332,7 @@ function Settings() {
                     />
                   </div>
 
-                  <Button color="pink">Salvar Alterações</Button>
+                  <Button color="primary">Salvar Alterações</Button>
                 </form>
               </div>
             </div>
@@ -340,9 +340,9 @@ function Settings() {
         </div>
       </section>
 
-      <FooterAdopter />
+      <Footer />
     </>
   );
 }
 
-export default Permission(["adotante"])(Settings);
+export default Permission(["admin"])(SettingsAdminAdmin);

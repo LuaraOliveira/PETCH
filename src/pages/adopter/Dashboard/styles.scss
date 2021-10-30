@@ -1,9 +1,7 @@
 #dashboardAdopter {
-  .dashboardAdopter {
-    &__container {
-      display: flex;
-      justify-content: center;
-      position: relative;
-    }
+  .CartTinderContainer {
+    display: flex;
+    justify-content: center;
+    margin: 32px;
   }
 }

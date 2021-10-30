@@ -1,15 +1,13 @@
-import { Input } from "../../../components/Input";
-import { Button } from "../../../components/Button";
-import { Radio } from "../../../components/Radio";
-import { HeaderAdopter } from "../../../components/HeaderAdopter";
-import { Select } from "../../../components/Select";
-import photoSearch from "../../../assets/photos/photo-petch-search.svg";
+import { Input } from "../Input";
+import { Button } from "../Button";
+import { Radio } from "../Radio";
+import { Select } from "../Select";
+import photoSearch from "../../assets/photos/photo-petch-search.svg";
 import { BsSearch } from "react-icons/bs";
 function Search() {
   return (
     <>
-      <HeaderAdopter />
-      <section className="container" id="search">
+      <section id="search">
         <div className="row">
           <div className="col-md-12">
             <div className="search__container">

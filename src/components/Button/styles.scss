@@ -299,7 +299,9 @@
     }
 
     &:hover {
-      background: $pink;
+      color: $white;
+      border: 2px solid $pink;
+      filter: brightness(85%);
     }
   }
 

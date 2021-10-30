@@ -4,6 +4,7 @@
 @import "../components/HeaderAdopter/styles";
 @import "../components/Header/styles";
 @import "../components/Footer/styles";
+@import "../components/FooterAdopter/styles";
 @import "../components/Breadcrumb/styles";
 @import "../components/Input/styles";
 @import "../components/Button/styles";
@@ -14,6 +15,7 @@
 @import "../components/CardNotLike/styles";
 @import "../components/CardAdoption/styles";
 @import "../components/Alert/styles";
+@import "../components/Search/styles";
 //Pages
 @import "../pages/admin/Dashboard/styles";
 @import "../pages/admin/Administrador/styles";
@@ -23,11 +25,11 @@
 @import "../pages/admin/Pets/styles";
 @import "../pages/admin/Adopters/styles";
 @import "../pages/admin/Ongs/styles";
+@import "../pages/admin/SettingsAdmin/styles";
 @import "../pages/adopter/Login/styles";
 @import "../pages/adopter/Dashboard/styles";
 @import "../pages/adopter/Settings/styles";
 @import "../pages/adopter/Register/styles";
 @import "../pages/adopter/RecoveryPassword/styles";
-@import "../pages/adopter/Search/styles";
 @import "../pages/adopter/AdoptionRequest/styles";
 @import "../pages/adopter/RegisterConfirmation/styles";

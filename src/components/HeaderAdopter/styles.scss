@@ -25,7 +25,16 @@
     }
 
     &-exit {
-      display: none;
+      .btn {
+        margin-top: 0;
+        height: 40px;
+        font-size: 14px;
+        border: 1px solid $pink;
+        &:hover {
+          border: 1px solid $pink;
+          filter: brightness(85%);
+        }
+      }
     }
   }
   &__logo {

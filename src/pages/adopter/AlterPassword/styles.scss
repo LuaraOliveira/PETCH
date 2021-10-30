@@ -1,0 +1,184 @@
+.RecoveryPassword {
+  min-height: 100vh;
+  background-image: url("../../../assets/background/bg_left.png"),
+    linear-gradient(#ff7854, #fd267d);
+  background-position: 100% 50%;
+  width: 100%;
+  background-repeat: no-repeat;
+  position: relative;
+  &__image {
+    min-height: 100vh;
+    background-image: url("../../../assets/background/bg_right.png");
+    background-position: 3% 50%;
+    width: 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+  }
+
+  &__container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 20px;
+    z-index: 1;
+  }
+
+  &__header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    img {
+      max-width: 150px;
+
+      @media only screen and (min-width: 992px) {
+        max-width: 272px;
+      }
+    }
+
+    &-title {
+      font-family: $baloo;
+      color: $white;
+      font-weight: 400;
+      font-size: 1.4rem;
+      margin: 16px 0;
+      text-align: center;
+    }
+  }
+
+  &__forms {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+
+    @media only screen and (min-width: 992px) {
+      padding: 40px;
+    }
+
+    &--address {
+      display: flex;
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    &--three {
+      display: flex;
+      gap: 16px;
+      width: 100%;
+      justify-content: center;
+
+      @media only screen and (min-width: 992px) {
+        width: 91%;
+      }
+    }
+
+    &--title {
+      font-family: $baloo;
+      color: $white;
+      font-size: 2.8rem;
+      line-height: 3.2rem;
+      text-align: center;
+    }
+
+    &--double {
+      display: flex;
+      width: 100%;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .form-group {
+      width: 100%;
+      @media only screen and (min-width: 992px) {
+        max-width: 425px;
+      }
+
+      &__input {
+        background: $white;
+        font-family: $baloo;
+        color: $gray2;
+        border: 1px solid $white;
+      }
+    }
+  }
+
+  &__outher {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &-title {
+      font-family: $baloo;
+      color: $white;
+      font-weight: 400;
+      font-size: 1.4rem;
+      margin: 16px 8px;
+      text-align: center;
+    }
+    &-line {
+      width: 100px;
+      border: 0.1px solid $white;
+    }
+  }
+
+  &__google {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 8px;
+    .c-button--google {
+      max-width: 326px;
+      display: flex;
+      gap: 16px;
+    }
+  }
+  &__buttons {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+  }
+  &__link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 24px;
+    gap: 24px;
+    &-link {
+      font-family: $baloo;
+      color: $white;
+      font-weight: 400;
+      font-size: 1rem;
+      margin: 0;
+      text-align: center;
+
+      &:hover {
+        text-decoration: underline;
+        color: $white;
+      }
+    }
+  }
+
+  &__buttons {
+    .c-button {
+      width: 100%;
+      margin: 16px 0;
+    }
+  }
+}

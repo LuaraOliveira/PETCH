@@ -1,12 +1,5 @@
-#dashboardAdopter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
 #CardTinder {
-  position: absolute;
+  position: relative;
   .card {
     &__container {
       background: $white;

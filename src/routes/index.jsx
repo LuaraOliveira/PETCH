@@ -6,19 +6,20 @@ import Gifts from "../pages/admin/Gifts";
 import Species from "../pages/admin/Species";
 import Pets from "../pages/admin/Pets";
 import Adopters from "../pages/admin/Adopters";
+import SettingsAdmin from "../pages/admin/SettingsAdmin";
 import Ongs from "../pages/admin/Ongs";
 import { PetchProvider } from "../context/petchcontext";
 import { getRole } from "../services/auth";
+
 //page adotantes
 import LoginAdopter from "../pages/adopter/Login";
 import DashboardAdopter from "../pages/adopter/Dashboard";
 import Settings from "../pages/adopter/Settings";
 import RegisterAdopter from "../pages/adopter/Register";
 import RecoveryPassword from "../pages/adopter/RecoveryPassword";
-import Search from "../pages/adopter/Search";
 import AdoptionRequest from "../pages/adopter/AdoptionRequest";
 import RegisterConfirmation from "../pages/adopter/RegisterConfirmation";
-
+import AlterPassword from "../pages/adopter/AlterPassword";
 function RoutesAdmin() {
   return (
     <>
@@ -37,6 +38,8 @@ function RoutesAdmin() {
       <Route path="/admin/Adopters" exact component={Adopters} />
 
       <Route path="/admin/Ongs" exact component={Ongs} />
+
+      <Route path="/admin/SettingsAdmin" exact component={SettingsAdmin} />
     </>
   );
 }
@@ -48,7 +51,6 @@ function RoutesAdopters() {
 
       <Route path="/adopter/Settings" exact component={Settings} />
 
-      <Route path="/adopter/Search" exact component={Search} />
       <Route
         path="/adopter/AdoptionRequest"
         exact
@@ -72,6 +74,7 @@ export function Routes() {
           exact
           component={RecoveryPassword}
         />
+        <Route path="/Adopter/AlterPassword" exact component={AlterPassword} />
         <Route path="/Adopter/Register" exact component={RegisterAdopter} />
         <Route path="/" exact component={LoginAdopter} />
         <PetchProvider>
