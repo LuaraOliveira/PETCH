@@ -107,7 +107,11 @@ function Settings() {
       if (user.confirmPassword)
         instanceForm.append("confirmPassword", user.confirmPassword);
       const response = await api.put("/users", instanceForm);
-      if (user.email != alter.email || user.cpf != alter.cpf || user.password) {
+      if (
+        user.email !== alter.email ||
+        user.cpf !== alter.cpf ||
+        user.password
+      ) {
         return isLogout();
       }
 

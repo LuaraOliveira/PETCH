@@ -13,7 +13,6 @@ function RecoveryPassword() {
     event.preventDefault();
     try {
       const response = await api.post("/auth/forgot", { email });
-      AlertMessage(response.data.message, response.data.background);
       history.push("/");
     } catch (error) {
       const data = error.response.data;

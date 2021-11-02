@@ -102,14 +102,10 @@
 
     &__butons {
       width: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
 
       .c-button {
-        max-width: 300px;
-        gap: 8px;
-        margin-top: 0;
+        max-width: 100%;
+        margin-top: 16px;
       }
     }
     &__image {

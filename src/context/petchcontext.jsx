@@ -48,6 +48,10 @@ export function PetchProvider({ children }) {
     });
   }
 
+  function DataFilterPet(pets) {
+    setPets(pets);
+  }
+
   function DataOngs() {
     api.get("/ongs?inactives=true").then((response) => {
       setOngs(response.data);
@@ -81,6 +85,7 @@ export function PetchProvider({ children }) {
         DataSpecies,
         DataPets,
         DataOngs,
+        DataFilterPet,
       }}
     >
       {children}

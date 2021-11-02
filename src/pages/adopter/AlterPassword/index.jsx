@@ -1,19 +1,37 @@
 import logo from "../../../assets/logo/logo-white.png";
 import { Input } from "../../../components/Input";
 import { Button } from "../../../components/Button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../../../services/api";
 import { useHistory } from "react-router-dom";
 import { AlertMessage } from "../../../components/Alert";
 function AlterPassword() {
   const [email, setEmail] = useState("");
   const history = useHistory();
+  const [token, setToken] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  useEffect(() => {
+    const query = window.location.search;
+    const params = new URLSearchParams(query);
+    const token = params.get("token");
+    const email = params.get("email");
+    if (token && email) {
+      window.history.pushState({}, "", "/adopter/AlterPassword");
+    }
+    setToken(token);
+    setEmail(email);
+  }, []);
 
-  async function sendEmail(event) {
+  async function UpdatePassword(event) {
     event.preventDefault();
     try {
-      const response = await api.post("/auth/forgot", { email });
-      AlertMessage(response.data.message, response.data.background);
+      await api.post(`/auth/reset`, {
+        email,
+        token,
+        password,
+        confirmPassword,
+      });
       history.push("/");
     } catch (error) {
       const data = error.response.data;
@@ -33,14 +51,24 @@ function AlterPassword() {
                 Dê match no seu novo amigo de quatro patas.
               </p>
             </div>
-            <form onSubmit={sendEmail} className="RecoveryPassword__forms">
-              <h2 className="RecoveryPassword__forms--title">Alterar Senha</h2>
+            <form onSubmit={UpdatePassword} className="RecoveryPassword__forms">
+              <h2 className="RecoveryPassword__forms--title">
+                Alterar a Senha
+              </h2>
 
-              <Input password placeholder="Senha Atual" />
+              <Input
+                password
+                placeholder="Nova Senha"
+                onChange={(e) => setPassword(e.target.value)}
+                value={password}
+              />
 
-              <Input password placeholder="Nova Senha" />
-
-              <Input password placeholder="Confirmar Senha" />
+              <Input
+                password
+                placeholder="Confirmar Senha"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={confirmPassword}
+              />
 
               <div className="RecoveryPassword__buttons">
                 <Button color="third">Alterar Senha</Button>

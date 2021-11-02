@@ -1,12 +1,19 @@
 import Modal from "react-modal";
 import { ImNext2 } from "react-icons/im";
 import { FaPaw } from "react-icons/fa";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AlertMessage } from "../../components/Alert";
 import { Button } from "../../components/Button";
 import { BsArrowReturnLeft } from "react-icons/bs";
 import { useState } from "react";
-import { AiFillCamera } from "react-icons/ai";
-import { AiOutlineClose } from "react-icons/ai";
+import {
+  AiFillCamera,
+  AiOutlineClose,
+  AiOutlineHeart,
+  AiFillStar,
+  AiOutlineStar,
+  AiOutlineDislike,
+} from "react-icons/ai";
+import api from "../../services/api";
 
 function CardTinder(props) {
   const customStyles = {
@@ -34,6 +41,25 @@ function CardTinder(props) {
   }
 
   const [transition, setTransition] = useState(true);
+
+  async function Favorite(PetId) {
+    try {
+      await api.patch(`/favorites/${PetId}`);
+    } catch (error) {}
+  }
+
+  async function Adopter(PetId) {
+    try {
+      const response = await api.patch(`/pets/${PetId}`);
+      AlertMessage(response.data.message, response.data.background);
+    } catch (error) {}
+  }
+
+  async function Dislike(PetId) {
+    try {
+      await api.patch(`/dislikes/${PetId}`);
+    } catch (error) {}
+  }
 
   return (
     <>
@@ -120,7 +146,13 @@ function CardTinder(props) {
           <Button color="circle" onClick={() => setTransition(!transition)}>
             {transition ? <FaPaw /> : <BsArrowReturnLeft />}
           </Button>
-          <Button color="gradient">
+          <Button color="circle dislike" onClick={() => Dislike(props.pet.id)}>
+            <AiOutlineDislike />
+          </Button>
+          <Button color="circle fav" onClick={() => Favorite(props.pet.id)}>
+            <AiOutlineStar />
+          </Button>
+          <Button color="gradient" onClick={() => Adopter(props.pet.id)}>
             <AiOutlineHeart />
           </Button>
           <Button color="circle">

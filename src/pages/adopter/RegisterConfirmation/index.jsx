@@ -9,7 +9,9 @@ function RegisterConfirmation() {
       const params = new URLSearchParams(query);
       const token = params.get("token");
       const email = params.get("email");
-      console.log(token, email);
+      if (token && email) {
+        window.history.pushState({}, "", "/adopter/RegisterConfirmation");
+      }
       try {
         await api.patch(`/users/confirm?token=${token}&email=${email}`);
       } catch (error) {
