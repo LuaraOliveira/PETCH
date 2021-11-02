@@ -53,10 +53,10 @@
 
     &__table {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       width: 100%;
       padding: 24px 0;
-
+      gap: 16px;
       &-title {
         color: $black;
         font-size: 1rem;
@@ -70,6 +70,11 @@
         font-weight: normal;
         margin-bottom: 0;
         text-align: right;
+      }
+
+      &--content {
+        display: flex;
+        justify-content: space-between;
       }
     }
     &__card {

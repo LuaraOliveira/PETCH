@@ -11,6 +11,9 @@ export function PetchProvider({ children }) {
   const [species, setSpecies] = useState([]);
   const [pets, setPets] = useState([]);
   const [ongs, setOngs] = useState([]);
+  const [favorites, setFavorites] = useState([]);
+  const [solicitationTypes, setSolicitationTypes] = useState([]);
+  const [schedulingTypes, setSchedulingTypes] = useState([]);
 
   function DataAdmins() {
     api.get("/users?inactives=true&role=Admin").then((response) => {
@@ -48,8 +51,20 @@ export function PetchProvider({ children }) {
     });
   }
 
+  function VisiblePets() {
+    api.get("/pets").then((response) => {
+      setPets(response.data);
+    });
+  }
+
   function DataFilterPet(pets) {
     setPets(pets);
+  }
+
+  function ShowFavorites() {
+    api.get("/pets/favorites").then((response) => {
+      setFavorites(response.data);
+    });
   }
 
   function DataOngs() {
@@ -66,6 +81,14 @@ export function PetchProvider({ children }) {
     DataSpecies();
     DataPets();
     DataOngs();
+    ShowFavorites();
+    Promise.all([
+      api.get("/solicitationTypes"),
+      api.get("/schedulingTypes"),
+    ]).then((params) => {
+      setSolicitationTypes(params[0].data);
+      setSchedulingTypes(params[1].data);
+    });
   }, []);
 
   return (
@@ -78,6 +101,9 @@ export function PetchProvider({ children }) {
         species,
         pets,
         ongs,
+        favorites,
+        solicitationTypes,
+        schedulingTypes,
         DataAdmins,
         DataAdopters,
         DataPartners,
@@ -86,6 +112,8 @@ export function PetchProvider({ children }) {
         DataPets,
         DataOngs,
         DataFilterPet,
+        VisiblePets,
+        ShowFavorites,
       }}
     >
       {children}

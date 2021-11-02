@@ -16,7 +16,8 @@
 @import "../components/CardAdoption/styles";
 @import "../components/Alert/styles";
 @import "../components/Search/styles";
-//Pages
+
+//Pages Admin
 @import "../pages/admin/Dashboard/styles";
 @import "../pages/admin/Administrador/styles";
 @import "../pages/admin/CompanyPartner/styles";
@@ -25,7 +26,12 @@
 @import "../pages/admin/Pets/styles";
 @import "../pages/admin/Adopters/styles";
 @import "../pages/admin/Ongs/styles";
+@import "../pages/admin/Solicitation/styles";
+@import "../pages/admin/SchedulingAdmin/styles";
 @import "../pages/admin/SettingsAdmin/styles";
+
+//Pages Adopter
+
 @import "../pages/adopter/Login/styles";
 @import "../pages/adopter/Dashboard/styles";
 @import "../pages/adopter/Settings/styles";
@@ -33,3 +39,6 @@
 @import "../pages/adopter/RecoveryPassword/styles";
 @import "../pages/adopter/AdoptionRequest/styles";
 @import "../pages/adopter/RegisterConfirmation/styles";
+@import "../pages/adopter/Favorites/styles";
+@import "../pages/adopter/Solicitations/styles";
+@import "../pages/adopter/Scheduling/styles";

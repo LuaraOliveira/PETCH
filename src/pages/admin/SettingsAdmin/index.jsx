@@ -14,7 +14,7 @@ import Modal from "react-modal";
 import api from "../../../services/api";
 import axios from "axios";
 import { isLogout } from "../../../services/auth";
-function SettingsAdminAdmin() {
+function SettingsAdmin() {
   const [user, setUser] = useState(undefined);
   const [alter, setAlter] = useState({
     cpf: "",
@@ -345,4 +345,4 @@ function SettingsAdminAdmin() {
   );
 }
 
-export default Permission(["admin"])(SettingsAdminAdmin);
+export default Permission(["admin"])(SettingsAdmin);

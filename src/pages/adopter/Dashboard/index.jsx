@@ -5,8 +5,12 @@ import CardTinderInfo from "../../../components/CardTinderInfo";
 import Search from "../../../components/Search";
 import { usePetch } from "../../../context/petchcontext";
 import Permission from "../../../utils/Permission";
+import { useEffect } from "react";
 function DashboardAdopter() {
-  const { pets } = usePetch();
+  const { pets, VisiblePets } = usePetch();
+  useEffect(() => {
+    VisiblePets();
+  }, []);
 
   return (
     <>

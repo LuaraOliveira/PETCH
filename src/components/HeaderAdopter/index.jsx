@@ -2,7 +2,14 @@ import { Button } from "../../components/Button";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { isLogout } from "../../services/auth";
-import { AiOutlineClose, AiOutlineHome, AiOutlineUser } from "react-icons/ai";
+import {
+  AiOutlineClose,
+  AiOutlineHome,
+  AiOutlineUser,
+  AiOutlineStar,
+  AiOutlineFileExclamation,
+  AiOutlineSchedule,
+} from "react-icons/ai";
 import Cookie from "js-cookie";
 import { FaUserCircle } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
@@ -49,6 +56,18 @@ export function HeaderAdopter() {
                   <p onClick={() => changePage("/adopter/Settings")}>
                     <AiOutlineUser />
                     Dados
+                  </p>
+                  <p onClick={() => changePage("/adopter/Favorites")}>
+                    <AiOutlineStar />
+                    Favoritos
+                  </p>
+                  <p onClick={() => changePage("/adopter/Solicitations")}>
+                    <AiOutlineFileExclamation />
+                    Solicitações
+                  </p>
+                  <p onClick={() => changePage("/adopter/Scheduling")}>
+                    <AiOutlineSchedule />
+                    Agendamentos
                   </p>
                   <p onClick={isLogout}>
                     <RiLogoutBoxRLine />

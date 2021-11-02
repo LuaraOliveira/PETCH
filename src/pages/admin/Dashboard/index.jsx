@@ -8,7 +8,36 @@ import { Button } from "../../../components/Button";
 import Permission from "../../../utils/Permission";
 import { Header } from "../../../components/Header";
 import { Footer } from "../../../components/Footer";
+import { PieChart, Pie, Legend, Cell } from "recharts";
+import api from "../../../services/api";
+import { useEffect, useState } from "react";
+import jspdf from "jspdf";
+import autotable from "jspdf-autotable";
+
 function Dashboard() {
+  useEffect(() => {
+    api.get("/dashboard/pets").then((response) => setGender(response.data));
+    api.get("/dashboard/ongs").then((response) => setOngs(response.data));
+  }, []);
+  const [gender, setGender] = useState([]);
+  const [ongs, setOngs] = useState([]);
+
+  function exportInfo() {
+    const pdf = new jspdf();
+    const columns = [
+      {
+        header: "Nome da ONG",
+        dataKey: "name",
+      },
+      {
+        header: "Quantidade",
+        dataKey: "quantity",
+      },
+    ];
+    autotable(pdf, { columns, body: ongs });
+    pdf.save(`${Date.now()}.pdf`);
+  }
+
   return (
     <>
       <Header />
@@ -49,46 +78,19 @@ function Dashboard() {
                 </div>
                 <div className="dashboard__card-body">
                   <div className="dashboard__table">
-                    <div className="dashboard__table-content">
-                      <p className="dashboard__table-title">1 Amigo Cão</p>
-                      <p className="dashboard__table-title">
-                        2 ONG Anjos de 4 Patas
-                      </p>
-                      <p className="dashboard__table-title">
-                        3 Morada dos Pets de São Roque
-                      </p>
-                      <p className="dashboard__table-title">4 ONG AmiCÃO</p>
-                      <p className="dashboard__table-title">
-                        5 Lar dos Gatinhos Perdidos
-                      </p>
-                      <p className="dashboard__table-title">6 Patas Dadas</p>
-                      <p className="dashboard__table-title">7 ONG Colaborar</p>
-                      <p className="dashboard__table-title">
-                        8 Casa dos Felinos
-                      </p>
-                      <p className="dashboard__table-title">
-                        9 Ajudar Cão Próximo
-                      </p>
-                      <p className="dashboard__table-title">
-                        10 Amo de 4 Patas
-                      </p>
-                    </div>
-                    <div className="dashboard__table-content">
-                      <p className="dashboard__table-number">103</p>
-                      <p className="dashboard__table-number">87</p>
-                      <p className="dashboard__table-number">85</p>
-                      <p className="dashboard__table-number">74</p>
-                      <p className="dashboard__table-number">31</p>
-                      <p className="dashboard__table-number">27</p>
-                      <p className="dashboard__table-number">21</p>
-                      <p className="dashboard__table-number">12</p>
-                      <p className="dashboard__table-number">8</p>
-                      <p className="dashboard__table-number">5</p>
-                    </div>
+                    {ongs &&
+                      ongs.map((ong) => (
+                        <div className="dashboard__table--content">
+                          <p className="dashboard__table-title">{ong.name}</p>
+                          <p className="dashboard__table-number">
+                            {ong.quantity}
+                          </p>
+                        </div>
+                      ))}
                   </div>
                 </div>
                 <div className="dashboard__card-footer">
-                  <Button color="primary" className="btn">
+                  <Button color="primary" className="btn" onClick={exportInfo}>
                     Ver relatório completo
                   </Button>
                 </div>
@@ -100,14 +102,24 @@ function Dashboard() {
                     Sexo dos pets cadastrados
                   </p>
                   <span className="dashboard__card-header-subinfo">
-                    483 animais cadastrados
+                    {gender.reduce((acc, cor) => (acc += cor.total), 0)} animais
+                    cadastrados
                   </span>
                 </div>
                 <div className="dashboard__card-body">
                   <div className="dashboard__card-graphs">
-                    <div className="loader"></div>
-
-                    <div className="loader"></div>
+                    <PieChart width={300} height={300}>
+                      <Pie
+                        data={gender}
+                        nameKey="gender"
+                        dataKey="total"
+                        paddingAngle={2}
+                      >
+                        <Cell fill="#3ec6ff" />
+                        <Cell fill="#fd267d" />
+                      </Pie>
+                      <Legend />
+                    </PieChart>
                   </div>
                 </div>
                 <div className="dashboard__card-footer">

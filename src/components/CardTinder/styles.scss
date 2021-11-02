@@ -1,13 +1,15 @@
 #CardTinder {
-  position: relative;
+  position: absolute;
   .card {
     &__container {
       background: $white;
       box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.4);
       border-radius: 12px;
-      max-width: 290px;
+      max-width: 450px;
       height: 520px;
       margin-bottom: 40px;
+      position: relative;
+      width: 80vw;
       @media only screen and (min-width: 992px) {
         max-width: 330px;
       }
@@ -142,7 +144,8 @@
       justify-content: center;
       position: absolute;
       bottom: 10%;
-      left: 24%;
+      left: 0;
+      width: 100%;
 
       .dislike {
         width: 60px;

@@ -1,8 +1,7 @@
 #dashboardAdopter {
   .CartTinderContainer {
-    display: flex;
-    justify-content: center;
-    margin: 32px;
-    flex-direction: column;
+    max-width: 450px;
+    height: 520px;
+    width: 90vw;
   }
 }

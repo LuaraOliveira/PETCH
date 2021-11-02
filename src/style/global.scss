@@ -9,6 +9,12 @@
 #root {
   position: relative;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  padding-bottom: 32px;
 }
 
 body {

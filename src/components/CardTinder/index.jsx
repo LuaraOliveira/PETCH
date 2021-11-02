@@ -5,6 +5,7 @@ import { AlertMessage } from "../../components/Alert";
 import { Button } from "../../components/Button";
 import { BsArrowReturnLeft } from "react-icons/bs";
 import { useState } from "react";
+import { usePetch } from "../../context/petchcontext";
 import {
   AiFillCamera,
   AiOutlineClose,
@@ -16,6 +17,8 @@ import {
 import api from "../../services/api";
 
 function CardTinder(props) {
+  const { pets, DataFilterPet, favorites } = usePetch();
+
   const customStyles = {
     content: {
       top: "50%",
@@ -45,6 +48,7 @@ function CardTinder(props) {
   async function Favorite(PetId) {
     try {
       await api.patch(`/favorites/${PetId}`);
+      DataFilterPet(pets.filter((params) => params.id !== PetId));
     } catch (error) {}
   }
 
@@ -58,6 +62,7 @@ function CardTinder(props) {
   async function Dislike(PetId) {
     try {
       await api.patch(`/dislikes/${PetId}`);
+      DataFilterPet(pets.filter((params) => params.id !== PetId));
     } catch (error) {}
   }
 
@@ -150,13 +155,14 @@ function CardTinder(props) {
             <AiOutlineDislike />
           </Button>
           <Button color="circle fav" onClick={() => Favorite(props.pet.id)}>
+            {/* {favorites.find((param) =>
+              param.id === props.pet.id ? <AiFillStar /> : <AiOutlineStar />
+            )} */}
+
             <AiOutlineStar />
           </Button>
           <Button color="gradient" onClick={() => Adopter(props.pet.id)}>
             <AiOutlineHeart />
-          </Button>
-          <Button color="circle">
-            <ImNext2 />
           </Button>
         </div>
       </section>

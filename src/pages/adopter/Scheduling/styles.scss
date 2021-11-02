@@ -1,0 +1,46 @@
+#Scheduling {
+  .Scheduling {
+    &__title {
+      font-family: $baloo;
+      color: $purple;
+    }
+
+    &__body {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+
+      .container-component__select {
+        background: $white;
+        border: 1px solid $gray-100;
+        box-sizing: border-box;
+        border-radius: 18px;
+        color: $black;
+        font-family: $baloo;
+        height: 50px;
+        font-size: 1rem;
+        line-height: 2rem;
+        margin-top: 0px;
+      }
+
+      .form-group {
+        width: 100%;
+        &__input {
+          border: 1px solid $white;
+          border-radius: 18px;
+          font-family: $baloo;
+        }
+      }
+    }
+
+    &__label {
+      color: $purple;
+      font-family: $baloo;
+      font-size: 1rem;
+      line-height: 1.8rem;
+    }
+    &__buttons {
+      margin-bottom: 150px;
+    }
+  }
+}

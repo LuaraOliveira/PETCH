@@ -42,6 +42,12 @@ export function Header() {
                   <p onClick={() => changePage("/admin/Pets")}>Pets</p>
                   <p onClick={() => changePage("/admin/Adopters")}>Adotantes</p>
                   <p onClick={() => changePage("/admin/Ongs")}>ONGs</p>
+                  <p onClick={() => changePage("/admin/Solicitation")}>
+                    Solicitação
+                  </p>
+                  <p onClick={() => changePage("/admin/SchedulingAdmin")}>
+                    Agendamento
+                  </p>
                   <p onClick={() => changePage("/admin/Dashboard")}>
                     Relatórios
                   </p>
