@@ -24,32 +24,6 @@ function SchedulingAdmin() {
 
   const { scheduling, Datascheduling } = usePetch();
 
-  const customStyles = {
-    content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      width: "100%",
-      maxHeight: "800px",
-      maxWidth: "800px",
-      marginRight: "-50%",
-      transform: "translate(-50%, -50%)",
-    },
-
-    overlay: {
-      backgroundColor: "rgba(0, 0, 0, 0.84)",
-    },
-  };
-
-  const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
-  const [modalIsOpenData, setIsOpenData] = useState(false);
-
-  function closeModalData(event) {
-    event.preventDefault();
-    setIsOpenData(false);
-  }
-
   // function change(event) {
   //   setRegister({
   //     ...register,
@@ -70,38 +44,28 @@ function SchedulingAdmin() {
             <div className="scheduling__create">
               <p className="scheduling__create-title">Lista de Agendamentos</p>
               <div className="scheduling__body">
-                <Modal
-                  isOpen={modalIsOpenData}
-                  onRequestClose={closeModalData}
-                  style={customStyles}
-                  contentLabel="Example Modal Register"
-                  ariaHideApp={false}
-                  portalClassName="scheduling"
-                >
-                  <div className="modal__container">
-                    <div className="modal__container-close">
-                      <button onClick={closeModalData}>
-                        <GrClose />
-                      </button>
-                    </div>
-                    <div className="modal__header">
-                      <h2 className="modal__header-title">Dados da Espécie</h2>
-                    </div>
-                    <form className="forms">
-                      <div className="modal__body">
-                        <Input
-                          type="text"
-                          placeholder="Nome da Espécie"
-                          name="name"
-                        />
-                        <div className="modal__buttons">
-                          <Button color="light">Cancelar</Button>
-                          <Button color="primary">Criar Espécie</Button>
-                        </div>
-                      </div>
-                    </form>
-                  </div>
-                </Modal>
+                <div className="scheduling__card">
+                  <p className="scheduling__card--title">Nome: Luara</p>
+                  <p className="scheduling__card--title">
+                    Email: luara.oliveira4@Outlook.com
+                  </p>
+
+                  <p className="scheduling__card--title">
+                    Data: 03/11/2021 19:50
+                  </p>
+                  <p className="scheduling__card--title">Tipo: Banho</p>
+                </div>
+                <div className="scheduling__card">
+                  <p className="scheduling__card--title">Nome: Luara</p>
+                  <p className="scheduling__card--title">
+                    Email: luara.oliveira4@Outlook.com
+                  </p>
+
+                  <p className="scheduling__card--title">
+                    Data: 03/11/2021 19:50
+                  </p>
+                  <p className="scheduling__card--title">Tipo: Banho</p>
+                </div>
               </div>
             </div>
           </div>

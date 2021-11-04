@@ -15,11 +15,18 @@
       }
     }
 
+    &__card {
+      &--title {
+        color: $black;
+        font-size: 1rem;
+        margin-bottom: 8px;
+      }
+    }
+
     &__body {
       display: flex;
       flex-wrap: wrap;
-      gap: 15px;
-
+      gap: 32px;
       &-container {
         display: flex;
         justify-content: center;

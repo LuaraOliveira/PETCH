@@ -2,10 +2,40 @@ import { Input } from "../../../components/Input";
 import { Button } from "../../../components/Button";
 import { HeaderAdopter } from "../../../components/HeaderAdopter";
 import { usePetch } from "../../../context/petchcontext";
+import api from "../../../services/api";
 import { FooterAdopter } from "../../../components/FooterAdopter";
 import { Select } from "../../../components/Select";
+import { useState } from "react";
+import { AlertMessage } from "../../../components/Alert";
+import { BsCheckCircle, BsSearch } from "react-icons/bs";
 function Scheduling() {
-  const {} = usePetch();
+  const { schedulingTypes } = usePetch();
+  const [schedulingType, setSchedulingType] = useState({
+    schedulingTypeId: "",
+    date: "",
+  });
+  const [hours, setHours] = useState([]);
+  const [hoursSelected, setHoursSelected] = useState("");
+  function change(event) {
+    setSchedulingType({
+      ...schedulingType,
+      [event.target.name]: event.target.value,
+    });
+  }
+  async function searchScheduling(e) {
+    e.preventDefault();
+    try {
+      const date = schedulingType.date.split("/").reverse().join("-");
+      const response = await api.get(
+        `/schedulings/${schedulingType.schedulingTypeId}/available?date=${date}`
+      );
+      setHours(response.data);
+    } catch (error) {
+      const data = error.response.data;
+      AlertMessage(data.message, data.background);
+    }
+  }
+
   return (
     <>
       <HeaderAdopter />
@@ -14,18 +44,68 @@ function Scheduling() {
           <div className="col-12">
             <h1 className="Scheduling__title">Agendamento</h1>
 
-            <div className="Scheduling__body">
-              <Select>
+            <form onSubmit={searchScheduling} className="Scheduling__body">
+              <Select
+                onChange={change}
+                value={schedulingType.schedulingTypeId}
+                name="schedulingTypeId"
+              >
                 <option value="" defaultChecked disabled>
                   Tipo de Agendamento
                 </option>
-                <option>Dúvida</option>
-                <option>Dúvida</option>
+                {schedulingTypes &&
+                  schedulingTypes.map((schedulingType) => (
+                    <option value={schedulingType.id} key={schedulingType.id}>
+                      {schedulingType.name}
+                    </option>
+                  ))}
               </Select>
 
-              <Input type="text" placeholder="Insira a data" />
+              <Input
+                type="text"
+                placeholder="Insira a data"
+                name="date"
+                onChange={change}
+                value={schedulingType.date}
+                mask="birthday"
+                maxLength={10}
+              />
+              <div className="Button__scheduling--search">
+                <Button color="pink">
+                  <BsSearch />
+                  Buscar
+                </Button>
+              </div>
+            </form>
 
-              <Button color="pink">Buscar</Button>
+            <div className="Scheduling__card__container">
+              {hours &&
+                hours.map((hour) => (
+                  <div
+                    onClick={() => setHoursSelected(hour.value)}
+                    className={`Scheduling__card ${
+                      hour.available ? "" : "disabled"
+                    } 
+                    ${hoursSelected === hour.value ? "active" : ""}`}
+                  >
+                    <div className="Scheduling__card--header">
+                      <p className="Scheduling__card--header--title">
+                        {" "}
+                        Status: {hour.available ? "disponível" : "indisponível"}
+                      </p>
+                      <p className="Scheduling__card--header--time">
+                        {hour.time}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+            </div>
+            <div className="Button__scheduling">
+              {hours.length > 0 && (
+                <Button type="button" color="pink">
+                  <BsCheckCircle /> Confirmar
+                </Button>
+              )}
             </div>
           </div>
         </div>
