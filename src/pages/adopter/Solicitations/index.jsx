@@ -10,7 +10,7 @@ import { AlertMessage } from "../../../components/Alert";
 function Solicitations() {
   const { solicitationTypes } = usePetch();
   const [solicitation, setSolicitation] = useState({
-    solicitationTypeId: "",
+    solicitationTypesId: "",
     description: "",
   });
 
@@ -41,8 +41,8 @@ function Solicitations() {
 
             <form onSubmit={sendSolicitation} className="Solicitations__body">
               <Select
-                name="solicitationTypeId"
-                value={solicitation.solicitationTypeId}
+                name="solicitationTypesId"
+                value={solicitation.solicitationTypesId}
                 onChange={change}
               >
                 <option value="" defaultChecked disabled>
