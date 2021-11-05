@@ -22,10 +22,10 @@ function LoginAdopter() {
   });
   useEffect(() => {
     if (getRole() !== undefined) {
-      if (getRole()?.toLowerCase() === "Adotante") {
+      if (getRole()?.toLowerCase() === "adotante") {
         return history.push("/adopter/dashboard");
       }
-      if (getRole()?.toLowerCase() === "Admin") {
+      if (getRole()?.toLowerCase() === "admin") {
         return history.push("/admin/dashboard");
       }
     }

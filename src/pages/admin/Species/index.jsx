@@ -60,7 +60,8 @@ function Species() {
   function closeModalRegister(event) {
     event.preventDefault();
     setIsOpenRegister(false);
-    setSpecie(undefined);
+    setRegister(initialState);
+    setImage(null);
   }
 
   function closeModalData(event) {

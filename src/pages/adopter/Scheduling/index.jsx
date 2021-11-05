@@ -36,6 +36,11 @@ function Scheduling() {
     }
   }
 
+  function selectHours(params) {
+    if (!params.available) return;
+    setHoursSelected(params.value);
+  }
+
   return (
     <>
       <HeaderAdopter />
@@ -80,9 +85,10 @@ function Scheduling() {
 
             <div className="Scheduling__card__container">
               {hours &&
-                hours.map((hour) => (
+                hours.map((hour, index) => (
                   <div
-                    onClick={() => setHoursSelected(hour.value)}
+                    key={index}
+                    onClick={() => selectHours(hour)}
                     className={`Scheduling__card ${
                       hour.available ? "" : "disabled"
                     } 

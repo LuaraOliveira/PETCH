@@ -1,8 +1,8 @@
 import Modal from "react-modal";
-import { ImNext2 } from "react-icons/im";
 import { FaPaw } from "react-icons/fa";
 import { AlertMessage } from "../../components/Alert";
 import { Button } from "../../components/Button";
+import { Select } from "../../components/Select";
 import { BsArrowReturnLeft } from "react-icons/bs";
 import { useState } from "react";
 import { usePetch } from "../../context/petchcontext";
@@ -15,9 +15,9 @@ import {
   AiOutlineDislike,
 } from "react-icons/ai";
 import api from "../../services/api";
-
+import { ReactComponent as LikeIcon } from "../../assets/icons/like-icon-petch.svg";
 function CardTinder(props) {
-  const { pets, DataFilterPet, favorites } = usePetch();
+  const { pets, DataFilterPet, favorites, gifts } = usePetch();
 
   const customStyles = {
     content: {
@@ -43,6 +43,18 @@ function CardTinder(props) {
     event.preventDefault();
   }
 
+  const [modalIsOpenTwo, setIsOpenTwo] = useState(false);
+
+  function openModalTwo(event) {
+    setIsOpenTwo(true);
+    event.preventDefault();
+  }
+
+  function closeModalTwo(event) {
+    setIsOpenTwo(false);
+    event.preventDefault();
+  }
+
   const [transition, setTransition] = useState(true);
 
   async function Favorite(PetId) {
@@ -56,6 +68,7 @@ function CardTinder(props) {
     try {
       const response = await api.patch(`/pets/${PetId}`);
       AlertMessage(response.data.message, response.data.background);
+      openModalTwo();
     } catch (error) {}
   }
 
@@ -161,10 +174,48 @@ function CardTinder(props) {
 
             <AiOutlineStar />
           </Button>
-          <Button color="gradient" onClick={() => Adopter(props.pet.id)}>
+          <Button
+            color="gradient"
+            onClick={openModalTwo} /* onClick={() => Adopter(props.pet.id)} */
+          >
             <AiOutlineHeart />
           </Button>
         </div>
+
+        <Modal
+          isOpen={modalIsOpenTwo}
+          onRequestClose={closeModalTwo}
+          style={customStyles}
+          contentLabel="Example Modal"
+          ariaHideApp={false}
+        >
+          <Button color="camera" onClick={closeModalTwo}>
+            <AiOutlineClose />
+          </Button>
+          <div className="ModalAdopter__body">
+            <div className="ModalAdopter__image">
+              <LikeIcon />
+            </div>
+            <p className="ModalAdopter__body--title">
+              ... Você acaba de adotar um amigo, mas com ele você também ganha
+              um brinde, e abaixo você poderá escolher:
+            </p>
+
+            <Select /* onChange={change} */ /* value={gifts.id} */ name="gift">
+              <option value="" defaultChecked disabled>
+                Selecione seu Brinde
+              </option>
+              {gifts &&
+                gifts.map((gift) => (
+                  <option value={gift.id} key={gift.id}>
+                    {gift.name}
+                  </option>
+                ))}
+            </Select>
+
+            <Button color="pink">Escolher Brinde</Button>
+          </div>
+        </Modal>
       </section>
     </>
   );

@@ -1,7 +1,5 @@
 import photoEnd from "../../assets/photos/photo-petch-end.png";
-import { ImNext2 } from "react-icons/im";
-import { FaSlidersH } from "react-icons/fa";
-import { Button } from "../Button";
+
 function CardTinderInfo() {
   return (
     <>
@@ -18,14 +16,6 @@ function CardTinderInfo() {
                 Refine sua pesquisa ou reveja os pets que ainda estão
                 disponíveis.
               </p>
-            </div>
-            <div className="card__buttons">
-              <Button color="gradient">
-                <FaSlidersH />
-              </Button>
-              <Button color="circle">
-                <ImNext2 />
-              </Button>
             </div>
           </div>
         </div>

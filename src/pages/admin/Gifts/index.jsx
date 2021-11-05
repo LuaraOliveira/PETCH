@@ -4,7 +4,6 @@ import { Button } from "../../../components/Button";
 import { useState, useMemo } from "react";
 import api from "../../../services/api";
 import Modal from "react-modal";
-import { Select } from "../../../components/Select";
 import { Input } from "../../../components/Input";
 import { GrClose } from "react-icons/gr";
 import { GrImage } from "react-icons/gr";
@@ -15,13 +14,6 @@ import { Header } from "../../../components/Header";
 import { Footer } from "../../../components/Footer";
 const initialState = {
   name: "",
-  size: "",
-  color: "",
-  weight: "",
-  taste: "",
-  description: "",
-  coverage: "",
-  partnerId: "",
 };
 
 function Gifts() {
@@ -72,7 +64,8 @@ function Gifts() {
   function closeModalRegister(event) {
     event.preventDefault();
     setIsOpenRegister(false);
-    setGift(undefined);
+    setRegister(initialState);
+    setImage(null);
   }
 
   function closeModalData(event) {
@@ -99,14 +92,6 @@ function Gifts() {
     try {
       const instanceForm = new FormData();
       instanceForm.append("name", register.name);
-      instanceForm.append("size", register.size);
-      instanceForm.append("color", register.color);
-      instanceForm.append("weight", register.weight);
-      instanceForm.append("description", register.description);
-      instanceForm.append("coverage", register.coverage);
-      instanceForm.append("taste", register.taste);
-      instanceForm.append("media", image);
-      instanceForm.append("partnerId", register.partnerId);
       const response = await api.post("/gifts", instanceForm);
       console.log(response.data);
       AlertMessage(response.data.message, response.data.background);
@@ -122,16 +107,6 @@ function Gifts() {
     try {
       const instanceForm = new FormData();
       if (edition.name) instanceForm.append("name", edition.name);
-      if (edition.size) instanceForm.append("size", edition.size);
-      if (edition.color) instanceForm.append("color", edition.color);
-      if (edition.weight) instanceForm.append("weight", edition.weight);
-      if (edition.description)
-        instanceForm.append("description", edition.description);
-      if (edition.coverage) instanceForm.append("coverage", edition.coverage);
-      if (edition.taste) instanceForm.append("taste", edition.taste);
-      if (edition.partnerId)
-        instanceForm.append("partnerId", edition.partnerId);
-
       const response = await api.put(`/gifts/${gift.id}`, instanceForm);
       console.log(response.data);
       AlertMessage(response.data.message, response.data.background);
@@ -239,79 +214,7 @@ function Gifts() {
                                 onChange={change}
                                 name="name"
                               />
-                              <Input
-                                type="text"
-                                placeholder="Cor"
-                                value={register.color}
-                                onChange={change}
-                                name="color"
-                              />
-                              <Input
-                                type="text"
-                                placeholder="Tamanho"
-                                value={register.size}
-                                onChange={change}
-                                name="size"
-                              />
-                              <Input
-                                type="text"
-                                placeholder="Peso"
-                                value={register.weight}
-                                onChange={change}
-                                name="weight"
-                              />
-                              <Input
-                                type="text"
-                                placeholder="Sabor"
-                                value={register.taste}
-                                onChange={change}
-                                name="taste"
-                              />
-                              <Select
-                                name="partnerId"
-                                onChange={change}
-                                value={register.partnerId}
-                              >
-                                <option value="" defaultChecked disabled>
-                                  Selecionar Parceiro
-                                </option>
-                                {partners &&
-                                  partners.map((partner) => (
-                                    <option value={partner.id} key={partner.id}>
-                                      {partner.fantasyName}
-                                    </option>
-                                  ))}
-                              </Select>
                             </div>
-                          </div>
-                          <div className="modal__textarea">
-                            <label className="label" htmlFor="coverage">
-                              Descrição
-                            </label>
-
-                            <textarea
-                              id="coverage"
-                              rows="3"
-                              cols="20"
-                              value={register.description}
-                              onChange={change}
-                              name="description"
-                            />
-                          </div>
-
-                          <div className="modal__textarea">
-                            <label className="label" htmlFor="coverage">
-                              Abrangência
-                            </label>
-
-                            <textarea
-                              id="coverage"
-                              rows="3"
-                              cols="20"
-                              value={register.coverage}
-                              onChange={change}
-                              name="coverage"
-                            />
                           </div>
 
                           <div className="modal__buttons">
@@ -346,15 +249,9 @@ function Gifts() {
                         <ul className="gifts__body-list">
                           <li className="item">Nome: {gift.name}</li>
                           <li className="item">
-                            Descrição: {gift.description}
+                            {" "}
+                            Status: {gift.deletedAt ? "inativo" : "ativo"}
                           </li>
-                          <li className="item">Tamanho: {gift.size}</li>
-                          <li className="item">Cor: {gift.color}</li>
-                          <li className="item">Peso: {gift.weight}</li>
-                          <li className="item">Gosto: {gift.taste}</li>
-                          {/* <li className="item">
-                            Meio de Comunicação: {gift.media}
-                          </li> */}
                         </ul>
                         <div className="gifts__body-buttons">
                           <Button onClick={() => infoGift(gift.id)}>
@@ -402,72 +299,14 @@ function Gifts() {
                               onChange={changeEdit}
                               name="name"
                             />
-                            <Input
-                              type="text"
-                              placeholder="Cor"
-                              defaultValue={gift?.color}
-                              onChange={changeEdit}
-                              name="color"
-                            />
-                            <Input
-                              type="text"
-                              placeholder="Tamanho"
-                              defaultValue={gift?.size}
-                              onChange={changeEdit}
-                              name="size"
-                            />
-                            <Input
-                              type="text"
-                              placeholder="Peso"
-                              defaultValue={gift?.weight}
-                              onChange={changeEdit}
-                              name="weight"
-                            />
-                            <Input
-                              type="text"
-                              placeholder="Sabor"
-                              defaultValue={gift?.taste}
-                              onChange={changeEdit}
-                              name="taste"
-                            />
                           </div>
-                        </div>
-
-                        <div className="modal__textarea">
-                          <label className="label" htmlFor="description">
-                            Descrição
-                          </label>
-
-                          <textarea
-                            id="description"
-                            rows="3"
-                            cols="20"
-                            defaultValue={gift?.description}
-                            onChange={changeEdit}
-                            name="description"
-                          />
-                        </div>
-
-                        <div className="modal__textarea">
-                          <label className="label" htmlFor="coverage">
-                            Abrangência
-                          </label>
-
-                          <textarea
-                            id="coverage"
-                            rows="3"
-                            cols="20"
-                            defaultValue={gift?.coverage}
-                            onChange={changeEdit}
-                            name="coverage"
-                          />
                         </div>
 
                         <div className="modal__buttons">
                           <Button color="light" onClick={cancelButtonEdition}>
                             Cancelar
                           </Button>
-                          <Button color="primary">Cadastrar Brinde</Button>
+                          <Button color="primary">Editar Brinde</Button>
                         </div>
                       </div>
                     </form>

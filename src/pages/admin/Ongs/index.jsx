@@ -78,7 +78,8 @@ function Ongs() {
   function closeModalRegister(event) {
     event.preventDefault();
     setIsOpenRegister(false);
-    setOng(undefined);
+    setRegister(initialState);
+    setImage(null);
   }
 
   function closeModalData(event) {

@@ -85,7 +85,8 @@ function CompanyPartner() {
   function closeModalRegister(event) {
     event.preventDefault();
     setIsOpenRegister(false);
-    setPartner(undefined);
+    setRegister(initialState);
+    setImage(null);
   }
 
   function closeModalData(event) {

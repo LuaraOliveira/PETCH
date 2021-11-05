@@ -184,3 +184,29 @@
     }
   }
 }
+
+.ModalAdopter {
+  &__body {
+    &--title {
+      text-align: center;
+      font-family: $baloo;
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+      color: $purple;
+      font-weight: 900;
+      max-width: 450px;
+    }
+    .container-component__select {
+      background: $white;
+      box-shadow: 0px 0px 13px rgba(0, 0, 0, 0.2);
+      border-radius: 6px;
+      border: 1px solid $white;
+      font-family: $baloo;
+    }
+  }
+  &__image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

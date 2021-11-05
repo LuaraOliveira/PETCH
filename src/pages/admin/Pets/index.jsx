@@ -75,7 +75,8 @@ function Pets() {
   function closeModalRegister(event) {
     event.preventDefault();
     setIsOpenRegister(false);
-    setPet(undefined);
+    setRegister(initialState);
+    setImage(null);
   }
 
   function closeModalData(event) {
@@ -127,6 +128,8 @@ function Pets() {
       console.log(response.data);
       AlertMessage(response.data.message, response.data.background);
       closeModalRegister(event);
+      setRegister(initialState);
+      setImage(null);
       DataPets();
     } catch (error) {
       const data = error.response.data;

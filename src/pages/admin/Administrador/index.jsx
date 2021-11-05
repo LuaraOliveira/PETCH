@@ -82,7 +82,8 @@ function Administrador() {
   function closeModalRegister(event) {
     event.preventDefault();
     setIsOpenRegister(false);
-    setAdmin(undefined);
+    setRegister(initialState);
+    setImage(null);
   }
 
   function cancelButton(event) {
