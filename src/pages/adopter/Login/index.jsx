@@ -59,6 +59,7 @@ function LoginAdopter() {
       });
       isLogin(response.data.token);
       setRole(response.data.user.role);
+      isUserLogin(response.data.user);
       response.data.user.role === "Admin"
         ? history.push("/admin/dashboard")
         : history.push("/adopter/dashboard");

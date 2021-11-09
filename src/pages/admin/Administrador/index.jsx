@@ -14,7 +14,8 @@ import axios from "axios";
 import { usePetch } from "../../../context/petchcontext";
 import Permission from "../../../utils/Permission";
 import Cookie from "js-cookie";
-
+import jspdf from "jspdf";
+import autotable from "jspdf-autotable";
 const initialState = {
   name: "",
   email: "",
@@ -168,6 +169,25 @@ function Administrador() {
     } catch (error) {}
   }
 
+  function exportAdmins() {
+    const pdf = new jspdf();
+    const columns = [
+      {
+        header: "Nome",
+        dataKey: "name",
+      },
+      {
+        header: "Email",
+        dataKey: "email",
+      },
+      {
+        header: "Cpf",
+        dataKey: "cpf",
+      },
+    ];
+    autotable(pdf, { columns, body: admins });
+    pdf.save(`${Date.now()}.pdf`);
+  }
   return (
     <>
       <Header />
@@ -362,9 +382,14 @@ function Administrador() {
           </div>
           <div className="col-md-12">
             <div className="administrador__create">
-              <p className="administrador__create-title">
-                Lista de Administradores
-              </p>
+              <div className="administrador__create--container">
+                <p className="administrador__create-title">
+                  Lista de Administradores
+                </p>
+                <Button color="primary" onClick={exportAdmins}>
+                  Ver relatório completo
+                </Button>
+              </div>
               <div className="administrador__body">
                 {admins &&
                   admins.map((admin) => (

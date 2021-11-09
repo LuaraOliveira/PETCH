@@ -1,0 +1,22 @@
+#Favorites {
+  #CardTinder {
+    position: relative;
+  }
+  .Favorites {
+    &__title {
+      font-family: $baloo;
+      color: $purple;
+    }
+
+    &__body {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    &__buttons {
+      margin-bottom: 150px;
+    }
+  }
+}

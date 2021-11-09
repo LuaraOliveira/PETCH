@@ -10,6 +10,8 @@ import {
   AiOutlineFileExclamation,
   AiOutlineSchedule,
 } from "react-icons/ai";
+
+import { IoPawOutline } from "react-icons/io5";
 import Cookie from "js-cookie";
 import { FaUserCircle } from "react-icons/fa";
 import { RiLogoutBoxRLine } from "react-icons/ri";
@@ -61,6 +63,10 @@ export function HeaderAdopter() {
                     <AiOutlineStar />
                     Favoritos
                   </p>
+                  <p onClick={() => changePage("/adopter/DogAdopter")}>
+                    <IoPawOutline />
+                    Pets Adotados
+                  </p>
                   <p onClick={() => changePage("/adopter/Solicitations")}>
                     <AiOutlineFileExclamation />
                     Solicitações
@@ -68,6 +74,10 @@ export function HeaderAdopter() {
                   <p onClick={() => changePage("/adopter/Scheduling")}>
                     <AiOutlineSchedule />
                     Agendamentos
+                  </p>
+                  <p onClick={() => changePage("/adopter/ListScheduling")}>
+                    <AiOutlineSchedule />
+                    Meus Agendamentos
                   </p>
                   <p onClick={isLogout}>
                     <RiLogoutBoxRLine />

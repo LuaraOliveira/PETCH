@@ -13,6 +13,8 @@ import Permission from "../../../utils/Permission";
 import { usePetch } from "../../../context/petchcontext";
 import { Header } from "../../../components/Header";
 import { Footer } from "../../../components/Footer";
+import jspdf from "jspdf";
+import autotable from "jspdf-autotable";
 const initialState = {
   fantasyName: "",
   companyName: "",
@@ -267,6 +269,29 @@ function CompanyPartner() {
     } catch (error) {}
   }
 
+  function exportPartner() {
+    const pdf = new jspdf();
+    const columns = [
+      {
+        header: "Id",
+        dataKey: "id",
+      },
+      {
+        header: "Nome",
+        dataKey: "fantasyName",
+      },
+      {
+        header: "Email",
+        dataKey: "email",
+      },
+      {
+        header: "Cnpj",
+        dataKey: "cnpj",
+      },
+    ];
+    autotable(pdf, { columns, body: partners });
+    pdf.save(`${Date.now()}.pdf`);
+  }
   return (
     <>
       <Header />
@@ -494,7 +519,12 @@ function CompanyPartner() {
           </div>
           <div className="col-md-12">
             <div className="company__create">
-              <p className="company__create-title">Lista de Empresas</p>
+              <div className="company__create--container">
+                <p className="company__create-title">Lista de Empresas</p>
+                <Button color="primary" onClick={exportPartner}>
+                  Ver relatório completo
+                </Button>
+              </div>
               <div className="company__body">
                 {partners &&
                   partners.map((partner) => (

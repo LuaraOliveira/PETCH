@@ -20,11 +20,13 @@ import Solicitations from "../pages/adopter/Solicitations";
 import Settings from "../pages/adopter/Settings";
 import Favorites from "../pages/adopter/Favorites";
 import RegisterAdopter from "../pages/adopter/Register";
+import DogAdopter from "../pages/adopter/DogAdopter";
 import RecoveryPassword from "../pages/adopter/RecoveryPassword";
 import AdoptionRequest from "../pages/adopter/AdoptionRequest";
 import RegisterConfirmation from "../pages/adopter/RegisterConfirmation";
 import AlterPassword from "../pages/adopter/AlterPassword";
 import Scheduling from "../pages/adopter/Scheduling";
+import ListScheduling from "../pages/adopter/ListScheduling";
 function RoutesAdmin() {
   return (
     <>
@@ -66,6 +68,9 @@ function RoutesAdopters() {
 
       <Route path="/Adopter/Scheduling" exact component={Scheduling} />
 
+      <Route path="/Adopter/ListScheduling" exact component={ListScheduling} />
+
+      <Route path="/Adopter/DogAdopter" exact component={DogAdopter} />
       <Route
         path="/adopter/AdoptionRequest"
         exact

@@ -41,6 +41,19 @@ function Scheduling() {
     setHoursSelected(params.value);
   }
 
+  async function sendConfirmation() {
+    try {
+      const response = await api.post("/schedulings", {
+        schedulingTypesId: schedulingType.schedulingTypeId,
+        date: hoursSelected,
+      });
+      AlertMessage(response.data.message, response.data.background);
+    } catch (error) {
+      const data = error.response.data;
+      AlertMessage(data.message, data.background);
+    }
+  }
+
   return (
     <>
       <HeaderAdopter />
@@ -108,7 +121,7 @@ function Scheduling() {
             </div>
             <div className="Button__scheduling">
               {hours.length > 0 && (
-                <Button type="button" color="pink">
+                <Button type="button" color="pink" onClick={sendConfirmation}>
                   <BsCheckCircle /> Confirmar
                 </Button>
               )}
