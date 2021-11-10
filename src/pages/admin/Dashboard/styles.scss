@@ -46,9 +46,8 @@
   .dashboard {
     &__container {
       display: flex;
-      grid-gap: 16px;
       gap: 16px;
-      flex-wrap: wrap;
+      flex-direction: column;
     }
 
     &__table {
@@ -86,10 +85,6 @@
       padding: 16px;
       border-radius: 8px;
 
-      @media only screen and (min-width: 992px) {
-        width: calc(33% - 7px);
-      }
-
       &-header {
         display: flex;
         justify-content: center;
@@ -122,24 +117,8 @@
         display: flex;
         gap: 40px;
         margin: 32px 0;
-
-        .loader {
-          border: 20px solid #868686;
-          border-top: 20px solid #dddddd;
-          border-radius: 50%;
-          width: 90px;
-          height: 90px;
-          animation: spin 1.5s linear infinite;
-        }
-
-        @keyframes spin {
-          0% {
-            transform: rotate(0deg);
-          }
-          100% {
-            transform: rotate(360deg);
-          }
-        }
+        align-items: center;
+        justify-content: center;
       }
 
       &-body {

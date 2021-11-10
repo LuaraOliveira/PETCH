@@ -387,7 +387,10 @@ function Pets() {
           </div>
           <div className="col-md-12">
             <div className="pets__create">
-              <p className="pets__create-title">Lista de Animais</p>
+              <div className="pets__create--container">
+                <p className="pets__create-title">Lista de Pets</p>
+                <Button color="primary">Ver relatório completo</Button>
+              </div>
               <div className="pets__body">
                 {pets &&
                   pets.map((pet) => (

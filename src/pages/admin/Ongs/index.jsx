@@ -424,7 +424,10 @@ function Ongs() {
           </div>
           <div className="col-md-12">
             <div className="ongs__create">
-              <p className="ongs__create-title">Lista de ONGs</p>
+              <div className="ongs__create--container">
+                <p className="ongs__create-title">Lista de ONGs</p>
+                <Button color="primary">Ver relatório completo</Button>
+              </div>
               <div className="ongs__body">
                 {ongs &&
                   ongs.map((ong) => (

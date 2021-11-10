@@ -75,7 +75,10 @@ function Adopters() {
 
           <div className="col-md-12">
             <div className="adopters__create">
-              <p className="adopters__create-title">Lista de adotantes</p>
+              <div className="adopters__create--container">
+                <p className="adopters__create-title">Lista de Adotantes</p>
+                <Button color="primary">Ver relatório completo</Button>
+              </div>
               <div className="adopters__body">
                 {adopters &&
                   adopters.map((adopter) => (

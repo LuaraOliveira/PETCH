@@ -16,9 +16,10 @@ import {
 } from "react-icons/ai";
 import api from "../../services/api";
 import { ReactComponent as LikeIcon } from "../../assets/icons/like-icon-petch.svg";
+
 function CardTinder(props) {
   const { pets, DataFilterPet, favorites, gifts } = usePetch();
-
+  const [saveGifts, setSaveGifts] = useState("");
   const customStyles = {
     content: {
       top: "50%",
@@ -32,7 +33,7 @@ function CardTinder(props) {
     },
   };
   const [modalIsOpen, setIsOpen] = useState(false);
-
+  const [idPet, setIdPet] = useState("");
   function openModal(event) {
     setIsOpen(true);
     event.preventDefault();
@@ -50,11 +51,6 @@ function CardTinder(props) {
     event.preventDefault();
   }
 
-  function closeModalTwo(event) {
-    setIsOpenTwo(false);
-    event.preventDefault();
-  }
-
   const [transition, setTransition] = useState(true);
 
   async function Favorite(PetId) {
@@ -67,6 +63,7 @@ function CardTinder(props) {
   async function Adopter(PetId) {
     try {
       const response = await api.patch(`/pets/${PetId}`);
+      setIdPet(PetId);
       AlertMessage(response.data.message, response.data.background);
       openModalTwo();
     } catch (error) {}
@@ -77,6 +74,19 @@ function CardTinder(props) {
       await api.patch(`/dislikes/${PetId}`);
       DataFilterPet(pets.filter((params) => params.id !== PetId));
     } catch (error) {}
+  }
+
+  async function ChooseGift() {
+    try {
+      await api.patch(`/pets/${idPet}/gift/${saveGifts}`);
+
+      setSaveGifts("");
+      setIsOpenTwo(false);
+      DataFilterPet(pets.filter((params) => params.id !== idPet));
+      setIdPet("");
+    } catch (error) {
+      console.log(error.response);
+    }
   }
 
   return (
@@ -174,24 +184,17 @@ function CardTinder(props) {
 
             <AiOutlineStar />
           </Button>
-          <Button
-            color="gradient"
-            onClick={openModalTwo} /* onClick={() => Adopter(props.pet.id)} */
-          >
+          <Button color="gradient" onClick={() => Adopter(props.pet.id)}>
             <AiOutlineHeart />
           </Button>
         </div>
 
         <Modal
           isOpen={modalIsOpenTwo}
-          onRequestClose={closeModalTwo}
           style={customStyles}
           contentLabel="Example Modal"
           ariaHideApp={false}
         >
-          <Button color="camera" onClick={closeModalTwo}>
-            <AiOutlineClose />
-          </Button>
           <div className="ModalAdopter__body">
             <div className="ModalAdopter__image">
               <LikeIcon />
@@ -201,7 +204,11 @@ function CardTinder(props) {
               um brinde, e abaixo você poderá escolher:
             </p>
 
-            <Select /* onChange={change} */ /* value={gifts.id} */ name="gift">
+            <Select
+              onChange={(event) => setSaveGifts(event.target.value)}
+              value={saveGifts}
+              name="gift"
+            >
               <option value="" defaultChecked disabled>
                 Selecione seu Brinde
               </option>
@@ -213,7 +220,9 @@ function CardTinder(props) {
                 ))}
             </Select>
 
-            <Button color="pink">Escolher Brinde</Button>
+            <Button color="pink" onClick={ChooseGift}>
+              Escolher Brinde
+            </Button>
           </div>
         </Modal>
       </section>

@@ -8,7 +8,17 @@ import { Button } from "../../../components/Button";
 import Permission from "../../../utils/Permission";
 import { Header } from "../../../components/Header";
 import { Footer } from "../../../components/Footer";
-import { PieChart, Pie, Legend, Cell } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Legend,
+  Cell,
+  BarChart,
+  Bar,
+  XAxis,
+  LabelList,
+  YAxis,
+} from "recharts";
 import api from "../../../services/api";
 import { useEffect, useState } from "react";
 import jspdf from "jspdf";
@@ -43,7 +53,12 @@ function Dashboard() {
         dataKey: "quantity",
       },
     ];
-    autotable(pdf, { columns, body: ongs });
+    autotable(pdf, {
+      columns,
+      body: ongs,
+      headStyles: { fillColor: "#3ec6ff" },
+      styles: { lineWidth: 0.5, halign: "center", valign: "middle" },
+    });
     pdf.save(`${Date.now()}.pdf`);
   }
 
@@ -59,7 +74,12 @@ function Dashboard() {
         dataKey: "quantity",
       },
     ];
-    autotable(pdf, { columns, body: schedulings });
+    autotable(pdf, {
+      columns,
+      body: schedulings,
+      headStyles: { fillColor: "#3ec6ff" },
+      styles: { lineWidth: 0.5, halign: "center", valign: "middle" },
+    });
     pdf.save(`${Date.now()}.pdf`);
   }
 
@@ -75,7 +95,12 @@ function Dashboard() {
         dataKey: "quantity",
       },
     ];
-    autotable(pdf, { columns, body: solicitations });
+    autotable(pdf, {
+      columns,
+      body: solicitations,
+      headStyles: { fillColor: "#3ec6ff" },
+      styles: { lineWidth: 0.5, halign: "center", valign: "middle" },
+    });
     pdf.save(`${Date.now()}.pdf`);
   }
 
@@ -91,7 +116,12 @@ function Dashboard() {
         dataKey: "quantity",
       },
     ];
-    autotable(pdf, { columns, body: gender });
+    autotable(pdf, {
+      columns,
+      body: gender,
+      headStyles: { fillColor: "#3ec6ff" },
+      styles: { lineWidth: 0.5, halign: "center", valign: "middle" },
+    });
     pdf.save(`${Date.now()}.pdf`);
   }
 
@@ -107,7 +137,12 @@ function Dashboard() {
         dataKey: "quantity",
       },
     ];
-    autotable(pdf, { columns, body: pets });
+    autotable(pdf, {
+      columns,
+      body: pets,
+      headStyles: { fillColor: "#3ec6ff" },
+      styles: { lineWidth: 0.5, halign: "center", valign: "middle" },
+    });
     pdf.save(`${Date.now()}.pdf`);
   }
   return (
@@ -126,15 +161,25 @@ function Dashboard() {
 
                 <div className="dashboard__card-body">
                   <div className="dashboard__table">
-                    {pets &&
-                      pets.map((pet) => (
-                        <div className="dashboard__table--content">
-                          <p className="dashboard__table-title">{pet.name}</p>
-                          <p className="dashboard__table-number">
-                            {pet.quantity}
-                          </p>
-                        </div>
-                      ))}
+                    <div className="dashboard__card-graphs">
+                      <BarChart data={pets} width={300} height={300}>
+                        <Bar
+                          barSize={40}
+                          fill="#3ec6ff"
+                          name="quantidade"
+                          dataKey="quantity"
+                        >
+                          <LabelList
+                            dataKey="quantity"
+                            fontSize={16}
+                            position="centerBottom"
+                          />
+                        </Bar>
+                        <XAxis dataKey="name" fontSize={12} />
+                        <YAxis />
+                        <Legend />
+                      </BarChart>
+                    </div>
                   </div>
                 </div>
 
@@ -157,15 +202,25 @@ function Dashboard() {
                 </div>
                 <div className="dashboard__card-body">
                   <div className="dashboard__table">
-                    {ongs &&
-                      ongs.map((ong) => (
-                        <div className="dashboard__table--content">
-                          <p className="dashboard__table-title">{ong.name}</p>
-                          <p className="dashboard__table-number">
-                            {ong.quantity}
-                          </p>
-                        </div>
-                      ))}
+                    <div className="dashboard__card-graphs">
+                      <BarChart data={ongs} width={300} height={300}>
+                        <Bar
+                          barSize={40}
+                          fill="#3ec6ff"
+                          name="quantidade"
+                          dataKey="quantity"
+                        >
+                          <LabelList
+                            dataKey="quantity"
+                            fontSize={16}
+                            position="centerBottom"
+                          />
+                        </Bar>
+                        <XAxis dataKey="name" fontSize={12} />
+                        <YAxis />
+                        <Legend />
+                      </BarChart>
+                    </div>
                   </div>
                 </div>
                 <div className="dashboard__card-footer">
@@ -216,14 +271,25 @@ function Dashboard() {
                 </div>
                 <div className="dashboard__card-body">
                   <div className="dashboard__card-body-itens">
-                    {schedulings &&
-                      schedulings.map((scheduling) => (
-                        <div className="item">
-                          <img src={iconVaccine} alt="Icon Vacine" />
-                          <span className="item">{scheduling.name}</span>
-                          <span className="value">{scheduling.quantity}</span>
-                        </div>
-                      ))}
+                    <div className="dashboard__card-graphs">
+                      <BarChart data={schedulings} width={300} height={300}>
+                        <Bar
+                          barSize={40}
+                          fill="#3ec6ff"
+                          name="quantidade"
+                          dataKey="quantity"
+                        >
+                          <LabelList
+                            dataKey="quantity"
+                            fontSize={16}
+                            position="centerBottom"
+                          />
+                        </Bar>
+                        <XAxis dataKey="name" fontSize={12} />
+                        <YAxis />
+                        <Legend />
+                      </BarChart>
+                    </div>
                   </div>
                 </div>
                 <div className="dashboard__card-footer">
@@ -245,14 +311,25 @@ function Dashboard() {
                 </div>
                 <div className="dashboard__card-body">
                   <div className="dashboard__card-body-itens">
-                    {solicitations &&
-                      solicitations.map((solicitation) => (
-                        <div className="item">
-                          <img src={iconHouse} alt="Icon House" />
-                          <span className="item">{solicitation.name}</span>
-                          <span className="value">{solicitation.quantity}</span>
-                        </div>
-                      ))}
+                    <div className="dashboard__card-graphs">
+                      <BarChart data={solicitations} width={300} height={300}>
+                        <Bar
+                          barSize={40}
+                          fill="#3ec6ff"
+                          name="quantidade"
+                          dataKey="quantity"
+                        >
+                          <LabelList
+                            dataKey="quantity"
+                            fontSize={16}
+                            position="centerBottom"
+                          />
+                        </Bar>
+                        <XAxis dataKey="name" fontSize={12} />
+                        <YAxis />
+                        <Legend />
+                      </BarChart>
+                    </div>
                   </div>
                 </div>
                 <div className="dashboard__card-footer">

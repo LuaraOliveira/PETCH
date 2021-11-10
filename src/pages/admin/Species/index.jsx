@@ -230,7 +230,10 @@ function Species() {
           </div>
           <div className="col-md-12">
             <div className="species__create">
-              <p className="species__create-title">Lista de Espécies</p>
+              <div className="species__create--container">
+                <p className="species__create-title">Lista de Espécies</p>
+                <Button color="primary">Ver relatório completo</Button>
+              </div>
               <div className="species__body">
                 {species &&
                   species.map((specie) => (

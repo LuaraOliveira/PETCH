@@ -4,7 +4,7 @@ import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
 import { Header } from "../../../components/Header";
 import { Footer } from "../../../components/Footer";
-
+import { Button } from "../../../components/Button";
 function Solicitation() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
@@ -30,9 +30,12 @@ function Solicitation() {
 
           <div className="col-md-12">
             <div className="solicitations__create">
-              <p className="solicitations__create-title">
-                Lista de Solicitações
-              </p>
+              <div className="solicitations__create--container">
+                <p className="solicitations__create-title">
+                  Lista de Solicitações
+                </p>
+                <Button color="primary">Ver relatório completo</Button>
+              </div>
               <div className="solicitations__body">
                 {solicitations &&
                   solicitations.map((solicitation) => (

@@ -233,7 +233,10 @@ function Gifts() {
           </div>
           <div className="col-md-12">
             <div className="gifts__create">
-              <p className="gifts__create-title">Lista de brindes criados</p>
+              <div className="gifts__create--container">
+                <p className="gifts__create-title">Lista de Brindes</p>
+                <Button color="primary">Ver relatório completo</Button>
+              </div>
               <div className="gifts__body">
                 {gifts &&
                   gifts.map((gift) => (
