@@ -1,23 +1,23 @@
+import { useState } from "react";
+import { BiUserCircle } from "react-icons/bi";
+import { GrClose } from "react-icons/gr";
+import Modal from "react-modal";
+
+import { AlertMessage } from "../../../components/Alert";
 import { Breadcrumb } from "../../../components/Breadcrumb";
 import { Button } from "../../../components/Button";
-import { BiUserCircle } from "react-icons/bi";
-import { useState } from "react";
-import api from "../../../services/api";
-import Modal from "react-modal";
-import { GrClose } from "react-icons/gr";
-import { usePetch } from "../../../context/petchcontext";
-import Permission from "../../../utils/Permission";
-import { AlertMessage } from "../../../components/Alert";
-import { Header } from "../../../components/Header";
 import { Footer } from "../../../components/Footer";
+import { Header } from "../../../components/Header";
+
+import { usePetch } from "../../../context/petchcontext";
+import api from "../../../services/api";
+import Permission from "../../../utils/Permission";
+
 function Adopters() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Adotantes" },
   ];
-
-  const { adopters, DataAdopters } = usePetch();
-  const [adopter, setAdopter] = useState(undefined);
 
   const customStyles = {
     content: {
@@ -36,6 +36,10 @@ function Adopters() {
       backgroundColor: "rgba(0, 0, 0, 0.84)",
     },
   };
+
+  const { adopters, DataAdopters } = usePetch();
+
+  const [adopter, setAdopter] = useState(undefined);
   const [modalIsOpenData, setIsOpenData] = useState(false);
 
   function closeModalData(event) {

@@ -1,4 +1,3 @@
-import avatar from "../../../assets/avatar/avatar-big.jpg";
 import { FaUserCircle } from "react-icons/fa";
 import photoBig from "../../../assets/avatar/avatar-big.jpg";
 import { Input } from "../../../components/Input";
@@ -13,9 +12,28 @@ import { AlertMessage } from "../../../components/Alert";
 import Modal from "react-modal";
 import api from "../../../services/api";
 import axios from "axios";
-import { isLogout } from "../../../services/auth";
+import { isLogout, isUserLogin } from "../../../services/auth";
+
+const initialState = {
+  cpf: "",
+  cep: "",
+  phone: "",
+  id: "",
+  name: "",
+  avatar: "",
+  email: "",
+  birthday: "",
+  gender: "",
+  address: "",
+  complement: "",
+  district: "",
+  city: "",
+  uf: "",
+  number: "",
+};
+
 function Settings() {
-  const [user, setUser] = useState(undefined);
+  const [user, setUser] = useState(initialState);
   const [alter, setAlter] = useState({
     cpf: "",
     email: "",
@@ -25,7 +43,7 @@ function Settings() {
   const [image, setImage] = useState(null);
   useEffect(() => {
     api.get("/users/profile").then((response) => {
-      setUser(response.data);
+      setUser({ ...response.data, complement: response.data.complement || "" });
       setAlter({ cpf: response.data.cpf, email: response.data.email });
     });
   }, []);
@@ -114,8 +132,10 @@ function Settings() {
       ) {
         return isLogout();
       }
-
+      isUserLogin(response.data.user);
       AlertMessage(response.data.message, response.data.background);
+      window.location.reload();
+      window.scrollTo({ top: 0 });
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
@@ -232,7 +252,7 @@ function Settings() {
                       </div>
 
                       <Button
-                        class="c-button c-button--pink"
+                        className="c-button c-button--pink"
                         type="button"
                         onClick={searchCep}
                       >

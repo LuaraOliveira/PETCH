@@ -305,7 +305,7 @@ function Species() {
                           <Button color="light" onClick={cancelButtonEdition}>
                             Cancelar
                           </Button>
-                          <Button color="primary">Criar Espécie</Button>
+                          <Button color="primary">Editar</Button>
                         </div>
                       </div>
                     </form>

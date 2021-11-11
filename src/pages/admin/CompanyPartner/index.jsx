@@ -1,20 +1,22 @@
-import { Breadcrumb } from "../../../components/Breadcrumb";
-import { BiUserCircle } from "react-icons/bi";
-import { Button } from "../../../components/Button";
-import { useState, useMemo, useRef } from "react";
-import api from "../../../services/api";
-import Modal from "react-modal";
-import { AlertMessage } from "../../../components/Alert";
-import { Input } from "../../../components/Input";
-import { GrClose } from "react-icons/gr";
-import { GrImage } from "react-icons/gr";
 import axios from "axios";
-import Permission from "../../../utils/Permission";
-import { usePetch } from "../../../context/petchcontext";
-import { Header } from "../../../components/Header";
-import { Footer } from "../../../components/Footer";
 import jspdf from "jspdf";
 import autotable from "jspdf-autotable";
+import { useState, useMemo, useRef } from "react";
+import { BiUserCircle } from "react-icons/bi";
+import { GrClose, GrImage } from "react-icons/gr";
+import Modal from "react-modal";
+
+import { AlertMessage } from "../../../components/Alert";
+import { Breadcrumb } from "../../../components/Breadcrumb";
+import { Button } from "../../../components/Button";
+import { Footer } from "../../../components/Footer";
+import { Header } from "../../../components/Header";
+import { Input } from "../../../components/Input";
+
+import { usePetch } from "../../../context/petchcontext";
+import api from "../../../services/api";
+import Permission from "../../../utils/Permission";
+
 const initialState = {
   fantasyName: "",
   companyName: "",
@@ -37,27 +39,9 @@ const initialState = {
 
 function CompanyPartner() {
   const breadCrumb = [
-    { href: "#", link: "Menu Inicial" },
+    { href: "#", link: "Home" },
     { href: "#", link: "Empresas Parceiras" },
   ];
-
-  const address = useRef(null);
-  const district = useRef(null);
-  const editAddress = useRef(null);
-  const editDistrict = useRef(null);
-  const [partner, setPartner] = useState(undefined);
-  const [image, setImage] = useState(null);
-  const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
-  const [modalIsOpenData, setIsOpenData] = useState(false);
-  const { partners, DataPartners } = usePetch();
-
-  const preview = useMemo(() => {
-    return image ? URL.createObjectURL(image) : null;
-  }, [image]);
-
-  const [edition, setEdition] = useState(initialState);
-
-  const [register, setRegister] = useState(initialState);
 
   const customStyles = {
     content: {
@@ -78,6 +62,24 @@ function CompanyPartner() {
       backgroundColor: "rgba(0, 0, 0, 0.84)",
     },
   };
+
+  const { partners, DataPartners } = usePetch();
+
+  const preview = useMemo(() => {
+    return image ? URL.createObjectURL(image) : null;
+  }, [image]);
+
+  const address = useRef(null);
+  const district = useRef(null);
+  const editAddress = useRef(null);
+  const editDistrict = useRef(null);
+
+  const [partner, setPartner] = useState(undefined);
+  const [image, setImage] = useState(null);
+  const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
+  const [modalIsOpenData, setIsOpenData] = useState(false);
+  const [edition, setEdition] = useState(initialState);
+  const [register, setRegister] = useState(initialState);
 
   function openModalRegister(event) {
     event.preventDefault();
@@ -269,8 +271,8 @@ function CompanyPartner() {
     } catch (error) {}
   }
 
-  function exportPartner() {
-    const pdf = new jspdf();
+  async function exportPartner() {
+    const pdf = new jspdf("l");
     const columns = [
       {
         header: "Id",
@@ -288,9 +290,17 @@ function CompanyPartner() {
         header: "Cnpj",
         dataKey: "cnpj",
       },
+      {
+        header: "Telefone",
+        dataKey: "phone1",
+      },
     ];
-    autotable(pdf, { columns, body: partners });
-    pdf.save(`${Date.now()}.pdf`);
+    try {
+      const response = await api.get("/partners/all");
+      autotable(pdf, { columns, body: response.data });
+      console.log(response.data);
+      pdf.output(`dataurlnewwindow`);
+    } catch (error) {}
   }
   return (
     <>
@@ -393,6 +403,7 @@ function CompanyPartner() {
                             <Button
                               color="light"
                               onClick={(event) => searchCep(event, "cadastro")}
+                              type="button"
                             >
                               Consultar
                             </Button>
@@ -507,7 +518,7 @@ function CompanyPartner() {
                             <Button color="light" onClick={cancelButton}>
                               Cancelar
                             </Button>
-                            <Button color="primary">Cadastrar Parceiro</Button>
+                            <Button color="primary">Cadastrar</Button>
                           </div>
                         </div>
                       </form>
@@ -627,7 +638,7 @@ function CompanyPartner() {
                           <Input
                             type="text"
                             placeholder="CEP"
-                            value={edition.cep}
+                            value={partner?.cep}
                             onChange={changeEdit}
                             name="cep"
                             mask="cep"
@@ -636,6 +647,7 @@ function CompanyPartner() {
                           <Button
                             color="light"
                             onClick={(event) => searchCep(event, "edicao")}
+                            type="button"
                           >
                             Consultar
                           </Button>
@@ -750,7 +762,7 @@ function CompanyPartner() {
                           <Button color="light" onClick={cancelButtonEdition}>
                             Cancelar
                           </Button>
-                          <Button color="primary">Cadastrar Parceiro</Button>
+                          <Button color="primary">Editar</Button>
                         </div>
                       </div>
                     </form>

@@ -162,7 +162,7 @@ function RegisterAdopter() {
                   mask="cep"
                   maxLength={9}
                 />
-                <Button color="light" onClick={searchCep}>
+                <Button color="light" onClick={searchCep} type="button">
                   Consultar
                 </Button>
               </div>

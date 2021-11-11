@@ -1,13 +1,6 @@
-import iconVaccine from "../../../assets/icons/icon_vaccine.svg";
-import iconMedication from "../../../assets/icons/icon_medication.svg";
-import iconStar from "../../../assets/icons/icon_star.svg";
-import iconSad from "../../../assets/icons/icon_sad.svg";
-import iconDog from "../../../assets/icons/icon_dog.svg";
-import iconHouse from "../../../assets/icons/icon_home.svg";
-import { Button } from "../../../components/Button";
-import Permission from "../../../utils/Permission";
-import { Header } from "../../../components/Header";
-import { Footer } from "../../../components/Footer";
+import jspdf from "jspdf";
+import autotable from "jspdf-autotable";
+import { useEffect, useState } from "react";
 import {
   PieChart,
   Pie,
@@ -19,12 +12,21 @@ import {
   LabelList,
   YAxis,
 } from "recharts";
+
+import { Button } from "../../../components/Button";
+import { Footer } from "../../../components/Footer";
+import { Header } from "../../../components/Header";
+
 import api from "../../../services/api";
-import { useEffect, useState } from "react";
-import jspdf from "jspdf";
-import autotable from "jspdf-autotable";
+import Permission from "../../../utils/Permission";
 
 function Dashboard() {
+  const [pets, setPets] = useState([]);
+  const [gender, setGender] = useState([]);
+  const [ongs, setOngs] = useState([]);
+  const [schedulings, setSchedulings] = useState([]);
+  const [solicitations, setSolicitations] = useState([]);
+
   useEffect(() => {
     api.get("/dashboard/species").then((response) => setPets(response.data));
     api.get("/dashboard/pets").then((response) => setGender(response.data));
@@ -36,11 +38,7 @@ function Dashboard() {
       .get("/dashboard/solicitations")
       .then((response) => setSolicitations(response.data));
   }, []);
-  const [pets, setPets] = useState([]);
-  const [gender, setGender] = useState([]);
-  const [ongs, setOngs] = useState([]);
-  const [schedulings, setSchedulings] = useState([]);
-  const [solicitations, setSolicitations] = useState([]);
+
   function exportInfo() {
     const pdf = new jspdf();
     const columns = [

@@ -1,18 +1,20 @@
-import { Breadcrumb } from "../../../components/Breadcrumb";
-import { BiUserCircle } from "react-icons/bi";
-import { Button } from "../../../components/Button";
-import { useState, useMemo, useRef } from "react";
-import api from "../../../services/api";
-import Modal from "react-modal";
-import { Input } from "../../../components/Input";
-import { GrClose } from "react-icons/gr";
-import { GrImage } from "react-icons/gr";
 import axios from "axios";
-import { usePetch } from "../../../context/petchcontext";
-import Permission from "../../../utils/Permission";
+import { useState, useMemo, useRef } from "react";
+import { BiUserCircle } from "react-icons/bi";
+import { GrClose, GrImage } from "react-icons/gr";
+import Modal from "react-modal";
+
 import { AlertMessage } from "../../../components/Alert";
+import { Breadcrumb } from "../../../components/Breadcrumb";
+import { Button } from "../../../components/Button";
 import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
+import { Input } from "../../../components/Input";
+
+import { usePetch } from "../../../context/petchcontext";
+import api from "../../../services/api";
+import Permission from "../../../utils/Permission";
+
 const initialState = {
   name: "",
   email: "",
@@ -33,19 +35,6 @@ function Ongs() {
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "ONGs" },
   ];
-  const address = useRef(null);
-  const district = useRef(null);
-  const editAddress = useRef(null);
-  const editDistrict = useRef(null);
-  const { ongs, DataOngs } = usePetch();
-  const [ong, setOng] = useState(undefined);
-  const [image, setImage] = useState(null);
-  const preview = useMemo(() => {
-    return image ? URL.createObjectURL(image) : null;
-  }, [image]);
-  const [register, setRegister] = useState(initialState);
-
-  const [edition, setEdition] = useState(initialState);
 
   const customStyles = {
     content: {
@@ -67,6 +56,21 @@ function Ongs() {
     },
   };
 
+  const { ongs, DataOngs } = usePetch();
+
+  const preview = useMemo(() => {
+    return image ? URL.createObjectURL(image) : null;
+  }, [image]);
+
+  const address = useRef(null);
+  const district = useRef(null);
+  const editAddress = useRef(null);
+  const editDistrict = useRef(null);
+
+  const [ong, setOng] = useState(undefined);
+  const [image, setImage] = useState(null);
+  const [register, setRegister] = useState(initialState);
+  const [edition, setEdition] = useState(initialState);
   const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
   const [modalIsOpenData, setIsOpenData] = useState(false);
 
@@ -350,6 +354,7 @@ function Ongs() {
                             <Button
                               color="light"
                               onClick={(event) => searchCep(event, "cadastro")}
+                              type="button"
                             >
                               Consultar
                             </Button>
@@ -540,13 +545,17 @@ function Ongs() {
                           <Input
                             type="text"
                             placeholder="CEP"
-                            value={edition.cep}
+                            value={ong?.cep}
                             onChange={changeEdit}
                             name="cep"
                             mask="cep"
                             maxLength={9}
                           />
-                          <Button color="light" onClick={searchCep}>
+                          <Button
+                            color="light"
+                            onClick={searchCep}
+                            type="button"
+                          >
                             Consultar
                           </Button>
                         </div>

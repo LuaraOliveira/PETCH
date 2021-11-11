@@ -375,7 +375,7 @@ function Pets() {
                             <Button color="light" onClick={cancelButton}>
                               Cancelar
                             </Button>
-                            <Button color="primary">Criar Cadastro</Button>
+                            <Button color="primary">Criar</Button>
                           </div>
                         </div>
                       </form>
@@ -590,7 +590,7 @@ function Pets() {
                           <Button color="light" onClick={cancelButtonEdition}>
                             Cancelar
                           </Button>
-                          <Button color="primary">Criar Cadastro</Button>
+                          <Button color="primary">Editar</Button>
                         </div>
                       </div>
                     </form>

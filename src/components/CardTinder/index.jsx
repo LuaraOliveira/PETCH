@@ -4,7 +4,8 @@ import { AlertMessage } from "../../components/Alert";
 import { Button } from "../../components/Button";
 import { Select } from "../../components/Select";
 import { BsArrowReturnLeft } from "react-icons/bs";
-import { useState } from "react";
+import { IoFemaleOutline, IoMaleOutline } from "react-icons/io5";
+import { useState, useEffect } from "react";
 import { usePetch } from "../../context/petchcontext";
 import {
   AiFillCamera,
@@ -45,6 +46,15 @@ function CardTinder(props) {
   }
 
   const [modalIsOpenTwo, setIsOpenTwo] = useState(false);
+
+  useEffect(() => {
+    favorites &&
+      favorites.map((favorite) =>
+        favorite.pet.id === props.pet.id
+          ? Object.assign(props.pet, { petfavorite: true })
+          : Object.assign(props.pet, { petfavorite: false })
+      );
+  }, [props.pet]);
 
   function openModalTwo(event) {
     setIsOpenTwo(true);
@@ -104,7 +114,14 @@ function CardTinder(props) {
                   />
                 </div>
                 <div className="card__info">
-                  <h2 className="card__info-title">{props.pet.name} ♂</h2>
+                  <h2 className="card__info-title">
+                    {props.pet.name}{" "}
+                    {props.pet.gender === "M" ? (
+                      <IoMaleOutline />
+                    ) : (
+                      <IoFemaleOutline />
+                    )}
+                  </h2>
                   <p className="card__info-description">
                     {props.pet.description}
                   </p>
@@ -115,7 +132,15 @@ function CardTinder(props) {
                 <div className="card__header">
                   <div className="card__header-info">
                     <h2 className="card__header-title">{props.pet.name} </h2>
-                    <p className="card__header-genre">♂ - {props.pet.age}</p>
+                    <p className="card__header-genre">
+                      {" "}
+                      {props.pet.age}{" "}
+                      {props.pet.gender === "M" ? (
+                        <IoMaleOutline />
+                      ) : (
+                        <IoFemaleOutline />
+                      )}
+                    </p>
                   </div>
                   <div className="card__header-image">
                     <img
@@ -178,11 +203,7 @@ function CardTinder(props) {
             <AiOutlineDislike />
           </Button>
           <Button color="circle fav" onClick={() => Favorite(props.pet.id)}>
-            {/* {favorites.find((param) =>
-              param.id === props.pet.id ? <AiFillStar /> : <AiOutlineStar />
-            )} */}
-
-            <AiOutlineStar />
+            {props.pet.petfavorite ? <AiFillStar /> : <AiOutlineStar />}
           </Button>
           <Button color="gradient" onClick={() => Adopter(props.pet.id)}>
             <AiOutlineHeart />

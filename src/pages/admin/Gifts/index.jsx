@@ -1,17 +1,19 @@
-import { Breadcrumb } from "../../../components/Breadcrumb";
-import { BiUserCircle } from "react-icons/bi";
-import { Button } from "../../../components/Button";
 import { useState, useMemo } from "react";
-import api from "../../../services/api";
 import Modal from "react-modal";
-import { Input } from "../../../components/Input";
-import { GrClose } from "react-icons/gr";
-import { GrImage } from "react-icons/gr";
-import Permission from "../../../utils/Permission";
-import { usePetch } from "../../../context/petchcontext";
+import { BiUserCircle } from "react-icons/bi";
+import { GrClose, GrImage } from "react-icons/gr";
+
 import { AlertMessage } from "../../../components/Alert";
-import { Header } from "../../../components/Header";
+import { Breadcrumb } from "../../../components/Breadcrumb";
+import { Button } from "../../../components/Button";
 import { Footer } from "../../../components/Footer";
+import { Header } from "../../../components/Header";
+import { Input } from "../../../components/Input";
+
+import { usePetch } from "../../../context/petchcontext";
+import api from "../../../services/api";
+import Permission from "../../../utils/Permission";
+
 const initialState = {
   name: "",
 };
@@ -21,17 +23,6 @@ function Gifts() {
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Brindes" },
   ];
-
-  const [gift, setGift] = useState(undefined);
-  const [image, setImage] = useState(null);
-  const { gifts, partners, DataGifts } = usePetch();
-
-  const preview = useMemo(() => {
-    return image ? URL.createObjectURL(image) : null;
-  }, [image]);
-  const [register, setRegister] = useState(initialState);
-
-  const [edition, setEdition] = useState(initialState);
 
   const customStyles = {
     content: {
@@ -53,6 +44,16 @@ function Gifts() {
     },
   };
 
+  const { gifts, DataGifts } = usePetch();
+
+  const preview = useMemo(() => {
+    return image ? URL.createObjectURL(image) : null;
+  }, [image]);
+
+  const [gift, setGift] = useState(undefined);
+  const [image, setImage] = useState(null);
+  const [register, setRegister] = useState(initialState);
+  const [edition, setEdition] = useState(initialState);
   const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
   const [modalIsOpenData, setIsOpenData] = useState(false);
 
@@ -221,7 +222,7 @@ function Gifts() {
                             <Button color="light" onClick={cancelButton}>
                               Cancelar
                             </Button>
-                            <Button color="primary">Cadastrar Brinde</Button>
+                            <Button color="primary">Cadastrar</Button>
                           </div>
                         </div>
                       </form>
@@ -309,7 +310,7 @@ function Gifts() {
                           <Button color="light" onClick={cancelButtonEdition}>
                             Cancelar
                           </Button>
-                          <Button color="primary">Editar Brinde</Button>
+                          <Button color="primary">Editar</Button>
                         </div>
                       </div>
                     </form>
