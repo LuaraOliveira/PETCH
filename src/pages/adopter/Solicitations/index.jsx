@@ -1,14 +1,17 @@
-import { Input } from "../../../components/Input";
-import { Button } from "../../../components/Button";
-import { HeaderAdopter } from "../../../components/HeaderAdopter";
-import { usePetch } from "../../../context/petchcontext";
-import { FooterAdopter } from "../../../components/FooterAdopter";
-import { Select } from "../../../components/Select";
 import { useState } from "react";
-import api from "../../../services/api";
+
 import { AlertMessage } from "../../../components/Alert";
+import { Button } from "../../../components/Button";
+import { FooterAdopter } from "../../../components/FooterAdopter";
+import { HeaderAdopter } from "../../../components/HeaderAdopter";
+import { Select } from "../../../components/Select";
+
+import api from "../../../services/api";
+import { usePetch } from "../../../context/petchcontext";
+
 function Solicitations() {
   const { solicitationTypes } = usePetch();
+
   const [solicitation, setSolicitation] = useState({
     solicitationTypesId: "",
     description: "",

@@ -1,10 +1,15 @@
-import { Breadcrumb } from "../../../components/Breadcrumb";
+import jspdf from "jspdf";
+import autotable from "jspdf-autotable";
 import { useEffect, useState } from "react";
+
+import { Breadcrumb } from "../../../components/Breadcrumb";
+import { Button } from "../../../components/Button";
+import { Footer } from "../../../components/Footer";
+import { Header } from "../../../components/Header";
+
 import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
-import { Header } from "../../../components/Header";
-import { Footer } from "../../../components/Footer";
-import { Button } from "../../../components/Button";
+
 function Solicitation() {
   const breadCrumb = [
     { href: "#", link: "Menu Inicial" },
@@ -19,6 +24,48 @@ function Solicitation() {
       .then((response) => setSolicitations(response.data));
   }, []);
 
+  async function exportSolicitations() {
+    const pdf = new jspdf("l");
+    const columns = [
+      {
+        header: "Id",
+        dataKey: "id",
+      },
+      {
+        header: "Tipo",
+        dataKey: "solicitationTypes",
+        displayProperty: "name",
+      },
+      {
+        header: "Email",
+        dataKey: "user",
+        displayProperty: "name",
+      },
+      {
+        header: "Nome",
+        dataKey: "user",
+        displayProperty: "email",
+      },
+    ];
+    try {
+      const response = await api.get("/solicitations/all");
+      autotable(pdf, {
+        columns,
+        body: response.data,
+        didParseCell: (data) => {
+          if (data.column.raw.displayProperty) {
+            const prop = data.column.raw.displayProperty;
+            const text = data.cell.raw[prop];
+            if (text && text.length > 0) {
+              data.cell.text = text;
+            }
+          }
+        },
+      });
+      console.log(response.data);
+      pdf.output(`dataurlnewwindow`);
+    } catch (error) {}
+  }
   return (
     <>
       <Header />
@@ -34,7 +81,9 @@ function Solicitation() {
                 <p className="solicitations__create-title">
                   Lista de Solicitações
                 </p>
-                <Button color="primary">Ver relatório completo</Button>
+                <Button color="primary" onClick={exportSolicitations}>
+                  Ver relatório completo
+                </Button>
               </div>
               <div className="solicitations__body">
                 {solicitations &&

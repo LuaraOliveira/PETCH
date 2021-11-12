@@ -1,7 +1,9 @@
+import jspdf from "jspdf";
+import autotable from "jspdf-autotable";
 import { useState, useMemo } from "react";
-import Modal from "react-modal";
 import { BiUserCircle } from "react-icons/bi";
 import { GrClose, GrImage } from "react-icons/gr";
+import Modal from "react-modal";
 
 import { AlertMessage } from "../../../components/Alert";
 import { Breadcrumb } from "../../../components/Breadcrumb";
@@ -46,16 +48,16 @@ function Gifts() {
 
   const { gifts, DataGifts } = usePetch();
 
-  const preview = useMemo(() => {
-    return image ? URL.createObjectURL(image) : null;
-  }, [image]);
-
   const [gift, setGift] = useState(undefined);
   const [image, setImage] = useState(null);
   const [register, setRegister] = useState(initialState);
   const [edition, setEdition] = useState(initialState);
   const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
   const [modalIsOpenData, setIsOpenData] = useState(false);
+
+  const preview = useMemo(() => {
+    return image ? URL.createObjectURL(image) : null;
+  }, [image]);
 
   function openModalRegister(event) {
     event.preventDefault();
@@ -153,6 +155,37 @@ function Gifts() {
     } catch (error) {}
   }
 
+  async function exportGifts() {
+    const pdf = new jspdf("l");
+    const columns = [
+      {
+        header: "Id",
+        dataKey: "id",
+      },
+      {
+        header: "Nome",
+        dataKey: "fantasyName",
+      },
+      {
+        header: "Email",
+        dataKey: "email",
+      },
+      {
+        header: "Cnpj",
+        dataKey: "cnpj",
+      },
+      {
+        header: "Telefone",
+        dataKey: "phone1",
+      },
+    ];
+    try {
+      const response = await api.get("/gifts/all");
+      autotable(pdf, { columns, body: response.data });
+      console.log(response.data);
+      pdf.output(`dataurlnewwindow`);
+    } catch (error) {}
+  }
   return (
     <>
       <Header />
@@ -236,7 +269,9 @@ function Gifts() {
             <div className="gifts__create">
               <div className="gifts__create--container">
                 <p className="gifts__create-title">Lista de Brindes</p>
-                <Button color="primary">Ver relatório completo</Button>
+                <Button color="primary" onClick={exportGifts}>
+                  Ver relatório completo
+                </Button>
               </div>
               <div className="gifts__body">
                 {gifts &&

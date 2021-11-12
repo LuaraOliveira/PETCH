@@ -1,33 +1,22 @@
-import { HeaderAdopter } from "../../../components/HeaderAdopter";
-import { FooterAdopter } from "../../../components/FooterAdopter";
-
-import { ReactComponent as LikeIcon } from "../../../assets/icons/like-icon-petch.svg";
-import { Button } from "../../../components/Button";
-import { Select } from "../../../components/Select";
-
-import Modal from "react-modal";
 import { useEffect, useState } from "react";
-
-import { IoFemaleOutline, IoMaleOutline } from "react-icons/io5";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsFillTrashFill } from "react-icons/bs";
+import { IoFemaleOutline, IoMaleOutline } from "react-icons/io5";
+import Modal from "react-modal";
 
-import Permission from "../../../utils/Permission";
+import { AlertMessage } from "../../../components/Alert";
+import { Button } from "../../../components/Button";
+import { FooterAdopter } from "../../../components/FooterAdopter";
+import { HeaderAdopter } from "../../../components/HeaderAdopter";
+import { Select } from "../../../components/Select";
+
+import { ReactComponent as LikeIcon } from "../../../assets/icons/like-icon-petch.svg";
+
 import { usePetch } from "../../../context/petchcontext";
 import api from "../../../services/api";
-import { AlertMessage } from "../../../components/Alert";
+import Permission from "../../../utils/Permission";
 
 function Favorites(props) {
-  const { ShowFavorites, favorites, DataFilterPet, pets, gifts } = usePetch();
-  const [saveGifts, setSaveGifts] = useState("");
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const [idPet, setIdPet] = useState("");
-  function openModalTwo(event) {
-    setIsOpenTwo(true);
-    event.preventDefault();
-  }
-
-  const [modalIsOpenTwo, setIsOpenTwo] = useState(false);
   const customStyles = {
     content: {
       top: "50%",
@@ -40,6 +29,18 @@ function Favorites(props) {
       transform: "translate(-50%, -50%)",
     },
   };
+
+  const { ShowFavorites, favorites, DataFilterPet, pets, gifts } = usePetch();
+
+  const [saveGifts, setSaveGifts] = useState("");
+
+  const [idPet, setIdPet] = useState("");
+  function openModalTwo(event) {
+    setIsOpenTwo(true);
+    event.preventDefault();
+  }
+  const [modalIsOpenTwo, setIsOpenTwo] = useState(false);
+
   useEffect(() => {
     ShowFavorites();
   }, []);

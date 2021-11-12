@@ -1,13 +1,16 @@
-import { Input } from "../../../components/Input";
+import { useState } from "react";
+import { BsCheckCircle, BsSearch } from "react-icons/bs";
+
+import { AlertMessage } from "../../../components/Alert";
 import { Button } from "../../../components/Button";
+import { FooterAdopter } from "../../../components/FooterAdopter";
 import { HeaderAdopter } from "../../../components/HeaderAdopter";
+import { Input } from "../../../components/Input";
+import { Select } from "../../../components/Select";
+
 import { usePetch } from "../../../context/petchcontext";
 import api from "../../../services/api";
-import { FooterAdopter } from "../../../components/FooterAdopter";
-import { Select } from "../../../components/Select";
-import { useState } from "react";
-import { AlertMessage } from "../../../components/Alert";
-import { BsCheckCircle, BsSearch } from "react-icons/bs";
+
 function Scheduling() {
   const { schedulingTypes } = usePetch();
   const [schedulingType, setSchedulingType] = useState({

@@ -1,17 +1,21 @@
-import { Breadcrumb } from "../../../components/Breadcrumb";
-import { BiUserCircle } from "react-icons/bi";
-import { Button } from "../../../components/Button";
+import jspdf from "jspdf";
+import autotable from "jspdf-autotable";
 import { useState, useMemo } from "react";
-import api from "../../../services/api";
+import { BiUserCircle } from "react-icons/bi";
+import { GrClose, GrImage } from "react-icons/gr";
 import Modal from "react-modal";
-import { Input } from "../../../components/Input";
-import { GrClose } from "react-icons/gr";
-import { GrImage } from "react-icons/gr";
-import { usePetch } from "../../../context/petchcontext";
-import Permission from "../../../utils/Permission";
+
 import { AlertMessage } from "../../../components/Alert";
-import { Header } from "../../../components/Header";
+import { Breadcrumb } from "../../../components/Breadcrumb";
+import { Button } from "../../../components/Button";
 import { Footer } from "../../../components/Footer";
+import { Header } from "../../../components/Header";
+import { Input } from "../../../components/Input";
+
+import { usePetch } from "../../../context/petchcontext";
+import api from "../../../services/api";
+import Permission from "../../../utils/Permission";
+
 const initialState = {
   name: "",
 };
@@ -150,6 +154,26 @@ function Species() {
     } catch (error) {}
   }
 
+  async function exportSpecies() {
+    const pdf = new jspdf("l");
+    const columns = [
+      {
+        header: "Id",
+        dataKey: "id",
+      },
+      {
+        header: "Nome",
+        dataKey: "name",
+      },
+    ];
+    try {
+      const response = await api.get("/species/all");
+      autotable(pdf, { columns, body: response.data });
+      console.log(response.data);
+      pdf.output(`dataurlnewwindow`);
+    } catch (error) {}
+  }
+
   return (
     <>
       <Header />
@@ -232,7 +256,9 @@ function Species() {
             <div className="species__create">
               <div className="species__create--container">
                 <p className="species__create-title">Lista de Espécies</p>
-                <Button color="primary">Ver relatório completo</Button>
+                <Button color="primary" onClick={exportSpecies}>
+                  Ver relatório completo
+                </Button>
               </div>
               <div className="species__body">
                 {species &&

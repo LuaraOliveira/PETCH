@@ -1,19 +1,23 @@
-import { Breadcrumb } from "../../../components/Breadcrumb";
+import jspdf from "jspdf";
+import autotable from "jspdf-autotable";
 import { BiUserCircle } from "react-icons/bi";
-import { Button } from "../../../components/Button";
+import { GrClose, GrImage } from "react-icons/gr";
 import { useState, useMemo } from "react";
-import api from "../../../services/api";
-import { Radio } from "../../../components/Radio";
 import Modal from "react-modal";
-import { Input } from "../../../components/Input";
-import { GrClose } from "react-icons/gr";
-import { GrImage } from "react-icons/gr";
-import { Select } from "../../../components/Select";
+
 import { usePetch } from "../../../context/petchcontext";
-import { AlertMessage } from "../../../components/Alert";
+import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
-import { Header } from "../../../components/Header";
+
+import { AlertMessage } from "../../../components/Alert";
+import { Breadcrumb } from "../../../components/Breadcrumb";
+import { Button } from "../../../components/Button";
 import { Footer } from "../../../components/Footer";
+import { Header } from "../../../components/Header";
+import { Input } from "../../../components/Input";
+import { Radio } from "../../../components/Radio";
+import { Select } from "../../../components/Select";
+
 const initialState = {
   name: "",
   cut: "not",
@@ -35,14 +39,17 @@ function Pets() {
   ];
 
   const { pets, ongs, species, DataPets } = usePetch();
+
   const [pet, setPet] = useState(undefined);
   const [image, setImage] = useState(null);
+  const [register, setRegister] = useState(initialState);
+  const [edition, setEdition] = useState(initialState);
+  const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
+  const [modalIsOpenData, setIsOpenData] = useState(false);
+
   const preview = useMemo(() => {
     return image ? URL.createObjectURL(image) : null;
   }, [image]);
-  const [register, setRegister] = useState(initialState);
-
-  const [edition, setEdition] = useState(initialState);
 
   const customStyles = {
     content: {
@@ -63,9 +70,6 @@ function Pets() {
       backgroundColor: "rgba(0, 0, 0, 0.84)",
     },
   };
-
-  const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
-  const [modalIsOpenData, setIsOpenData] = useState(false);
 
   function openModalRegister(event) {
     event.preventDefault();
@@ -186,6 +190,34 @@ function Pets() {
     try {
       await api.delete(`/pets/${pet.id}`, { params: { status } });
       DataPets();
+    } catch (error) {}
+  }
+
+  async function exportPets() {
+    const pdf = new jspdf("l");
+    const columns = [
+      {
+        header: "Id",
+        dataKey: "id",
+      },
+      {
+        header: "Nome",
+        dataKey: "name",
+      },
+      {
+        header: "Idade",
+        dataKey: "age",
+      },
+      {
+        header: "Raça",
+        dataKey: "breed",
+      },
+    ];
+    try {
+      const response = await api.get("/pets/all");
+      autotable(pdf, { columns, body: response.data });
+      console.log(response.data);
+      pdf.output(`dataurlnewwindow`);
     } catch (error) {}
   }
 
@@ -389,7 +421,9 @@ function Pets() {
             <div className="pets__create">
               <div className="pets__create--container">
                 <p className="pets__create-title">Lista de Pets</p>
-                <Button color="primary">Ver relatório completo</Button>
+                <Button color="primary" onClick={exportPets}>
+                  Ver relatório completo
+                </Button>
               </div>
               <div className="pets__body">
                 {pets &&

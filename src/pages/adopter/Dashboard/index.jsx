@@ -1,11 +1,14 @@
-import { HeaderAdopter } from "../../../components/HeaderAdopter";
-import { FooterAdopter } from "../../../components/FooterAdopter";
+import { useEffect } from "react";
+
 import CardTinder from "../../../components/CardTinder";
 import CardTinderInfo from "../../../components/CardTinderInfo";
+import { FooterAdopter } from "../../../components/FooterAdopter";
+import { HeaderAdopter } from "../../../components/HeaderAdopter";
 import Search from "../../../components/Search";
+
 import { usePetch } from "../../../context/petchcontext";
 import Permission from "../../../utils/Permission";
-import { useEffect } from "react";
+
 function DashboardAdopter() {
   const { pets, VisiblePets } = usePetch();
   useEffect(() => {

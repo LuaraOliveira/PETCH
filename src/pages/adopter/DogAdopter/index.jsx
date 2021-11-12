@@ -1,13 +1,11 @@
+import { useEffect, useState } from "react";
+
 import { HeaderAdopter } from "../../../components/HeaderAdopter";
 import { FooterAdopter } from "../../../components/FooterAdopter";
-import { Button } from "../../../components/Button";
-import { useEffect, useState } from "react";
+
+import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
 
-import { AiOutlineHeart, AiOutlineDislike } from "react-icons/ai";
-import { BsFillTrashFill } from "react-icons/bs";
-import api from "../../../services/api";
-import { AlertMessage } from "../../../components/Alert";
 function DogAdopter(props) {
   const [savePets, setSavePets] = useState([]);
   useEffect(() => {

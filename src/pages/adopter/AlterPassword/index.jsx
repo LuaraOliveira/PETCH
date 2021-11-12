@@ -1,16 +1,21 @@
-import logo from "../../../assets/logo/logo-white.png";
-import { Input } from "../../../components/Input";
-import { Button } from "../../../components/Button";
 import { useState, useEffect } from "react";
-import api from "../../../services/api";
 import { useHistory } from "react-router-dom";
+
 import { AlertMessage } from "../../../components/Alert";
+import { Button } from "../../../components/Button";
+import { Input } from "../../../components/Input";
+import logo from "../../../assets/logo/logo-white.png";
+
+import api from "../../../services/api";
+
 function AlterPassword() {
-  const [email, setEmail] = useState("");
   const history = useHistory();
+
+  const [email, setEmail] = useState("");
   const [token, setToken] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+
   useEffect(() => {
     const query = window.location.search;
     const params = new URLSearchParams(query);

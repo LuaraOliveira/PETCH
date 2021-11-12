@@ -1,17 +1,19 @@
-import { FaUserCircle } from "react-icons/fa";
-import photoBig from "../../../assets/avatar/avatar-big.jpg";
-import { Input } from "../../../components/Input";
-import { HeaderAdopter } from "../../../components/HeaderAdopter";
-import { FooterAdopter } from "../../../components/FooterAdopter";
-import { Button } from "../../../components/Button";
-import { useState, useEffect, useRef, useMemo } from "react";
-import { AiFillCamera } from "react-icons/ai";
-import { AiOutlineClose } from "react-icons/ai";
-import Permission from "../../../utils/Permission";
-import { AlertMessage } from "../../../components/Alert";
-import Modal from "react-modal";
-import api from "../../../services/api";
 import axios from "axios";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { AiFillCamera, AiOutlineClose } from "react-icons/ai";
+import { FaUserCircle } from "react-icons/fa";
+import Modal from "react-modal";
+
+import { AlertMessage } from "../../../components/Alert";
+import { Button } from "../../../components/Button";
+import { FooterAdopter } from "../../../components/FooterAdopter";
+import { HeaderAdopter } from "../../../components/HeaderAdopter";
+import { Input } from "../../../components/Input";
+
+import photoBig from "../../../assets/avatar/avatar-big.jpg";
+
+import Permission from "../../../utils/Permission";
+import api from "../../../services/api";
 import { isLogout, isUserLogin } from "../../../services/auth";
 
 const initialState = {
@@ -33,13 +35,14 @@ const initialState = {
 };
 
 function Settings() {
+  const address = useRef(null);
+  const district = useRef(null);
+
   const [user, setUser] = useState(initialState);
   const [alter, setAlter] = useState({
     cpf: "",
     email: "",
   });
-  const address = useRef(null);
-  const district = useRef(null);
   const [image, setImage] = useState(null);
   useEffect(() => {
     api.get("/users/profile").then((response) => {

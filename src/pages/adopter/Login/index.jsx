@@ -1,20 +1,23 @@
-import logo from "../../../assets/logo/logo-white.png";
-import { Input } from "../../../components/Input";
-import api from "../../../services/api";
-import { isLogin, setRole, getRole, isUserLogin } from "../../../services/auth";
-import { Button } from "../../../components/Button";
 import { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useGoogleLogin } from "react-google-login";
 import { FaGoogle } from "react-icons/fa";
+
 import { AlertMessage } from "../../../components/Alert";
+import { Button } from "../../../components/Button";
+import { Input } from "../../../components/Input";
+
+import logo from "../../../assets/logo/logo-white.png";
+
+import api from "../../../services/api";
+import { isLogin, setRole, getRole, isUserLogin } from "../../../services/auth";
 
 function LoginAdopter() {
+  const history = useHistory();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const history = useHistory();
 
   const { signIn } = useGoogleLogin({
     clientId: process.env.REACT_APP_GOOGLE_CLOUD_SECURITY_ID,

@@ -65,10 +65,6 @@ function CompanyPartner() {
 
   const { partners, DataPartners } = usePetch();
 
-  const preview = useMemo(() => {
-    return image ? URL.createObjectURL(image) : null;
-  }, [image]);
-
   const address = useRef(null);
   const district = useRef(null);
   const editAddress = useRef(null);
@@ -80,6 +76,10 @@ function CompanyPartner() {
   const [modalIsOpenData, setIsOpenData] = useState(false);
   const [edition, setEdition] = useState(initialState);
   const [register, setRegister] = useState(initialState);
+
+  const preview = useMemo(() => {
+    return image ? URL.createObjectURL(image) : null;
+  }, [image]);
 
   function openModalRegister(event) {
     event.preventDefault();

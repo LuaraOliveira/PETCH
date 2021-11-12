@@ -1,16 +1,21 @@
-import logo from "../../../assets/logo/logo-white.png";
-import { Input } from "../../../components/Input";
-import { Button } from "../../../components/Button";
-import api from "../../../services/api";
-import { useHistory } from "react-router-dom";
-import { useState, useRef } from "react";
-import { AlertMessage } from "../../../components/Alert";
 import axios from "axios";
+import { useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
+
+import { AlertMessage } from "../../../components/Alert";
+import { Button } from "../../../components/Button";
+import { Input } from "../../../components/Input";
+
+import logo from "../../../assets/logo/logo-white.png";
+
+import api from "../../../services/api";
+
 function RegisterAdopter() {
+  const history = useHistory();
+
   const address = useRef(null);
   const district = useRef(null);
   const data = JSON.parse(localStorage.getItem("dados"));
-  const history = useHistory();
 
   const [register, setRegister] = useState({
     name: data?.name || "",

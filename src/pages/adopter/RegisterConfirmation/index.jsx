@@ -1,5 +1,7 @@
-import logo from "../../../assets/logo/logo-white.png";
 import { useEffect } from "react";
+
+import logo from "../../../assets/logo/logo-white.png";
+
 import api from "../../../services/api";
 
 function RegisterConfirmation() {

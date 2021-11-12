@@ -27,6 +27,7 @@ import RegisterConfirmation from "../pages/adopter/RegisterConfirmation";
 import AlterPassword from "../pages/adopter/AlterPassword";
 import Scheduling from "../pages/adopter/Scheduling";
 import ListScheduling from "../pages/adopter/ListScheduling";
+
 function RoutesAdmin() {
   return (
     <>

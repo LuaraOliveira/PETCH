@@ -1,18 +1,20 @@
-import { FaUserCircle } from "react-icons/fa";
-import photoBig from "../../../assets/avatar/avatar-big.jpg";
-import { Input } from "../../../components/Input";
-import { Header } from "../../../components/Header";
-import { Footer } from "../../../components/Footer";
-import { Button } from "../../../components/Button";
-import { useState, useEffect, useRef, useMemo } from "react";
-import { AiFillCamera } from "react-icons/ai";
-import { AiOutlineClose } from "react-icons/ai";
-import Permission from "../../../utils/Permission";
-import { AlertMessage } from "../../../components/Alert";
-import Modal from "react-modal";
-import api from "../../../services/api";
 import axios from "axios";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { AiFillCamera, AiOutlineClose } from "react-icons/ai";
+import { FaUserCircle } from "react-icons/fa";
+import Modal from "react-modal";
+
+import { AlertMessage } from "../../../components/Alert";
+import { Button } from "../../../components/Button";
+import { Footer } from "../../../components/Footer";
+import { Header } from "../../../components/Header";
+import { Input } from "../../../components/Input";
+
+import photoBig from "../../../assets/avatar/avatar-big.jpg";
+
+import api from "../../../services/api";
 import { isLogout, isUserLogin } from "../../../services/auth";
+import Permission from "../../../utils/Permission";
 
 const initialState = {
   cpf: "",
@@ -33,14 +35,21 @@ const initialState = {
 };
 
 function SettingsAdmin() {
+  const address = useRef(null);
+  const district = useRef(null);
+
   const [user, setUser] = useState(initialState);
+  const [modalIsOpen, setIsOpen] = useState(false);
   const [alter, setAlter] = useState({
     cpf: "",
     email: "",
   });
-  const address = useRef(null);
-  const district = useRef(null);
   const [image, setImage] = useState(null);
+
+  const preview = useMemo(() => {
+    return image ? URL.createObjectURL(image) : null;
+  }, [image]);
+
   useEffect(() => {
     api.get("/users/profile").then((response) => {
       setUser({ ...response.data, complement: response.data.complement || "" });
@@ -60,7 +69,6 @@ function SettingsAdmin() {
       transform: "translate(-50%, -50%)",
     },
   };
-  const [modalIsOpen, setIsOpen] = useState(false);
 
   function openModal(event) {
     setIsOpen(true);
@@ -78,10 +86,6 @@ function SettingsAdmin() {
       [event.target.name]: event.target.value,
     });
   }
-
-  const preview = useMemo(() => {
-    return image ? URL.createObjectURL(image) : null;
-  }, [image]);
 
   async function searchCep(event) {
     event.preventDefault();

@@ -1,13 +1,14 @@
-import { HeaderAdopter } from "../../../components/HeaderAdopter";
-import { FooterAdopter } from "../../../components/FooterAdopter";
-import { Button } from "../../../components/Button";
-import { useEffect, useState } from "react";
-import Permission from "../../../utils/Permission";
-import { AiOutlineHeart, AiOutlineDislike } from "react-icons/ai";
-import { BsFillTrashFill } from "react-icons/bs";
-import api from "../../../services/api";
-import { AlertMessage } from "../../../components/Alert";
 import { format, parseISO, isAfter } from "date-fns";
+import { useEffect, useState } from "react";
+
+import { AlertMessage } from "../../../components/Alert";
+import { Button } from "../../../components/Button";
+import { FooterAdopter } from "../../../components/FooterAdopter";
+import { HeaderAdopter } from "../../../components/HeaderAdopter";
+
+import api from "../../../services/api";
+import Permission from "../../../utils/Permission";
+
 function ListScheduling(props) {
   const [schedulings, setSchedulings] = useState([]);
   useEffect(() => {

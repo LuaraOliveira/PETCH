@@ -63,10 +63,6 @@ function Administrador() {
 
   const { admins, DataAdmins } = usePetch();
 
-  const preview = useMemo(() => {
-    return image ? URL.createObjectURL(image) : null;
-  }, [image]);
-
   const address = useRef(null);
   const district = useRef(null);
 
@@ -75,6 +71,10 @@ function Administrador() {
   const [register, setRegister] = useState(initialState);
   const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
   const [modalIsOpenData, setIsOpenData] = useState(false);
+
+  const preview = useMemo(() => {
+    return image ? URL.createObjectURL(image) : null;
+  }, [image]);
 
   function closeModalData(event) {
     event.preventDefault();
@@ -175,25 +175,36 @@ function Administrador() {
       DataAdmins();
     } catch (error) {}
   }
-
-  function exportAdmins() {
-    const pdf = new jspdf();
+  async function exportAdmins() {
+    const pdf = new jspdf("l");
     const columns = [
       {
+        header: "Id",
+        dataKey: "id",
+      },
+      {
         header: "Nome",
-        dataKey: "name",
+        dataKey: "fantasyName",
       },
       {
         header: "Email",
         dataKey: "email",
       },
       {
-        header: "Cpf",
-        dataKey: "cpf",
+        header: "Cnpj",
+        dataKey: "cnpj",
+      },
+      {
+        header: "Telefone",
+        dataKey: "phone1",
       },
     ];
-    autotable(pdf, { columns, body: admins });
-    pdf.save(`${Date.now()}.pdf`);
+    try {
+      const response = await api.get("/partners/all");
+      autotable(pdf, { columns, body: response.data });
+      console.log(response.data);
+      pdf.output(`dataurlnewwindow`);
+    } catch (error) {}
   }
   return (
     <>

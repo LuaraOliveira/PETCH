@@ -1,13 +1,18 @@
-import logo from "../../../assets/logo/logo-white.png";
-import { Input } from "../../../components/Input";
-import { Button } from "../../../components/Button";
 import { useState } from "react";
-import api from "../../../services/api";
 import { useHistory } from "react-router-dom";
+
 import { AlertMessage } from "../../../components/Alert";
+import { Button } from "../../../components/Button";
+import { Input } from "../../../components/Input";
+
+import logo from "../../../assets/logo/logo-white.png";
+
+import api from "../../../services/api";
+
 function RecoveryPassword() {
-  const [email, setEmail] = useState("");
   const history = useHistory();
+
+  const [email, setEmail] = useState("");
 
   async function sendEmail(event) {
     event.preventDefault();

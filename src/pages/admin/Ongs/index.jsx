@@ -1,4 +1,6 @@
 import axios from "axios";
+import jspdf from "jspdf";
+import autotable from "jspdf-autotable";
 import { useState, useMemo, useRef } from "react";
 import { BiUserCircle } from "react-icons/bi";
 import { GrClose, GrImage } from "react-icons/gr";
@@ -58,10 +60,6 @@ function Ongs() {
 
   const { ongs, DataOngs } = usePetch();
 
-  const preview = useMemo(() => {
-    return image ? URL.createObjectURL(image) : null;
-  }, [image]);
-
   const address = useRef(null);
   const district = useRef(null);
   const editAddress = useRef(null);
@@ -73,6 +71,10 @@ function Ongs() {
   const [edition, setEdition] = useState(initialState);
   const [modalIsOpenRegister, setIsOpenRegister] = useState(false);
   const [modalIsOpenData, setIsOpenData] = useState(false);
+
+  const preview = useMemo(() => {
+    return image ? URL.createObjectURL(image) : null;
+  }, [image]);
 
   function openModalRegister(event) {
     event.preventDefault();
@@ -247,6 +249,33 @@ function Ongs() {
     } catch (error) {}
   }
 
+  async function exportOngs() {
+    const pdf = new jspdf("l");
+    const columns = [
+      {
+        header: "Id",
+        dataKey: "id",
+      },
+      {
+        header: "Nome",
+        dataKey: "name",
+      },
+      {
+        header: "Email",
+        dataKey: "email",
+      },
+      {
+        header: "Telefone",
+        dataKey: "phone1",
+      },
+    ];
+    try {
+      const response = await api.get("/ongs/all");
+      autotable(pdf, { columns, body: response.data });
+      console.log(response.data);
+      pdf.output(`dataurlnewwindow`);
+    } catch (error) {}
+  }
   return (
     <>
       <Header />
@@ -431,7 +460,9 @@ function Ongs() {
             <div className="ongs__create">
               <div className="ongs__create--container">
                 <p className="ongs__create-title">Lista de ONGs</p>
-                <Button color="primary">Ver relatório completo</Button>
+                <Button color="primary" onClick={exportOngs}>
+                  Ver relatório completo
+                </Button>
               </div>
               <div className="ongs__body">
                 {ongs &&

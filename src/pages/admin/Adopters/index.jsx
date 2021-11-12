@@ -1,3 +1,5 @@
+import jspdf from "jspdf";
+import autotable from "jspdf-autotable";
 import { useState } from "react";
 import { BiUserCircle } from "react-icons/bi";
 import { GrClose } from "react-icons/gr";
@@ -67,7 +69,37 @@ function Adopters() {
       DataAdopters();
     } catch (error) {}
   }
-
+  async function exportAdopter() {
+    const pdf = new jspdf("l");
+    const columns = [
+      {
+        header: "Id",
+        dataKey: "id",
+      },
+      {
+        header: "Nome",
+        dataKey: "fantasyName",
+      },
+      {
+        header: "Email",
+        dataKey: "email",
+      },
+      {
+        header: "Cnpj",
+        dataKey: "cnpj",
+      },
+      {
+        header: "Telefone",
+        dataKey: "phone1",
+      },
+    ];
+    try {
+      const response = await api.get("/partners/all");
+      autotable(pdf, { columns, body: response.data });
+      console.log(response.data);
+      pdf.output(`dataurlnewwindow`);
+    } catch (error) {}
+  }
   return (
     <>
       <Header />
@@ -81,7 +113,9 @@ function Adopters() {
             <div className="adopters__create">
               <div className="adopters__create--container">
                 <p className="adopters__create-title">Lista de Adotantes</p>
-                <Button color="primary">Ver relatório completo</Button>
+                <Button color="primary" onClick={exportAdopter}>
+                  Ver relatório completo
+                </Button>
               </div>
               <div className="adopters__body">
                 {adopters &&
