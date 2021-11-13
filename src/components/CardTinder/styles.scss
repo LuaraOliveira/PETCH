@@ -209,3 +209,8 @@
     align-items: center;
   }
 }
+.modal__buttons {
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+}

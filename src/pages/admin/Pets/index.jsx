@@ -5,6 +5,7 @@ import { GrClose, GrImage } from "react-icons/gr";
 import { useState, useMemo } from "react";
 import Modal from "react-modal";
 
+import { useLoader } from "../../../context/loadercontext";
 import { usePetch } from "../../../context/petchcontext";
 import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
@@ -39,6 +40,7 @@ function Pets() {
   ];
 
   const { pets, ongs, species, DataPets } = usePetch();
+  const { HandlerLoader } = useLoader();
 
   const [pet, setPet] = useState(undefined);
   const [image, setImage] = useState(null);
@@ -102,6 +104,7 @@ function Pets() {
   }
 
   async function infoPet(id) {
+    HandlerLoader(true);
     try {
       const response = await api.get(`/pets/${id}?inactives=true`);
       setPet(response.data);
@@ -109,11 +112,14 @@ function Pets() {
       console.log(response);
     } catch (error) {
       console.log(error.response);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
   async function registerPet(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       const instanceForm = new FormData();
       instanceForm.append("name", register.name);
@@ -138,11 +144,14 @@ function Pets() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
   async function editPet(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       const instanceForm = new FormData();
       if (edition.name) instanceForm.append("name", edition.name);
@@ -168,6 +177,8 @@ function Pets() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
@@ -187,10 +198,14 @@ function Pets() {
 
   async function statusPets(pet) {
     const status = pet.deletedAt ? "true" : "false";
+    HandlerLoader(true);
     try {
       await api.delete(`/pets/${pet.id}`, { params: { status } });
       DataPets();
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
 
   async function exportPets() {
@@ -209,16 +224,37 @@ function Pets() {
         dataKey: "age",
       },
       {
-        header: "Raça",
-        dataKey: "breed",
+        header: "Espécies",
+        dataKey: "species",
+        displayProperty: "name",
+      },
+      {
+        header: "Gênero",
+        dataKey: "gender",
       },
     ];
+    HandlerLoader(true);
     try {
       const response = await api.get("/pets/all");
-      autotable(pdf, { columns, body: response.data });
+      autotable(pdf, {
+        columns,
+        body: response.data,
+        didParseCell: (data) => {
+          if (data.column.raw.displayProperty) {
+            const prop = data.column.raw.displayProperty;
+            const text = data.cell.raw[prop];
+            if (text && text.length > 0) {
+              data.cell.text = text;
+            }
+          }
+        },
+      });
       console.log(response.data);
       pdf.output(`dataurlnewwindow`);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
 
   return (
@@ -291,13 +327,18 @@ function Pets() {
                                   onChange={change}
                                   name="breed"
                                 />
-                                <Input
-                                  type="text"
-                                  placeholder="Sexo"
-                                  value={register.gender}
-                                  onChange={change}
+
+                                <Select
                                   name="gender"
-                                />
+                                  onChange={change}
+                                  value={register.gender}
+                                >
+                                  <option value="" defaultChecked disabled>
+                                    Selecionar Sexo
+                                  </option>
+                                  <option value="M">M</option>
+                                  <option value="F">F</option>
+                                </Select>
                               </div>{" "}
                               <Select
                                 name="ongId"
@@ -506,13 +547,15 @@ function Pets() {
                                 onChange={changeEdit}
                                 name="breed"
                               />
-                              <Input
-                                type="text"
-                                placeholder="Sexo"
-                                defaultValue={pet?.gender}
-                                onChange={changeEdit}
+
+                              <Select
                                 name="gender"
-                              />
+                                onChange={changeEdit}
+                                defaultValue={pet?.gender}
+                              >
+                                <option value="M">M</option>
+                                <option value="F">F</option>
+                              </Select>
                             </div>
                             <div className="modal__description-input">
                               <Select

@@ -10,6 +10,7 @@ import { Input } from "../../../components/Input";
 
 import logo from "../../../assets/logo/logo-white.png";
 
+import { useLoader } from "../../../context/loadercontext";
 import api from "../../../services/api";
 import { isLogin, setRole, getRole, isUserLogin } from "../../../services/auth";
 
@@ -18,7 +19,7 @@ function LoginAdopter() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const { HandlerLoader } = useLoader();
   const { signIn } = useGoogleLogin({
     clientId: process.env.REACT_APP_GOOGLE_CLOUD_SECURITY_ID,
     onSuccess: AccessLogin,
@@ -35,6 +36,7 @@ function LoginAdopter() {
   }, []);
   async function login(e) {
     e.preventDefault();
+    HandlerLoader(true);
     try {
       const response = await api.post("/auth/login", { email, password });
       isLogin(response.data.token);
@@ -47,12 +49,14 @@ function LoginAdopter() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
   async function AccessLogin(param) {
     const { name, email, googleId, imageUrl: avatar } = param.profileObj;
-
+    HandlerLoader(true);
     try {
       const response = await api.post("/auth/login/google", {
         name,
@@ -77,6 +81,8 @@ function LoginAdopter() {
       }
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 

@@ -2,14 +2,19 @@ import { useEffect, useState } from "react";
 
 import { HeaderAdopter } from "../../../components/HeaderAdopter";
 import { FooterAdopter } from "../../../components/FooterAdopter";
-
+import { useLoader } from "../../../context/loadercontext";
 import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
 
 function DogAdopter(props) {
   const [savePets, setSavePets] = useState([]);
+  const { HandlerLoader } = useLoader();
   useEffect(() => {
-    api.get("/pets/mypets").then((response) => setSavePets(response.data));
+    HandlerLoader(true);
+    api
+      .get("/pets/mypets")
+      .then((response) => setSavePets(response.data))
+      .finally(() => HandlerLoader(false));
   }, []);
 
   return (

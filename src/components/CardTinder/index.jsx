@@ -1,11 +1,14 @@
 import Modal from "react-modal";
 import { FaPaw } from "react-icons/fa";
+import { useState, useEffect } from "react";
+import { BsArrowReturnLeft } from "react-icons/bs";
+import { IoFemaleOutline, IoMaleOutline } from "react-icons/io5";
+import { GrClose } from "react-icons/gr";
+
 import { AlertMessage } from "../../components/Alert";
 import { Button } from "../../components/Button";
 import { Select } from "../../components/Select";
-import { BsArrowReturnLeft } from "react-icons/bs";
-import { IoFemaleOutline, IoMaleOutline } from "react-icons/io5";
-import { useState, useEffect } from "react";
+
 import { usePetch } from "../../context/petchcontext";
 import {
   AiFillCamera,
@@ -45,6 +48,12 @@ function CardTinder(props) {
     event.preventDefault();
   }
 
+  function closeModalTwo(event) {
+    event.preventDefault();
+    DataFilterPet(pets.filter((params) => params.id !== idPet));
+    setIsOpenTwo(false);
+  }
+
   const [modalIsOpenTwo, setIsOpenTwo] = useState(false);
 
   useEffect(() => {
@@ -58,7 +67,6 @@ function CardTinder(props) {
 
   function openModalTwo(event) {
     setIsOpenTwo(true);
-    event.preventDefault();
   }
 
   const [transition, setTransition] = useState(true);
@@ -215,6 +223,7 @@ function CardTinder(props) {
           style={customStyles}
           contentLabel="Example Modal"
           ariaHideApp={false}
+          onRequestClose={closeModalTwo}
         >
           <div className="ModalAdopter__body">
             <div className="ModalAdopter__image">
@@ -222,7 +231,8 @@ function CardTinder(props) {
             </div>
             <p className="ModalAdopter__body--title">
               ... Você acaba de adotar um amigo, mas com ele você também ganha
-              um brinde, e abaixo você poderá escolher:
+              um brinde, e abaixo você poderá escolher ou você poderá escolher
+              seu brinde na hora de buscá-lo na ONG.
             </p>
 
             <Select
@@ -240,10 +250,14 @@ function CardTinder(props) {
                   </option>
                 ))}
             </Select>
-
-            <Button color="pink" onClick={ChooseGift}>
-              Escolher Brinde
-            </Button>
+            <div className="modal__buttons">
+              <Button color="pink" onClick={ChooseGift}>
+                Escolher Brinde
+              </Button>
+              <Button color="light" onClick={closeModalTwo}>
+                Cancelar
+              </Button>
+            </div>
           </div>
         </Modal>
       </section>

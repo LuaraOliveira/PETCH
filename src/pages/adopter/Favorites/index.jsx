@@ -11,7 +11,7 @@ import { HeaderAdopter } from "../../../components/HeaderAdopter";
 import { Select } from "../../../components/Select";
 
 import { ReactComponent as LikeIcon } from "../../../assets/icons/like-icon-petch.svg";
-
+import { useLoader } from "../../../context/loadercontext";
 import { usePetch } from "../../../context/petchcontext";
 import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
@@ -31,7 +31,7 @@ function Favorites(props) {
   };
 
   const { ShowFavorites, favorites, DataFilterPet, pets, gifts } = usePetch();
-
+  const { HandlerLoader } = useLoader();
   const [saveGifts, setSaveGifts] = useState("");
 
   const [idPet, setIdPet] = useState("");
@@ -46,6 +46,7 @@ function Favorites(props) {
   }, []);
 
   async function Adopter(PetId) {
+    HandlerLoader(true);
     try {
       const response = await api.patch(`/pets/${PetId}`);
       setIdPet(PetId);
@@ -58,10 +59,14 @@ function Favorites(props) {
       await api.delete(`/favorites/${PetId}`);
 
       ShowFavorites();
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
 
   async function ChooseGift() {
+    HandlerLoader(true);
     try {
       await api.patch(`/pets/${idPet}/gift/${saveGifts}`);
 
@@ -71,6 +76,8 @@ function Favorites(props) {
       setIdPet("");
     } catch (error) {
       console.log(error.response);
+    } finally {
+      HandlerLoader(true);
     }
   }
 

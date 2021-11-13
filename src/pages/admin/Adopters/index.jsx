@@ -11,6 +11,7 @@ import { Button } from "../../../components/Button";
 import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
 
+import { useLoader } from "../../../context/loadercontext";
 import { usePetch } from "../../../context/petchcontext";
 import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
@@ -39,6 +40,7 @@ function Adopters() {
     },
   };
 
+  const { HandlerLoader } = useLoader();
   const { adopters, DataAdopters } = usePetch();
 
   const [adopter, setAdopter] = useState(undefined);
@@ -51,6 +53,7 @@ function Adopters() {
   }
 
   async function infoAdopter(id) {
+    HandlerLoader(true);
     try {
       const response = await api.get(`/users/${id}?inactives=true`);
       setAdopter(response.data);
@@ -59,15 +62,21 @@ function Adopters() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
   async function statusAdopter(adopter) {
     const status = adopter.deletedAt ? "true" : "false";
+    HandlerLoader(true);
     try {
       await api.delete(`/users/${adopter.id}`, { params: { status } });
       DataAdopters();
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
   async function exportAdopter() {
     const pdf = new jspdf("l");
@@ -78,27 +87,31 @@ function Adopters() {
       },
       {
         header: "Nome",
-        dataKey: "fantasyName",
+        dataKey: "name",
       },
       {
         header: "Email",
         dataKey: "email",
       },
       {
-        header: "Cnpj",
-        dataKey: "cnpj",
+        header: "CPF",
+        dataKey: "cpf",
       },
       {
         header: "Telefone",
-        dataKey: "phone1",
+        dataKey: "phone",
       },
     ];
+    HandlerLoader(true);
     try {
-      const response = await api.get("/partners/all");
+      const response = await api.get("/users/all?role=Adotante");
       autotable(pdf, { columns, body: response.data });
       console.log(response.data);
       pdf.output(`dataurlnewwindow`);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
   return (
     <>

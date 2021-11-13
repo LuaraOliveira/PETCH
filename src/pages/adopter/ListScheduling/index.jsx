@@ -6,22 +6,27 @@ import { Button } from "../../../components/Button";
 import { FooterAdopter } from "../../../components/FooterAdopter";
 import { HeaderAdopter } from "../../../components/HeaderAdopter";
 
+import { useLoader } from "../../../context/loadercontext";
 import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
 
 function ListScheduling(props) {
+  const { HandlerLoader } = useLoader();
   const [schedulings, setSchedulings] = useState([]);
   useEffect(() => {
     api.get("/schedulings").then((response) => setSchedulings(response.data));
   }, []);
 
   async function CancelScheduling(SchedulingId) {
+    HandlerLoader(true);
     try {
       const response = await api.put(`/schedulings/${SchedulingId}`);
       AlertMessage(response.data.message, response.data.background);
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 

@@ -227,6 +227,16 @@
         width: 100%;
       }
 
+      &--Row {
+        display: flex;
+        gap: 16px;
+        width: 100%;
+
+        .form-group {
+          width: 100%;
+        }
+      }
+
       .label {
         font-size: 1rem;
         color: $black;

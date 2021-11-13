@@ -8,6 +8,7 @@ import { Button } from "../../../components/Button";
 import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
 
+import { useLoader } from "../../../context/loadercontext";
 import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
 
@@ -16,6 +17,8 @@ function SchedulingAdmin() {
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Agendamento" },
   ];
+
+  const { HandlerLoader } = useLoader();
   const [schedulings, setSchedulings] = useState([]);
   useEffect(() => {
     api.get("/schedulings").then((response) => setSchedulings(response.data));
@@ -33,12 +36,16 @@ function SchedulingAdmin() {
         dataKey: "schedulingTypes",
         displayProperty: "name",
       },
-
+      {
+        header: "Data",
+        dataKey: "date",
+      },
       {
         header: "Hora",
         dataKey: "hour",
       },
     ];
+    HandlerLoader(true);
     try {
       const response = await api.get("/schedulings/all");
       autotable(pdf, {
@@ -56,7 +63,10 @@ function SchedulingAdmin() {
       });
       console.log(response.data);
       pdf.output(`dataurlnewwindow`);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
   return (
     <>

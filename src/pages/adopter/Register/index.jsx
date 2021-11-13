@@ -5,14 +5,15 @@ import { useHistory } from "react-router-dom";
 import { AlertMessage } from "../../../components/Alert";
 import { Button } from "../../../components/Button";
 import { Input } from "../../../components/Input";
+import { Select } from "../../../components/Select";
 
+import { useLoader } from "../../../context/loadercontext";
 import logo from "../../../assets/logo/logo-white.png";
-
 import api from "../../../services/api";
 
 function RegisterAdopter() {
   const history = useHistory();
-
+  const { HandlerLoader } = useLoader();
   const address = useRef(null);
   const district = useRef(null);
   const data = JSON.parse(localStorage.getItem("dados"));
@@ -42,6 +43,7 @@ function RegisterAdopter() {
 
   async function searchCep(event) {
     event.preventDefault();
+    HandlerLoader(true);
     const apiCep = `https://viacep.com.br/ws/${register.cep}/json/`;
     const response = await axios.get(apiCep);
     const { logradouro, localidade, uf, bairro } = response.data;
@@ -59,10 +61,13 @@ function RegisterAdopter() {
     !district.current?.value
       ? district.current?.removeAttribute("disabled")
       : district.current?.setAttribute("disabled", "false");
+
+    HandlerLoader(false);
   }
 
   async function CadastrarUsuario(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       const response = await api.post("/auth/register", {
         ...register,
@@ -77,6 +82,8 @@ function RegisterAdopter() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
@@ -138,13 +145,15 @@ function RegisterAdopter() {
               </div>
 
               <div className="RegisterAdopter__forms--double">
-                <Input
-                  type="text"
-                  placeholder="Gênero"
-                  name="gender"
-                  onChange={change}
-                  value={register.gender}
-                />
+                <Select value={register.gender} onChange={change} name="gender">
+                  {" "}
+                  <option defaultChecked value="" disabled>
+                    Selecione o gênero
+                  </option>
+                  <option value="F">F</option>
+                  <option value="M">M</option>
+                  <option value="O">O</option>
+                </Select>
 
                 <Input
                   type="text"

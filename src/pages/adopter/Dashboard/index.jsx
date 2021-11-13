@@ -14,7 +14,6 @@ function DashboardAdopter() {
   useEffect(() => {
     VisiblePets();
   }, []);
-
   return (
     <>
       <HeaderAdopter />

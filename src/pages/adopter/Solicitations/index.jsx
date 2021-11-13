@@ -6,10 +6,12 @@ import { FooterAdopter } from "../../../components/FooterAdopter";
 import { HeaderAdopter } from "../../../components/HeaderAdopter";
 import { Select } from "../../../components/Select";
 
+import { useLoader } from "../../../context/loadercontext";
 import api from "../../../services/api";
 import { usePetch } from "../../../context/petchcontext";
 
 function Solicitations() {
+  const { HandlerLoader } = useLoader();
   const { solicitationTypes } = usePetch();
 
   const [solicitation, setSolicitation] = useState({
@@ -26,12 +28,15 @@ function Solicitations() {
 
   async function sendSolicitation(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       const response = await api.post("/solicitations", solicitation);
       AlertMessage(response.data.message, response.data.background);
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
   return (

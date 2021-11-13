@@ -6,9 +6,11 @@ import { Button } from "../../../components/Button";
 import { Input } from "../../../components/Input";
 import logo from "../../../assets/logo/logo-white.png";
 
+import { useLoader } from "../../../context/loadercontext";
 import api from "../../../services/api";
 
 function AlterPassword() {
+  const { HandlerLoader } = useLoader();
   const history = useHistory();
 
   const [email, setEmail] = useState("");
@@ -30,6 +32,7 @@ function AlterPassword() {
 
   async function UpdatePassword(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       await api.post(`/auth/reset`, {
         email,
@@ -41,6 +44,8 @@ function AlterPassword() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 

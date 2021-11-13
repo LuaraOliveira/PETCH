@@ -7,6 +7,7 @@ import photoSearch from "../../assets/photos/photo-petch-search.svg";
 import { BsSearch } from "react-icons/bs";
 import { usePetch } from "../../context/petchcontext";
 import { useState } from "react";
+import { useLoader } from "../../context/loadercontext";
 const initialState = {
   uf: "",
   age: "",
@@ -19,7 +20,7 @@ const initialState = {
 function Search() {
   const [filter, setFilter] = useState(initialState);
   const { species, DataFilterPet, DataPets } = usePetch();
-
+  const { HandlerLoader } = useLoader();
   function change(event) {
     setFilter({
       ...filter,
@@ -29,12 +30,16 @@ function Search() {
 
   async function RadioSelect(e) {
     e.preventDefault();
+    HandlerLoader(true);
     try {
       const response = await api.get("/pets", {
         params: filter,
       });
       DataFilterPet(response.data);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
 
   function CleanFilter() {

@@ -104,6 +104,13 @@
       width: 100%;
       gap: 8px;
       justify-content: center;
+
+      .container-component__select {
+        font-family: $baloo;
+        option {
+          font-family: $baloo;
+        }
+      }
     }
 
     .form-group {

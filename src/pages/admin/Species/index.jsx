@@ -12,6 +12,7 @@ import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
 import { Input } from "../../../components/Input";
 
+import { useLoader } from "../../../context/loadercontext";
 import { usePetch } from "../../../context/petchcontext";
 import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
@@ -25,7 +26,7 @@ function Species() {
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Espécies" },
   ];
-
+  const { HandlerLoader } = useLoader();
   const { species, DataSpecies } = usePetch();
   const [specie, setSpecie] = useState(undefined);
   const [image, setImage] = useState(null);
@@ -88,6 +89,7 @@ function Species() {
   }
 
   async function infoSpecies(id) {
+    HandlerLoader(true);
     try {
       const response = await api.get(`/species/${id}?inactives=true`);
       setSpecie(response.data);
@@ -96,11 +98,14 @@ function Species() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
   async function registerSpecies(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       const instanceForm = new FormData();
       instanceForm.append("name", register.name);
@@ -113,11 +118,14 @@ function Species() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
   async function editSpecie(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       const instanceForm = new FormData();
       if (edition.name) instanceForm.append("name", edition.name);
@@ -129,6 +137,8 @@ function Species() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
@@ -148,14 +158,19 @@ function Species() {
 
   async function statusSpecies(specie) {
     const status = specie.deletedAt ? "true" : "false";
+    HandlerLoader(true);
     try {
       await api.delete(`/species/${specie.id}`, { params: { status } });
       DataSpecies();
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
 
   async function exportSpecies() {
     const pdf = new jspdf("l");
+    HandlerLoader(true);
     const columns = [
       {
         header: "Id",
@@ -171,7 +186,10 @@ function Species() {
       autotable(pdf, { columns, body: response.data });
       console.log(response.data);
       pdf.output(`dataurlnewwindow`);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
 
   return (

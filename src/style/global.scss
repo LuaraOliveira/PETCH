@@ -66,3 +66,32 @@ textarea {
   border: 1px solid $gray2;
   padding: 0 14px 0 12px;
 }
+
+.loader {
+  border: 10px solid $pink;
+  border-top: 10px solid transparent;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: spin 1.5s linear infinite;
+
+  &__container {
+    z-index: 99999;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    align-items: center;
+    background: transparentize($white, 0.5);
+    height: 100%;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

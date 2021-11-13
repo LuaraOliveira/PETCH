@@ -12,6 +12,7 @@ import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
 import { Input } from "../../../components/Input";
 
+import { useLoader } from "../../../context/loadercontext";
 import { usePetch } from "../../../context/petchcontext";
 import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
@@ -45,7 +46,7 @@ function Gifts() {
       backgroundColor: "rgba(0, 0, 0, 0.84)",
     },
   };
-
+  const { HandlerLoader } = useLoader();
   const { gifts, DataGifts } = usePetch();
 
   const [gift, setGift] = useState(undefined);
@@ -92,9 +93,11 @@ function Gifts() {
 
   async function registerGift(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       const instanceForm = new FormData();
       instanceForm.append("name", register.name);
+      instanceForm.append("media", image);
       const response = await api.post("/gifts", instanceForm);
       console.log(response.data);
       AlertMessage(response.data.message, response.data.background);
@@ -103,10 +106,13 @@ function Gifts() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
   async function editGift(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       const instanceForm = new FormData();
       if (edition.name) instanceForm.append("name", edition.name);
@@ -118,10 +124,13 @@ function Gifts() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
   async function infoGift(id) {
+    HandlerLoader(true);
     try {
       const response = await api.get(`/gifts/${id}?inactives=true`);
       setGift(response.data);
@@ -130,6 +139,8 @@ function Gifts() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
@@ -149,10 +160,14 @@ function Gifts() {
 
   async function statusGifts(gift) {
     const status = gift.deletedAt ? "true" : "false";
+    HandlerLoader(true);
     try {
       await api.delete(`/gifts/${gift.id}`, { params: { status } });
       DataGifts();
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
 
   async function exportGifts() {
@@ -164,27 +179,19 @@ function Gifts() {
       },
       {
         header: "Nome",
-        dataKey: "fantasyName",
-      },
-      {
-        header: "Email",
-        dataKey: "email",
-      },
-      {
-        header: "Cnpj",
-        dataKey: "cnpj",
-      },
-      {
-        header: "Telefone",
-        dataKey: "phone1",
+        dataKey: "name",
       },
     ];
+    HandlerLoader(true);
     try {
       const response = await api.get("/gifts/all");
       autotable(pdf, { columns, body: response.data });
       console.log(response.data);
       pdf.output(`dataurlnewwindow`);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
   return (
     <>

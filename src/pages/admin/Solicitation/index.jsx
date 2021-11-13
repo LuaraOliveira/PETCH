@@ -7,6 +7,7 @@ import { Button } from "../../../components/Button";
 import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
 
+import { useLoader } from "../../../context/loadercontext";
 import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
 
@@ -15,7 +16,7 @@ function Solicitation() {
     { href: "#", link: "Menu Inicial" },
     { href: "#", link: "Solicitação" },
   ];
-
+  const { HandlerLoader } = useLoader();
   const [solicitations, setSolicitations] = useState([]);
 
   useEffect(() => {
@@ -47,6 +48,7 @@ function Solicitation() {
         displayProperty: "email",
       },
     ];
+    HandlerLoader(true);
     try {
       const response = await api.get("/solicitations/all");
       autotable(pdf, {
@@ -64,7 +66,10 @@ function Solicitation() {
       });
       console.log(response.data);
       pdf.output(`dataurlnewwindow`);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
   return (
     <>

@@ -2,11 +2,15 @@ import { useEffect } from "react";
 
 import logo from "../../../assets/logo/logo-white.png";
 
+import { useLoader } from "../../../context/loadercontext";
 import api from "../../../services/api";
 
 function RegisterConfirmation() {
+  const { HandlerLoader } = useLoader();
+
   useEffect(() => {
     async function confirmationEmail() {
+      HandlerLoader(true);
       const query = window.location.search;
       const params = new URLSearchParams(query);
       const token = params.get("token");
@@ -18,6 +22,8 @@ function RegisterConfirmation() {
         await api.patch(`/users/confirm?token=${token}&email=${email}`);
       } catch (error) {
         console.log(error.response);
+      } finally {
+        HandlerLoader(false);
       }
     }
 

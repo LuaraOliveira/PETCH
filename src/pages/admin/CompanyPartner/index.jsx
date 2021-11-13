@@ -13,6 +13,7 @@ import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
 import { Input } from "../../../components/Input";
 
+import { useLoader } from "../../../context/loadercontext";
 import { usePetch } from "../../../context/petchcontext";
 import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
@@ -62,7 +63,7 @@ function CompanyPartner() {
       backgroundColor: "rgba(0, 0, 0, 0.84)",
     },
   };
-
+  const { HandlerLoader } = useLoader();
   const { partners, DataPartners } = usePetch();
 
   const address = useRef(null);
@@ -113,6 +114,7 @@ function CompanyPartner() {
   }
 
   async function infoPartner(id) {
+    HandlerLoader(true);
     try {
       const response = await api.get(`/partners/${id}?inactives=true`);
       const [address, number] = response.data.address
@@ -129,11 +131,14 @@ function CompanyPartner() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
   async function registerPartner(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       const instanceForm = new FormData();
       instanceForm.append("fantasyName", register.fantasyName);
@@ -161,11 +166,14 @@ function CompanyPartner() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
   async function editPartner(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       const instanceForm = new FormData();
       if (edition.fantasyName)
@@ -203,11 +211,14 @@ function CompanyPartner() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
   async function searchCep(event, status) {
     event.preventDefault();
+    HandlerLoader(true);
     if (status === "cadastro") {
       const apiCep = `https://viacep.com.br/ws/${register.cep}/json/`;
       const response = await axios.get(apiCep);
@@ -247,6 +258,7 @@ function CompanyPartner() {
         ? editDistrict.current?.removeAttribute("disabled")
         : editDistrict.current?.setAttribute("disabled", "false");
     }
+    HandlerLoader(false);
   }
 
   function change(event) {
@@ -265,10 +277,14 @@ function CompanyPartner() {
 
   async function statusPartner(partner) {
     const status = partner.deletedAt ? "true" : "false";
+    HandlerLoader(true);
     try {
       await api.delete(`/partners/${partner.id}`, { params: { status } });
       DataPartners();
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
 
   async function exportPartner() {
@@ -473,7 +489,7 @@ function CompanyPartner() {
                             />
                             <Input
                               type="text"
-                              placeholder="Celular"
+                              placeholder="Telefone"
                               value={register.phone1}
                               onChange={change}
                               name="phone1"
@@ -491,7 +507,7 @@ function CompanyPartner() {
                             />
                             <Input
                               type="text"
-                              placeholder="Telefone 2"
+                              placeholder="Telefone"
                               value={register.phone3}
                               onChange={change}
                               name="phone3"
@@ -717,7 +733,7 @@ function CompanyPartner() {
                           />
                           <Input
                             type="text"
-                            placeholder="Celular"
+                            placeholder="Telefone"
                             defaultValue={partner?.phone1}
                             onChange={changeEdit}
                             name="phone1"
@@ -735,7 +751,7 @@ function CompanyPartner() {
                           />
                           <Input
                             type="text"
-                            placeholder="Telefone 2"
+                            placeholder="Telefone"
                             defaultValue={partner?.phone3}
                             onChange={changeEdit}
                             name="phone3"

@@ -12,6 +12,7 @@ import { Input } from "../../../components/Input";
 
 import photoBig from "../../../assets/avatar/avatar-big.jpg";
 
+import { useLoader } from "../../../context/loadercontext";
 import api from "../../../services/api";
 import { isLogout, isUserLogin } from "../../../services/auth";
 import Permission from "../../../utils/Permission";
@@ -37,7 +38,7 @@ const initialState = {
 function SettingsAdmin() {
   const address = useRef(null);
   const district = useRef(null);
-
+  const { HandlerLoader } = useLoader();
   const [user, setUser] = useState(initialState);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [alter, setAlter] = useState({
@@ -89,6 +90,7 @@ function SettingsAdmin() {
 
   async function searchCep(event) {
     event.preventDefault();
+    HandlerLoader(true);
     const apiCep = `https://viacep.com.br/ws/${user.cep}/json/`;
     const response = await axios.get(apiCep);
     const { logradouro, localidade, uf, bairro } = response.data;
@@ -106,11 +108,13 @@ function SettingsAdmin() {
     !district.current?.value
       ? district.current?.removeAttribute("disabled")
       : district.current?.setAttribute("disabled", "false");
+
+    HandlerLoader(false);
   }
 
   async function EditUser(event) {
     event.preventDefault();
-
+    HandlerLoader(true);
     try {
       const instanceForm = new FormData();
       instanceForm.append("name", user.name);
@@ -140,6 +144,8 @@ function SettingsAdmin() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 

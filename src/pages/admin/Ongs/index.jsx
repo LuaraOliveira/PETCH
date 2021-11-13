@@ -13,6 +13,7 @@ import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
 import { Input } from "../../../components/Input";
 
+import { useLoader } from "../../../context/loadercontext";
 import { usePetch } from "../../../context/petchcontext";
 import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
@@ -57,7 +58,7 @@ function Ongs() {
       backgroundColor: "rgba(0, 0, 0, 0.84)",
     },
   };
-
+  const { HandlerLoader } = useLoader();
   const { ongs, DataOngs } = usePetch();
 
   const address = useRef(null);
@@ -107,6 +108,7 @@ function Ongs() {
   }
 
   async function infoOng(id) {
+    HandlerLoader(true);
     try {
       const response = await api.get(`/ongs/${id}?inactives=true`);
       const [address, number] = response.data.address
@@ -123,11 +125,14 @@ function Ongs() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
   async function registerOng(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       const instanceForm = new FormData();
       instanceForm.append("name", register.name);
@@ -149,11 +154,14 @@ function Ongs() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
   async function editOngs(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       const instanceForm = new FormData();
       if (edition.name) instanceForm.append("name", edition.name);
@@ -182,11 +190,14 @@ function Ongs() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
   async function searchCep(event, status) {
     event.preventDefault();
+    HandlerLoader(true);
     if (status === "cadastro") {
       const apiCep = `https://viacep.com.br/ws/${register.cep}/json/`;
       const response = await axios.get(apiCep);
@@ -226,6 +237,7 @@ function Ongs() {
         ? editDistrict.current?.removeAttribute("disabled")
         : editDistrict.current?.setAttribute("disabled", "false");
     }
+    HandlerLoader(false);
   }
   function change(event) {
     setRegister({
@@ -242,11 +254,15 @@ function Ongs() {
   }
 
   async function statusOng(ong) {
+    HandlerLoader(true);
     const status = ong.deletedAt ? "true" : "false";
     try {
       await api.delete(`/ongs/${ong.id}`, { params: { status } });
       DataOngs();
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
 
   async function exportOngs() {
@@ -268,13 +284,21 @@ function Ongs() {
         header: "Telefone",
         dataKey: "phone1",
       },
+      {
+        header: "Responsável",
+        dataKey: "responsible",
+      },
     ];
+    HandlerLoader(true);
     try {
       const response = await api.get("/ongs/all");
       autotable(pdf, { columns, body: response.data });
       console.log(response.data);
       pdf.output(`dataurlnewwindow`);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
   return (
     <>

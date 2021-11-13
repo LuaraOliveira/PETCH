@@ -14,7 +14,9 @@ import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
 
 import { Input } from "../../../components/Input";
+import { Select } from "../../../components/Select";
 
+import { useLoader } from "../../../context/loadercontext";
 import { usePetch } from "../../../context/petchcontext";
 import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
@@ -60,7 +62,7 @@ function Administrador() {
   };
 
   const user = Cookie.getJSON(process.env.REACT_APP_USER);
-
+  const { HandlerLoader } = useLoader();
   const { admins, DataAdmins } = usePetch();
 
   const address = useRef(null);
@@ -102,6 +104,7 @@ function Administrador() {
 
   async function registerUser(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       const instanceForm = new FormData();
       const birthday = register.birthday.split("/").reverse().join("-");
@@ -125,11 +128,14 @@ function Administrador() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
   async function searchCep(event) {
     event.preventDefault();
+    HandlerLoader(true);
     const apiCep = `https://viacep.com.br/ws/${register.cep}/json/`;
     const response = await axios.get(apiCep);
     const { logradouro, localidade, uf, bairro } = response.data;
@@ -147,9 +153,12 @@ function Administrador() {
     !district.current?.value
       ? district.current?.removeAttribute("disabled")
       : district.current?.setAttribute("disabled", "false");
+
+    HandlerLoader(false);
   }
 
   async function infoAdmin(id) {
+    HandlerLoader(true);
     try {
       const response = await api.get(`/users/${id}?inactives=true`);
       setAdmin({ ...response.data });
@@ -158,6 +167,8 @@ function Administrador() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
@@ -169,11 +180,15 @@ function Administrador() {
   }
 
   async function statusAdmin(user) {
+    HandlerLoader(true);
     const status = user.deletedAt ? "true" : "false";
     try {
       await api.delete(`/users/${user.id}`, { params: { status } });
       DataAdmins();
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
   async function exportAdmins() {
     const pdf = new jspdf("l");
@@ -184,27 +199,31 @@ function Administrador() {
       },
       {
         header: "Nome",
-        dataKey: "fantasyName",
+        dataKey: "name",
       },
       {
         header: "Email",
         dataKey: "email",
       },
       {
-        header: "Cnpj",
-        dataKey: "cnpj",
+        header: "CPF",
+        dataKey: "cpf",
       },
       {
         header: "Telefone",
-        dataKey: "phone1",
+        dataKey: "phone",
       },
     ];
+    HandlerLoader(true);
     try {
-      const response = await api.get("/partners/all");
+      const response = await api.get("/users/all?role=Admin");
       autotable(pdf, { columns, body: response.data });
       console.log(response.data);
       pdf.output(`dataurlnewwindow`);
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
   return (
     <>
@@ -288,22 +307,32 @@ function Administrador() {
                                 mask="phone"
                                 maxLength="15"
                               />
-                              <Input
-                                type="text"
-                                placeholder="Data de Nascimento"
-                                value={register.birthday}
-                                onChange={change}
-                                name="birthday"
-                                mask="birthday"
-                                maxLength={10}
-                              />
-                              <Input
-                                type="text"
-                                placeholder="Gênero"
-                                value={register.gender}
-                                onChange={change}
-                                name="gender"
-                              />
+
+                              <div className="modal__description--Row">
+                                <Input
+                                  type="text"
+                                  placeholder="Data de Nascimento"
+                                  value={register.birthday}
+                                  onChange={change}
+                                  name="birthday"
+                                  mask="birthday"
+                                  maxLength={10}
+                                />
+
+                                <Select
+                                  value={register.gender}
+                                  onChange={change}
+                                  name="gender"
+                                >
+                                  {" "}
+                                  <option defaultChecked value="" disabled>
+                                    Selecione o gênero
+                                  </option>
+                                  <option value="F">F</option>
+                                  <option value="M">M</option>
+                                  <option value="O">O</option>
+                                </Select>
+                              </div>
                               <Input
                                 type="text"
                                 placeholder="CPF"

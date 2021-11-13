@@ -8,10 +8,12 @@ import { HeaderAdopter } from "../../../components/HeaderAdopter";
 import { Input } from "../../../components/Input";
 import { Select } from "../../../components/Select";
 
+import { useLoader } from "../../../context/loadercontext";
 import { usePetch } from "../../../context/petchcontext";
 import api from "../../../services/api";
 
 function Scheduling() {
+  const { HandlerLoader } = useLoader();
   const { schedulingTypes } = usePetch();
   const [schedulingType, setSchedulingType] = useState({
     schedulingTypeId: "",
@@ -27,6 +29,7 @@ function Scheduling() {
   }
   async function searchScheduling(e) {
     e.preventDefault();
+    HandlerLoader(true);
     try {
       const date = schedulingType.date.split("/").reverse().join("-");
       const response = await api.get(
@@ -36,6 +39,8 @@ function Scheduling() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 
@@ -45,6 +50,7 @@ function Scheduling() {
   }
 
   async function sendConfirmation() {
+    HandlerLoader(true);
     try {
       const response = await api.post("/schedulings", {
         schedulingTypesId: schedulingType.schedulingTypeId,
@@ -54,6 +60,8 @@ function Scheduling() {
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 

@@ -5,23 +5,28 @@ import { AlertMessage } from "../../../components/Alert";
 import { Button } from "../../../components/Button";
 import { Input } from "../../../components/Input";
 
+import { useLoader } from "../../../context/loadercontext";
 import logo from "../../../assets/logo/logo-white.png";
-
 import api from "../../../services/api";
 
 function RecoveryPassword() {
+  const { HandlerLoader } = useLoader();
+
   const history = useHistory();
 
   const [email, setEmail] = useState("");
 
   async function sendEmail(event) {
     event.preventDefault();
+    HandlerLoader(true);
     try {
       const response = await api.post("/auth/forgot", { email });
       history.push("/");
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
+    } finally {
+      HandlerLoader(false);
     }
   }
 

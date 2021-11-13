@@ -17,10 +17,13 @@ import { Button } from "../../../components/Button";
 import { Footer } from "../../../components/Footer";
 import { Header } from "../../../components/Header";
 
+import { useLoader } from "../../../context/loadercontext";
 import api from "../../../services/api";
 import Permission from "../../../utils/Permission";
 
 function Dashboard() {
+  const { HandlerLoader } = useLoader();
+
   const [pets, setPets] = useState([]);
   const [gender, setGender] = useState([]);
   const [ongs, setOngs] = useState([]);
@@ -28,15 +31,22 @@ function Dashboard() {
   const [solicitations, setSolicitations] = useState([]);
 
   useEffect(() => {
-    api.get("/dashboard/species").then((response) => setPets(response.data));
-    api.get("/dashboard/pets").then((response) => setGender(response.data));
-    api.get("/dashboard/ongs").then((response) => setOngs(response.data));
-    api
-      .get("/dashboard/schedulings")
-      .then((response) => setSchedulings(response.data));
-    api
-      .get("/dashboard/solicitations")
-      .then((response) => setSolicitations(response.data));
+    HandlerLoader(true);
+    Promise.all([
+      api.get("/dashboard/species"),
+      api.get("/dashboard/pets"),
+      api.get("/dashboard/ongs"),
+      api.get("/dashboard/schedulings"),
+      api.get("/dashboard/solicitations"),
+    ])
+      .then((response) => {
+        setPets(response[0].data);
+        setGender(response[1].data);
+        setOngs(response[2].data);
+        setSchedulings(response[3].data);
+        setSolicitations(response[4].data);
+      })
+      .finally(() => HandlerLoader(false));
   }, []);
 
   function exportInfo() {
@@ -57,7 +67,7 @@ function Dashboard() {
       headStyles: { fillColor: "#3ec6ff" },
       styles: { lineWidth: 0.5, halign: "center", valign: "middle" },
     });
-    pdf.save(`${Date.now()}.pdf`);
+    pdf.output(`dataurlnewwindow`);
   }
 
   function exportScheduling() {
@@ -78,7 +88,7 @@ function Dashboard() {
       headStyles: { fillColor: "#3ec6ff" },
       styles: { lineWidth: 0.5, halign: "center", valign: "middle" },
     });
-    pdf.save(`${Date.now()}.pdf`);
+    pdf.output(`dataurlnewwindow`);
   }
 
   function exportSolicitations() {
@@ -99,7 +109,7 @@ function Dashboard() {
       headStyles: { fillColor: "#3ec6ff" },
       styles: { lineWidth: 0.5, halign: "center", valign: "middle" },
     });
-    pdf.save(`${Date.now()}.pdf`);
+    pdf.output(`dataurlnewwindow`);
   }
 
   function exportPets() {
@@ -120,7 +130,7 @@ function Dashboard() {
       headStyles: { fillColor: "#3ec6ff" },
       styles: { lineWidth: 0.5, halign: "center", valign: "middle" },
     });
-    pdf.save(`${Date.now()}.pdf`);
+    pdf.output(`dataurlnewwindow`);
   }
 
   function exportTotalPets() {
@@ -141,7 +151,7 @@ function Dashboard() {
       headStyles: { fillColor: "#3ec6ff" },
       styles: { lineWidth: 0.5, halign: "center", valign: "middle" },
     });
-    pdf.save(`${Date.now()}.pdf`);
+    pdf.output(`dataurlnewwindow`);
   }
   return (
     <>
