@@ -2,12 +2,14 @@
   .CartTinderContainer {
     max-width: 450px;
     height: 520px;
-    width: 90vw;
-    margin: auto;
+    width: auto;
+    display: flex;
+    justify-content: center;
     padding-top: 1rem;
+    margin: auto;
     @media only screen and (min-width: 992px) {
-      padding-top: 0;
       margin: 0;
+      width: 90vw;
     }
   }
 }

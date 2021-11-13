@@ -22,6 +22,7 @@ function ListScheduling(props) {
     try {
       const response = await api.put(`/schedulings/${SchedulingId}`);
       AlertMessage(response.data.message, response.data.background);
+      api.get("/schedulings").then((response) => setSchedulings(response.data));
     } catch (error) {
       const data = error.response.data;
       AlertMessage(data.message, data.background);
