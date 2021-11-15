@@ -19,7 +19,7 @@ const initialState = {
 
 function Search() {
   const [filter, setFilter] = useState(initialState);
-  const { species, DataFilterPet, DataPets } = usePetch();
+  const { species, DataFilterPet, VisiblePets } = usePetch();
   const { HandlerLoader } = useLoader();
   function change(event) {
     setFilter({
@@ -36,7 +36,7 @@ function Search() {
     if (filter.weight) params.append("weight", filter.weight);
     if (filter.cut) params.append("cut", filter.cut);
     if (filter.gender) params.append("gender", filter.gender);
-    if (filter.speciesId) params.append("speciesId", filter.speciesIduf);
+    if (filter.speciesId) params.append("speciesId", filter.speciesId);
     HandlerLoader(true);
     try {
       const response = await api.get("/pets", {
@@ -51,7 +51,7 @@ function Search() {
 
   function CleanFilter() {
     setFilter(initialState);
-    DataPets();
+    VisiblePets();
   }
 
   return (
