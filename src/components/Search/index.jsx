@@ -30,10 +30,17 @@ function Search() {
 
   async function RadioSelect(e) {
     e.preventDefault();
+    const params = new URLSearchParams();
+    if (filter.uf) params.append("uf", filter.uf);
+    if (filter.age) params.append("age", filter.age);
+    if (filter.weight) params.append("weight", filter.weight);
+    if (filter.cut) params.append("cut", filter.cut);
+    if (filter.gender) params.append("gender", filter.gender);
+    if (filter.speciesId) params.append("speciesId", filter.speciesIduf);
     HandlerLoader(true);
     try {
       const response = await api.get("/pets", {
-        params: filter,
+        params,
       });
       DataFilterPet(response.data);
     } catch (error) {
