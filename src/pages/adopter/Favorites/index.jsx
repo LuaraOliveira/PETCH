@@ -39,7 +39,14 @@ function Favorites(props) {
     setIsOpenTwo(true);
     event.preventDefault();
   }
+
   const [modalIsOpenTwo, setIsOpenTwo] = useState(false);
+
+  function closeModalTwo(event) {
+    event.preventDefault();
+    ShowFavorites();
+    setIsOpenTwo(false);
+  }
 
   useEffect(() => {
     ShowFavorites();
@@ -52,7 +59,10 @@ function Favorites(props) {
       setIdPet(PetId);
       AlertMessage(response.data.message, response.data.background);
       openModalTwo();
-    } catch (error) {}
+    } catch (error) {
+    } finally {
+      HandlerLoader(false);
+    }
   }
   async function Dislike(PetId) {
     try {
@@ -77,7 +87,7 @@ function Favorites(props) {
     } catch (error) {
       console.log(error.response);
     } finally {
-      HandlerLoader(true);
+      HandlerLoader(false);
     }
   }
 
@@ -141,6 +151,7 @@ function Favorites(props) {
         style={customStyles}
         contentLabel="Example Modal"
         ariaHideApp={false}
+        onRequestClose={closeModalTwo}
       >
         <div className="ModalAdopter__body">
           <div className="ModalAdopter__image">
@@ -148,7 +159,8 @@ function Favorites(props) {
           </div>
           <p className="ModalAdopter__body--title">
             ... Você acaba de adotar um amigo, mas com ele você também ganha um
-            brinde, e abaixo você poderá escolher:
+            brinde, e abaixo você poderá escolher ou você poderá escolher seu
+            brinde na hora de buscá-lo na ONG.
           </p>
 
           <Select
@@ -167,9 +179,14 @@ function Favorites(props) {
               ))}
           </Select>
 
-          <Button color="pink" onClick={ChooseGift}>
-            Escolher Brinde
-          </Button>
+          <div class="modal__buttons">
+            <Button color="pink" onClick={ChooseGift}>
+              Escolher Brinde
+            </Button>
+            <Button color="light" onClick={closeModalTwo}>
+              Cancelar
+            </Button>
+          </div>
         </div>
       </Modal>
       <FooterAdopter />
