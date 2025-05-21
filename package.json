@@ -28,7 +28,7 @@
   },
   "scripts": {
     "start": "serve -s build",
-    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dev": "react-scripts start",
@@ -55,6 +55,7 @@
   "devDependencies": {
     "@types/date-fns": "^2.6.0",
     "@types/js-cookie": "^2.2.6",
+    "cross-env": "^7.0.3",
     "sass": "^1.89.0"
   }
 }
